@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, Container, NavbarText } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavbarText } from 'reactstrap';
 
 
 function Navigation() {
@@ -8,36 +8,37 @@ function Navigation() {
   const toggleNavbar = () => setCollapsed(!collapsed);
 
   return (
-    <Container fluid className="navigation">
-      <Navbar light expand="md">
-        <NavbarBrand className="m-2 mr-5 d-none d-md-block" href="/">
-          <img src="IIITDLogo.png" alt="AP" height="50" />
-        </NavbarBrand>
-
-        <NavbarToggler onClick={toggleNavbar} className="mr-2" />
-
-        <Collapse isOpen={!collapsed} navbar>
-          <Nav navbar>
-            <NavItem className="mr-4 mt-2 mb-2" >
-              <Link className="m-auto text-center d-block" to="/">Home</Link>
-            </NavItem>
-            <NavItem className="mr-4 mt-2 mb-2 d-block">
-              <Link className="m-auto text-center d-block" to="/">About</Link>
-            </NavItem>
-            <NavItem className="mr-4 mt-2 mb-2 d-block">
-              <Link className="m-auto text-center d-block" to="/">Sign Up</Link>
-            </NavItem>
-            <NavItem className="mr-4 mt-2 mb-2 d-block">
-              <Link className="m-auto text-center d-block" to="/">Login</Link>
-            </NavItem>
-          </Nav>
-        </Collapse>
-
-        <NavbarText className="h2 font-weight-bold text-color-main text-center">
+    <Navbar light expand="md" className="navigation">
+      <NavbarBrand className="m-2 mr-sm-4" href="/">
+        <img src="IIITDLogo.png" className="d-none d-md-block" alt="AP" height="50" />
+        <NavbarText className="h4 font-weight-bold text-color-main text-center d-inline d-md-none">
         Achievements Portal
         </NavbarText>
-      </Navbar>
-    </Container>
+      </NavbarBrand>
+
+      <NavbarToggler onClick={toggleNavbar} />
+
+      <Collapse isOpen={!collapsed} navbar>
+        <Nav navbar>
+          <NavItem className="mr-4 mt-2 mb-2" >
+            <Link className="m-auto text-center d-block" to="/">Home</Link>
+          </NavItem>
+          <NavItem className="mr-4 mt-2 mb-2 d-block">
+            <Link className="m-auto text-center d-block" to="/">About</Link>
+          </NavItem>
+          <NavItem className="mr-4 mt-2 mb-2 d-block">
+            <Link className="m-auto text-center d-block" to="/">Sign Up</Link>
+          </NavItem>
+          <NavItem className="mr-4 mt-2 mb-2 d-block">
+            <Link className="m-auto text-center d-block" to="/">Login</Link>
+          </NavItem>
+        </Nav>
+      </Collapse>
+
+      <NavbarText className="h2 font-weight-bold text-color-main text-center d-none d-md-block">
+      Achievements Portal
+      </NavbarText>
+    </Navbar>
   );
 }
 
