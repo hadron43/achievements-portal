@@ -1,0 +1,32 @@
+/* Theme Colours */
+$iiitd-main: #39AEA8;
+$lightest-grey: #F1F0F0;
+$light-grey: #A49C9C;
+$grey: #9F9F9F;
+/* End of Theme Colours */
+
+/* Global Rules */
+a, a:hover {
+    text-decoration: none;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: $iiitd-main;
+}
+.text-color-main {
+    color: $iiitd-main !important;
+}
+/* End of Global Rules */
+
+/* Navigation */
+.navigation {
+    .nav-item > a {
+        font-size: 1.3rem;
+        font-weight: bolder;
+        color: $grey;
+    }
+
+    .nav-item > a:hover, .nav-item > a:active {
+        color: $iiitd-main !important;
+    }
+}
+/* End of Navigation */
