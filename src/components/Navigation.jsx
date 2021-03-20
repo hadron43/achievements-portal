@@ -8,8 +8,8 @@ function Navigation() {
   const toggleNavbar = () => setCollapsed(!collapsed);
 
   return (
-    <Navbar light expand="md" className="navigation">
-      <NavbarBrand className="m-2 mr-sm-4" href="/">
+    <Navbar light expand="md" className="navigation pr-lg-3 pl-lg-3">
+      <NavbarBrand className="mr-sm-4" href="/">
         <img src="IIITDLogo.png" className="d-none d-md-block" alt="AP" height="50" />
         <NavbarText className="h4 font-weight-bold text-color-main text-center d-inline d-md-none">
         Achievements Portal

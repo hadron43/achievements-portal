@@ -15,6 +15,21 @@ h1, h2, h3, h4, h5, h6 {
 .text-color-main {
     color: $iiitd-main !important;
 }
+.text-color-lightest-grey {
+    color: $lightest-grey !important;
+}
+.bg-color-main {
+    background-color: $iiitd-main !important;
+}
+.bg-color-main-ui {
+    background-color: $iiitd-main;
+}
+.bg-color-lightest-grey {
+    background-color: $lightest-grey !important;
+}
+.m-auto {
+    margin: auto;
+}
 /* End of Global Rules */
 
 /* Navigation */
@@ -23,10 +38,23 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 1.3rem;
         font-weight: bolder;
         color: $grey;
+        transition: 0.7s;
     }
 
     .nav-item > a:hover, .nav-item > a:active {
         color: $iiitd-main !important;
+        transform: translate(0, -5px);
     }
 }
 /* End of Navigation */
+
+.arrow {
+    width: 50px;
+    height: 50px;
+    color: $lightest-grey;
+    transition: 0.7s;
+}
+.arrow:hover {
+    color: rgb(199, 199, 199);
+    transform: translate(0, -4px);
+}
