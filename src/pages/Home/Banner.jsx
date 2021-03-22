@@ -52,6 +52,7 @@ function Banner() {
                 arrowRight: false
               }
             }}
+            className="bg-color-lightest-grey"
         >
             <BannerCard storyNo="1" image={blogs[0].imagePath} title={blogs[0].title} plot={blogs[0].detailedPlot}/>
             <BannerCard storyNo="2" image={blogs[1].imagePath} title={blogs[1].title} plot={blogs[1].detailedPlot}/>
