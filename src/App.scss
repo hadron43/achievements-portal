@@ -3,6 +3,7 @@ $iiitd-main: #39AEA8;
 $lightest-grey: #F1F0F0;
 $light-grey: #A49C9C;
 $grey: #9F9F9F;
+$off-white: #E5E5E5;
 /* End of Theme Colours */
 
 /* Global Rules */
@@ -32,6 +33,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .bg-color-silver {
     background-color: #D3D3D3 !important;
+}
+.bg-color-off-white {
+    background-color: $off-white !important;
 }
 .bg-color-bronze {
     background-color: #cd7f32 !important;
