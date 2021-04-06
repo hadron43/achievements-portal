@@ -1,4 +1,4 @@
-const blogs = [
+export const blogs = [
     {
         title: "Lorem ipsum dolor sit amet, conse ctet uradipiscing elit.",
         story: "Sit amet consecteturad elit",
@@ -72,5 +72,3 @@ const blogs = [
         imagePath: "assets/Home/3.jpg",
     },
 ]
-
-export default blogs;

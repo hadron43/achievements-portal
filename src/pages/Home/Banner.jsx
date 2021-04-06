@@ -3,7 +3,14 @@ import {Button} from 'reactstrap';
 import Carousel from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
 
-import blogs from './blogs';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+
+const mapStateToProps = state => {
+    return {
+        blogs: state.blogs
+    };
+}
 
 function Arrow({icon}) {
     return (
@@ -35,7 +42,7 @@ function BannerCard(props) {
     );
 }
 
-function Banner() {
+function Banner(props) {
     return (
         <Carousel
             slidesPerPage={1}
@@ -54,11 +61,11 @@ function Banner() {
             }}
             className="bg-color-lightest-grey"
         >
-            <BannerCard storyNo="1" image={blogs[0].imagePath} title={blogs[0].title} plot={blogs[0].detailedPlot}/>
-            <BannerCard storyNo="2" image={blogs[1].imagePath} title={blogs[1].title} plot={blogs[1].detailedPlot}/>
-            <BannerCard storyNo="3" image={blogs[2].imagePath} title={blogs[2].title} plot={blogs[2].detailedPlot}/>
+            <BannerCard storyNo="1" image={props.blogs[0].imagePath} title={props.blogs[0].title} plot={props.blogs[0].detailedPlot}/>
+            <BannerCard storyNo="2" image={props.blogs[1].imagePath} title={props.blogs[1].title} plot={props.blogs[1].detailedPlot}/>
+            <BannerCard storyNo="3" image={props.blogs[2].imagePath} title={props.blogs[2].title} plot={props.blogs[2].detailedPlot}/>
         </Carousel>
     );
 }
 
-export default Banner;
+export default withRouter(connect(mapStateToProps)(Banner));

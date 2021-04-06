@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Container, Row, InputGroup, InputGroupAddon, Input, InputGroupText, Button, Table } from 'reactstrap';
 
-import data from './data'
+import { pending } from '../../shared/pending'
 
 function SearchBar() {
     return (
@@ -32,10 +32,11 @@ function Results() {
                 <th className="text-color-main h5">Date</th>
                 <th className="text-color-main h5">Proof</th>
                 <th className="text-color-main h5">Approve</th>
+                <th className="text-color-main h5">Reject</th>
             </thead>
             <tbody>
                 {
-                    data.map((achievement) => {
+                    pending.map((achievement) => {
                         return (
                             <tr>
                             <th scope="row">{achievement.id}</th>
@@ -43,8 +44,9 @@ function Results() {
                             <td>{achievement.description}</td>
                             <td>{achievement.addedBy}</td>
                             <td>{achievement.date}</td>
-                            <td><Button color="info" >View</Button></td>
-                            <td><Button color="info" className="bg-color-main-ui">Approve</Button></td>
+                            <td><Button color="warning" >View</Button></td>
+                            <td><Button color="info" >Approve</Button></td>
+                            <td><Button color="danger" >Reject</Button></td>
                             </tr>
                         )
                     })

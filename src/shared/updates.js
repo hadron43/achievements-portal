@@ -1,4 +1,4 @@
-const data =  {
+export const data =  {
     publications: {
         heading: "Recent Publications",
         updates: [
@@ -130,4 +130,3 @@ const data =  {
         buttonLink: ""
     },
 }
-export default data;

@@ -3,9 +3,22 @@ import { Container, Row, Col } from 'reactstrap';
 
 import Banner from './Banner';
 import { UpdatesCard, TopCard } from './HomeCard';
-import data from './updates'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
-function Home() {
+const mapStateToProps = state => {
+    return {
+        publications: state.updates.publications,
+        staff: state.updates.staff,
+        students: state.updates.students,
+
+        active_departments: state.updates.active_departments,
+        active_students: state.updates.active_students,
+        active_staff: state.updates.active_staff
+    }
+}
+
+function Home(props) {
     return (
         <>
         <Banner />
@@ -13,25 +26,25 @@ function Home() {
         <Container fluid className="mt-3 mb-3">
             <Row equal className="p-1 p-sm-2 p-lg-3 p-xl-5">
                 <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
-                    <div className="col-12 h-100"><UpdatesCard {...data.publications}/></div>
+                    <div className="col-12 h-100"><UpdatesCard {...props.publications}/></div>
                 </Col>
                 <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
-                    <div className="col-12 h-100"><UpdatesCard {...data.staff}/></div>
+                    <div className="col-12 h-100"><UpdatesCard {...props.staff}/></div>
                 </Col>
                 <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
-                    <div className="col-12 h-100"><UpdatesCard {...data.students}/></div>
+                    <div className="col-12 h-100"><UpdatesCard {...props.students}/></div>
                 </Col>
             </Row>
 
             <Row equal className="p-1 p-sm-2 p-lg-3 p-xl-5">
                 <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
-                    <div className="col-12 h-100"><TopCard {...data.active_departments}/></div>
+                    <div className="col-12 h-100"><TopCard {...props.active_departments}/></div>
                 </Col>
                 <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
-                    <div className="col-12 h-100"><TopCard {...data.active_students}/></div>
+                    <div className="col-12 h-100"><TopCard {...props.active_students}/></div>
                 </Col>
                 <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
-                    <div className="col-12 h-100"><TopCard {...data.active_staff}/></div>
+                    <div className="col-12 h-100"><TopCard {...props.active_staff}/></div>
                 </Col>
             </Row>
         </Container>
@@ -39,4 +52,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default withRouter(connect(mapStateToProps)(Home));

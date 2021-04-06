@@ -1,4 +1,4 @@
-const data = [
+export const pending = [
     {
         id: 123,
         addedBy: "Lorem ipsum",
@@ -96,5 +96,3 @@ const data = [
         date: "21 Jan, 20"
     }
 ]
-
-export default data;
