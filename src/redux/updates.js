@@ -1,13 +1,19 @@
-import { data as UPDATES } from '../shared/updates';
 import * as ActionTypes from './actionTypes';
 
-export const Updates = (state = UPDATES, action) => {
+export const Updates = (state = {
+        isLoading: true,
+        errMess: null,
+        updates: {}
+    }, action) => {
     switch(action.type) {
-        case ActionTypes.ADD_DEPARTMENT:
-            var dept = action.payload
-            var new_state = {...state}
-            new_state.active_departments.toppers.push(dept)
-            return new_state
+        case ActionTypes.ADD_UPDATES:
+            return {...state, isLoading: false, errMess: null, updates: action.payload}
+
+        case ActionTypes.UPDATES_LOADING:
+            return {...state, isLoading: true, errMess: null, updates: {}}
+
+        case ActionTypes.UPDATES_FAILED:
+            return {...state, isLoading: false, errMess: action.payload, updates: {}}
 
         default: 
             return state;

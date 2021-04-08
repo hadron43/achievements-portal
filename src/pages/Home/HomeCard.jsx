@@ -2,25 +2,39 @@ import React from 'react';
 import {Container, Row, Col, Button} from 'reactstrap';
 import {Link} from 'react-router-dom';
 
-function UpdatesCard({heading, updates, buttonText, buttonLink}) {
+import Loading from '../../components/Loading';
+
+function UpdatesCard({heading, updates, buttonText, buttonLink, isLoading, errMess}) {
     return (
         <Container className="shadow rounded-lg bg-color-lightest-grey p-4 pb-5 h-100">
             
-            <h4 className="text-color-main font-weight-bold mb-4">{heading}</h4>
+            <h4 className="text-color-main font-weight-bold mb-4">
+                {(!isLoading && !errMess) ? heading : (errMess) ? {errMess} : "Loading..."}
+            </h4>
             
-            {updates.map((update) => {
-                return (
-                    <p>{update}</p>
-                );
-            })}
+            {
+                (!isLoading && !errMess) ? 
+                    <>
+                    {updates.map((update) => {
+                        return (
+                            <p>{update}</p>
+                        );
+                    })}
 
-            <br />
+                    <br />
 
-            <div className="bottom clearfix w-100">
-                <Link to={buttonLink}>
-                    <Button color="info" className="mt-2 float-right bottom-button bg-color-main-ui">{buttonText}</Button>
-                </Link>
-            </div>
+                    <div className="bottom clearfix w-100">
+                        <Link to={buttonLink}>
+                            <Button color="info" className="mt-2 float-right bottom-button bg-color-main-ui">{buttonText}</Button>
+                        </Link>
+                    </div>
+                    </>
+                :
+                (errMess) ? <> </>
+                :
+                <Loading />
+            }
+            
         </Container>
     );
 }
@@ -36,33 +50,44 @@ function rankToColor(rank) {
     return color;
 }
 
-function TopCard({heading, toppers, buttonText, buttonLink}) {
+function TopCard({heading, toppers, buttonText, buttonLink, isLoading, errMess}) {
     return (
         <Container fluid className="shadow rounded-lg bg-color-lightest-grey p-4 pb-5 h-100">
             
-            <h4 className="text-color-main font-weight-bold mb-4">{heading}</h4>
+            <h4 className="text-color-main font-weight-bold mb-4">
+                {(!isLoading && !errMess) ? heading : (errMess) ? {errMess} : "Loading..."}
+            </h4>
+            {
+                (!isLoading && !errMess) ?
+                    <>
+                    {toppers.map((update) => {
+                        return (
+                            <Row className="mb-2">
+                                <Col xs="1" className="d-flex">
+                                    <p className="d-flex m-auto">{update.rank}</p>
+                                </Col>
+                                <Col xs="8" className="d-flex">
+                                <p className="d-flex mt-auto mb-auto">{update.name}</p>
+                                </Col>
+                                <Col xs="2" className={`d-flex rounded p-2 ${rankToColor(update.rank)}`}>
+                                    <p className="d-flex m-auto">{update.points}</p>
+                                </Col>
+                            </Row>
+                        );
+                    })}
+                    <br />
+                    <div className="bottom clearfix w-100">
+                        <Link to={buttonLink}>
+                            <Button color="info" className="mt-2 float-right bottom-button bg-color-main-ui">{buttonText}</Button>
+                        </Link>
+                    </div>
+                    </>
+                :
+                (errMess) ? <></>
+                :
+                <Loading />
+            }
             
-            {toppers.map((update) => {
-                return (
-                    <Row className="mb-2">
-                        <Col xs="1" className="d-flex">
-                            <p className="d-flex m-auto">{update.rank}</p>
-                        </Col>
-                        <Col xs="8" className="d-flex">
-                        <p className="d-flex mt-auto mb-auto">{update.name}</p>
-                        </Col>
-                        <Col xs="2" className={`d-flex rounded p-2 ${rankToColor(update.rank)}`}>
-                            <p className="d-flex m-auto">{update.points}</p>
-                        </Col>
-                    </Row>
-                );
-            })}
-            <br />
-            <div className="bottom clearfix w-100">
-                <Link to={buttonLink}>
-                    <Button color="info" className="mt-2 float-right bottom-button bg-color-main-ui">{buttonText}</Button>
-                </Link>
-            </div>
         </Container>
     );
 }
