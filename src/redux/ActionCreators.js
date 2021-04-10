@@ -10,16 +10,18 @@ export const fetchUpdates = () => (dispatch) => {
     }, 2000);
 }
 
-// Dispatch an action to indicate updates are loading
+// Create action to indicate updates are loading
 export const updatesLoading = () => ({
     type: ActionTypes.UPDATES_LOADING
 });
 
+// Create action to indicate loading updates has failed
 export const updatesFailed = (errmess) => ({
     type: ActionTypes.UPDATES_FAILED,
     payload: errmess
 });
 
+// Create action to add loaded updates
 export const addUpdates = (updates) => ({
     type: ActionTypes.ADD_UPDATES,
     payload: updates
