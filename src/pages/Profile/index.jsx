@@ -15,6 +15,22 @@ function Field({title, value}) {
     )
 }
 
+function SocialMedia(props) {
+    return (
+        <Row className="mt-3 mb-3">
+            <Col md="4">
+                <h3 className="font-weight-bold">Social Media</h3>
+            </Col>
+            <Col md="8">
+                <i class="fa fa-facebook-square fa-2x mr-3 text-primary"></i>
+                <i class="fa fa-instagram fa-2x mr-3 text-danger"></i>
+                <i class="fa fa-twitter-square fa-2x mr-3 text-info"></i>
+                <i class="fa fa-github-square fa-2x mr-3"></i>
+            </Col>
+        </Row>
+    );
+}
+
 function Profile() {
     let skill_str = ""
     for(let i=0; i<user.skills.length; ++i) {
@@ -31,8 +47,9 @@ function Profile() {
                 </Col>
                 <Col md="8">
                     <Field title="Name" value={user.name} />
-                    <Field title="Role" value={user.role} />
+                    <Field title="Role" value={user.role} />                        
                     <Field title="Email" value={user.email} />
+                    <SocialMedia />
                     <Field title="Bio" value={user.bio} />
                     <Field title="User Since" value={user.reg_date} />
                 </Col>
