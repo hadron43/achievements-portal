@@ -49,6 +49,10 @@ h1, h2, h3, h4, h5, h6 {
 .rounded-3 {
     border-radius: 30px;
 }
+.rounded-left-3 {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
 .rounded-4 {
     border-radius: 40px;
 }

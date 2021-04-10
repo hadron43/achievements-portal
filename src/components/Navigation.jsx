@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavbarText, UncontrolledDropdown, DropdownItem, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { clearKey } from '../redux/ActionCreators'
 
 const mapStateToProps = state => {
   return {
@@ -14,12 +15,14 @@ const mapStateToProps = state => {
   }
 }
 
-function UserIcon({admin}) {
-  // const [userOptionsCollapsed, setUserOptionsCollapsed] = useState(true);
-  // const toggleUserOptions = () => setUserOptionsCollapsed(!userOptionsCollapsed);
+const mapDispatchToProps = (dispatch) => ({
+  logout: () => dispatch(clearKey())
+});
 
+function UserIcon({authorized, admin, logout}) {
   return (
-    <div className="">
+    (authorized) ?
+    <div>
       <UncontrolledDropdown inNavbar>
         <DropdownToggle className="m-auto p-auto" nav caret>
           <img className={`rounded-circle mr-2 ${admin?"red-glow":""}`} width="50" height="50"
@@ -33,15 +36,18 @@ function UserIcon({admin}) {
             My Achievements
           </DropdownItem>
           <DropdownItem>
-            My Profile
+            <Link to="/profile">My Profile</Link>
           </DropdownItem>
           <DropdownItem divider />
-          <DropdownItem>
+          <DropdownItem onClick={logout}>
             Logout
           </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
     </div>
+    :
+    <>
+    </>
   )
 }
 
@@ -72,14 +78,25 @@ function Navigation(props) {
             <Link className="m-auto text-center d-block" to="/">About</Link>
           </NavItem>
           <NavItem className="mr-4 my-2 d-block">
-            <Link className="m-auto text-center d-block" to="/">Sign Up</Link>
+            <Link className="m-auto text-center d-block" to="/search">Search</Link>
           </NavItem>
-          <NavItem className="mr-4 my-2 d-block">
-            <Link className="m-auto text-center d-block" to="/">Login</Link>
+
+          {/* SHOW ONLY WHEN NOT AUTHORIZED  */}
+          <NavItem className={`mr-4 my-2 ${props.authorized ? "d-none" : "d-block"}`}>
+            <Link className="m-auto text-center d-block" to="/signup">Sign Up</Link>
           </NavItem>
+          <NavItem className={`mr-4 my-2 ${props.authorized ? "d-none" : "d-block"}`}>
+            <Link className="m-auto text-center d-block" to="/login">Login</Link>
+          </NavItem>
+
+          {/* SHOW ONLY WHEN AUTHORIZED  */}
+          <NavItem className={`mr-4 my-2 ${props.authorized ? "d-block" : "d-none"}`}>
+            <Link className="m-auto text-center d-block" to="/search">Pending</Link>
+          </NavItem>
+
           <NavItem className="d-block d-md-none my-2">
             <div className="m-auto text-center d-block">
-              <UserIcon admin={true}/>
+              <UserIcon authorized={props.authorized} admin={props.admin} logout={props.logout} />
             </div>
           </NavItem>
         </Nav>
@@ -89,10 +106,10 @@ function Navigation(props) {
       Achievements Portal
       </NavbarText>
       <div className="d-none d-md-block ml-4">
-        <UserIcon admin={true} />
+        <UserIcon authorized={props.authorized} admin={true} logout={props.logout} />
       </div>
     </Navbar>
   );
 }
 
-export default withRouter(connect(mapStateToProps)(Navigation));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navigation));

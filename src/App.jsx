@@ -9,6 +9,8 @@ import Profile from './pages/Profile'
 import Search from './pages/Search';
 
 import './App.scss';
+import Login from './pages/Authenticate/Login';
+import SignUp from './pages/Authenticate/SignUp';
 
 const store = ConfigureStore();
 
@@ -23,6 +25,8 @@ function App() {
             <Route path="/" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/search" component={Search}></Route>
+            <Route path="/login" component={Login}></Route>
+            <Route path="/signup" component={SignUp}></Route>
           </Switch>
           
         </div>
