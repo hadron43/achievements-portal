@@ -1,86 +1,79 @@
 import React from 'react'
-import { Container, Row, Col, Table } from 'reactstrap'
-import user from './data'
+import { Redirect, withRouter } from 'react-router'
+import { Container, Row, Col } from 'reactstrap';
+import { connect } from 'react-redux';
+import Loading from '../../components/Loading';
+import { SocialMedia, Field, AchievementsTable } from './ProfileComponents'
 
-function Field({title, value}) {
-    return (
-        <Row className="mt-3 mb-3">
-            <Col md="4">
-                <h3 className="font-weight-bold">{title}</h3>
-            </Col>
-            <Col md="8">
-                <p className="h4">{value}</p>
-            </Col>
-        </Row>
-    )
-}
+const mapStateToProps = (state) => ({
+    profileLoaded: state.user.profileLoaded,
+    profile: state.user.profile,
+    authorized: state.user.authorized,
+    token: state.user.token,
+    achievements: state.user.achievements
+})
 
-function SocialMedia(props) {
-    return (
-        <Row className="mt-3 mb-3">
-            <Col md="4">
-                <h3 className="font-weight-bold">Social Media</h3>
-            </Col>
-            <Col md="8">
-                <i class="fa fa-facebook-square fa-2x mr-3 text-primary"></i>
-                <i class="fa fa-instagram fa-2x mr-3 text-danger"></i>
-                <i class="fa fa-twitter-square fa-2x mr-3 text-info"></i>
-                <i class="fa fa-github-square fa-2x mr-3"></i>
-            </Col>
-        </Row>
-    );
-}
+const mapDispatchToProps = (state, dispatch) => ({
 
-function Profile() {
-    let skill_str = ""
-    for(let i=0; i<user.skills.length; ++i) {
-        skill_str += user.skills[i]
-        if(i !== user.skills.length-1)
-            skill_str += ', '
+});
+
+function Profile(props) {
+    if(!props.authorized)
+        return (
+            <Redirect to="/login" />
+        );
+    else if(!props.profileLoaded)
+        return(
+            <Loading />
+        );
+    
+    if(!props.achievements) {
+
     }
 
+    let skill_str = ""
+    for(let i=0; i<props.profile.skills.length; ++i) {
+        skill_str += props.profile.skills[i]
+        if(i !== props.profile.skills.length-1)
+            skill_str += ', '
+    }
     return (
-        <Container className="p-2 p-md-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
+        <Container className="p-4 p-md-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
             <Row>
                 <Col md="4">
-                    <img src={user.image} alt="profile" className="rounded-circle w-100 p-3"/>
+                    <img src="assets/Profile/dp.png" alt="profile" className="rounded-circle w-100 p-3"/>
                 </Col>
                 <Col md="8">
-                    <Field title="Name" value={user.name} />
-                    <Field title="Role" value={user.role} />                        
-                    <Field title="Email" value={user.email} />
-                    <SocialMedia />
-                    <Field title="Bio" value={user.bio} />
-                    <Field title="User Since" value={user.reg_date} />
+                    {/* <Field title="Name" value={props.profile.name} /> */}
+                    <Field title="Role" value={[
+                        "Student",
+                        "Staff",
+                        "Admin"
+                    ][props.profile.designation-1]} />
+                    <Field title="Date of Birth" value={new Date(props.profile.dob).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })} />
+                    <Field title="Gender" value={
+                        [
+                            "Female", "Male", "Other"
+                        ]
+                        [props.profile.gender-1]} />
+                    {/* <Field title="Email" value={props.profile.email} /> */}
+                    <SocialMedia
+                        instagram={props.profile.instagram}
+                        facebook={props.profile.facebook}
+                        twitter={props.profile.twitter}
+                        github={props.profile.github}
+                    />
+                    <Field title="Group" value={props.profile.group} />
+                    {/* <Field title="Bio" value={props.profile.bio} /> */}
+                    {/* <Field title="User Since" value={props.profile.reg_date} /> */}
                 </Col>
             </Row>
             <Field title="Skills" value={skill_str} />
+            <Field title="Address" value={props.profile.address}></Field>
             <Field title="Recent Achievements" value="" />
-            <Table hover responsive className="rounded-2">
-                <thead>
-                    <th className="text-color-main h5">#</th>
-                    <th className="text-color-main h5">Title</th>
-                    <th className="text-color-main h5">Description</th>
-                    <th className="text-color-main h5">Date</th>
-                </thead>
-                <tbody>
-                    {
-                        user.achievements.map((achievement) => {
-                            let index = user.achievements.indexOf(achievement)
-                            return (
-                                <tr>
-                                <th scope="row">{index+1}</th>
-                                <td>{achievement.title}</td>
-                                <td>{achievement.description}</td>
-                                <td>{achievement.added_on}</td>
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </Table>
+            <AchievementsTable achievements={props.achievements} />
         </Container>
     )
 }
 
-export default Profile;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile));

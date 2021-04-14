@@ -5,7 +5,9 @@ function Loading(props) {
     let margin = (props.margin) ? props.margin : "my-5";
     return (
         <div className="w-100 d-flex">
-            <i className={`fa fa-spinner fa-pulse fa-fw text-color-main w-100 ${size} ${margin}`}></i>
+            <div className="d-flex m-auto">
+                <i className={`fa fa-spinner fa-pulse fa-fw text-color-main ${size} ${margin}`}></i>
+            </div>
         </div>
     );
 }

@@ -3,20 +3,17 @@ import { Link } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavbarText, UncontrolledDropdown, DropdownItem, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { clearKey } from '../redux/ActionCreators'
+import { clearUserData } from '../redux/ActionCreators'
 
 const mapStateToProps = state => {
   return {
     authorized: state.user.authorized,
-    admin: state.user.admin,
-    email: state.user.email,
-    name: state.user.name,
-    picture: state.user.picture
+    admin: state.user.admin
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch(clearKey())
+  logout: () => dispatch(clearUserData())
 });
 
 function UserIcon({authorized, admin, logout}) {

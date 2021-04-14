@@ -4,17 +4,22 @@ const initialState = {
     authorized: false,
     token: null,
     admin: false,
-    email: null,
-    name: null,
-    picture: null
+
+    profileLoaded: false,
+    profile: {},
+    achievements: null
 }
 
 export const User = (state = initialState, action) => {
     switch(action.type) {
         case ActionTypes.LOAD_KEY: 
             return {...state, token: action.payload, authorized: true};
-        case ActionTypes.CLEAR_KEY:
-            return initialState
+        case ActionTypes.LOAD_PROFILE:
+            return {...state, profileLoaded: true, profile: action.payload}
+        case ActionTypes.LOAD_PROFILE_ACHIEVEMENTS:
+            return {...state, achievements: action.payload}
+        case ActionTypes.CLEAR_USER_DATA:
+            return initialState;
         default: 
             return state;
     }

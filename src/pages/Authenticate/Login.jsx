@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, FormGroup, Input, Button } from 'reactstrap'
-import {Link, withRouter} from 'react-router-dom';
+import {Link, withRouter, Redirect} from 'react-router-dom';
 import { login } from '../../redux/ActionCreators';
 import { connect } from 'react-redux';
+
+const mapStateToProps = (state) => ({
+    authorized: state.user.authorized
+});
 
 const mapDispatchToProps = (dispatch) => ({
     login: (email, password) => {dispatch(login(email, password))}
@@ -36,6 +40,10 @@ class Login extends Component {
     }
 
     render() {
+        if(this.props.authorized)
+            return (
+                <Redirect to="/profile" />
+            );
         return (
             <Container className="my-5">
                 <Row className="rounded-3 shadow">
@@ -92,4 +100,4 @@ class Login extends Component {
     }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(Login));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

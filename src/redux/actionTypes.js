@@ -13,4 +13,6 @@ export const LOGIN = 'LOGIN';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
 
 export const LOAD_KEY = 'LOAD_KEY';
-export const CLEAR_KEY = 'CLEAR_KEY';
+export const LOAD_PROFILE = 'LOAD_PROFILE';
+export const LOAD_PROFILE_ACHIEVEMENTS = 'LOAD_PROFILE_ACHIEVEMENTS';
+export const CLEAR_USER_DATA = 'CLEAR_USER_DATA';

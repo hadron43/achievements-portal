@@ -17,16 +17,25 @@ export const loadKey = (key) => ({
     payload: key
 });
 
-// Clear token
-export const clearKey = () => ({
-    type: ActionTypes.CLEAR_KEY
+export const loadProfile = (profile) => ({
+    type: ActionTypes.LOAD_PROFILE,
+    payload: profile
+});
+
+export const loadProfileAchievements = (achievements) => ({
+    type: ActionTypes.LOAD_PROFILE_ACHIEVEMENTS,
+    payload: achievements
+});
+
+// Clear User Data and token
+export const clearUserData = () => ({
+    type: ActionTypes.CLEAR_USER_DATA
 });
 
 // Login thunk, returns a function
 export const login = (username, password) => (dispatch) => {
     return fetch(baseUrl+'rest-auth/login/', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         headers: {
             'Content-Type': 'application/json'
         },
@@ -39,6 +48,48 @@ export const login = (username, password) => (dispatch) => {
     .then(({key}) => {
         console.log(key);
         dispatch(loadKey(key));
+        return key;
+    })
+    .then((key) => {
+        console.log(key);
+        let token_head = 'Token '+key;
+        
+        // Fetch profile details
+        fetch(baseUrl+'auth/api/profile/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token_head
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            // console.log(response);
+            dispatch(loadProfile(response));
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+        // Fetch achievements of the logged in user
+        fetch(baseUrl+'main/api/achievement/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token_head
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+            dispatch(loadProfileAchievements(response));
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    })
+    .catch(err => {
+        console.log(err);
     });
 }
 
