@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
 import { SocialMedia, Field, AchievementsTable } from './ProfileComponents'
+import { fetchUserProfile, fetchUserAchievements } from '../../redux/ActionCreators';
 
 const mapStateToProps = (state) => ({
     profileLoaded: state.user.profileLoaded,
@@ -13,8 +14,9 @@ const mapStateToProps = (state) => ({
     achievements: state.user.achievements
 })
 
-const mapDispatchToProps = (state, dispatch) => ({
-
+const mapDispatchToProps = (dispatch) => ({
+    fetchUserProfile: (key) => dispatch(fetchUserProfile(key)),
+    fetchUserAchievements: (key) => dispatch(fetchUserAchievements(key))
 });
 
 function Profile(props) {
@@ -22,13 +24,14 @@ function Profile(props) {
         return (
             <Redirect to="/login" />
         );
-    else if(!props.profileLoaded)
+    else if(!props.profileLoaded) {
+        props.fetchUserProfile(props.token);
         return(
             <Loading />
         );
-    
+    }
     if(!props.achievements) {
-
+        props.fetchUserAchievements(props.token);
     }
 
     let skill_str = ""

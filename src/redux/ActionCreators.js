@@ -50,47 +50,50 @@ export const login = (username, password) => (dispatch) => {
         dispatch(loadKey(key));
         return key;
     })
-    .then((key) => {
-        console.log(key);
-        let token_head = 'Token '+key;
-        
-        // Fetch profile details
-        fetch(baseUrl+'auth/api/profile/', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token_head
-            }
-        })
-        .then(response => response.json())
-        .then(response => {
-            // console.log(response);
-            dispatch(loadProfile(response));
-        })
-        .catch(err => {
-            console.log(err);
-        })
-
-        // Fetch achievements of the logged in user
-        fetch(baseUrl+'main/api/achievement/', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token_head
-            }
-        })
-        .then(response => response.json())
-        .then(response => {
-            console.log(response);
-            dispatch(loadProfileAchievements(response));
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    })
     .catch(err => {
         console.log(err);
     });
+}
+
+// Thunk to fetch profile
+export const fetchUserProfile = (key) => (dispatch) => {
+    let token_head = 'Token '+key;
+    // Fetch profile details
+    return fetch(baseUrl+'auth/api/profile/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        // console.log(response);
+        dispatch(loadProfile(response));
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+export const fetchUserAchievements = (key) => (dispatch) => {
+    let token_head = 'Token '+key;
+    // Fetch achievements of the logged in user
+    fetch(baseUrl+'main/api/achievement/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log(response);
+        dispatch(loadProfileAchievements(response));
+    })
+    .catch(err => {
+        console.log(err);
+    })
 }
 
 // Create action to indicate updates are loading
