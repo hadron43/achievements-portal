@@ -27,10 +27,10 @@ function UserIcon({authorized, admin, logout}) {
         </DropdownToggle>
         <DropdownMenu right>
           <DropdownItem>
-            Add Achievement
+          <Link to="/addachievement">Add Achievement</Link>
           </DropdownItem>
           <DropdownItem>
-            My Achievements
+          <Link to="/profile">My Achievements</Link>
           </DropdownItem>
           <DropdownItem>
             <Link to="/profile">My Profile</Link>

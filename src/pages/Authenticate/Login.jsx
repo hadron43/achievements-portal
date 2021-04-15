@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, FormGroup, Input, Button } from 'reactstrap'
 import {Link, withRouter, Redirect} from 'react-router-dom';
 import { login } from '../../redux/ActionCreators';
 import { connect } from 'react-redux';
+import Loading from '../../components/Loading';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
@@ -76,25 +77,34 @@ class Login extends Component {
                             </Form>
                             </Col>
 
-                            <Col xs="12">
-                                <p>
-                                Not Registered Yet?
-                                </p>
-                                <Link to="/signup">
-                                    <Button color="info" className='bg-color-main-ui w-50 rounded-pill mb-3'>Sign Up</Button>
-                                </Link>
-                            </Col>
+                            {
+                                this.props.loggingIn ?
+                                    <Col xs = "12">
+                                        <Loading />
+                                    </Col>
+                                :
+                                    <>
+                                    <Col xs="12">
+                                        <p>
+                                        Not Registered Yet?
+                                        </p>
+                                        <Link to="/signup">
+                                            <Button color="info" className='bg-color-main-ui w-50 rounded-pill mb-3'>Sign Up</Button>
+                                        </Link>
+                                    </Col>
 
-                            <Col xs="12">
-                                <hr/>
-                            </Col>
+                                    <Col xs="12">
+                                        <hr/>
+                                    </Col>
 
-                            <Col>
-                                <Button outline color='danger' className='w-100 rounded-pill mt-3 mb-4'>
-                                    <i className="fa fa-lg fa-google mr-3" aria-hidden="true"></i>
-                                    Continue With Google
-                                </Button>
-                            </Col>
+                                    <Col>
+                                        <Button outline color='danger' className='w-100 rounded-pill mt-3 mb-4'>
+                                            <i className="fa fa-lg fa-google mr-3" aria-hidden="true"></i>
+                                            Continue With Google
+                                        </Button>
+                                    </Col>
+                                    </>
+                            }
                         </Row>
                     </Col>
                 </Row>
