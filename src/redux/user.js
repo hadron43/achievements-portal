@@ -2,6 +2,8 @@ import * as ActionTypes from './actionTypes';
 
 const initialState = {
     authorized: sessionStorage.getItem('key') ? true : false,
+    loggingIn: false,
+    error: "",
     token: sessionStorage.getItem('key'),
     admin: false,
 
@@ -22,6 +24,10 @@ export const User = (state = initialState, action) => {
         case ActionTypes.CLEAR_USER_DATA:
             sessionStorage.clear();
             return initialState;
+        case ActionTypes.LOGIN_FAILED:
+            return {...state, error: action.payload}
+        case ActionTypes.LOGGING_IN:
+            return {...state, loggingIn: action.payload}
         default: 
             return state;
     }

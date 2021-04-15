@@ -5,7 +5,9 @@ import { login } from '../../redux/ActionCreators';
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => ({
-    authorized: state.user.authorized
+    authorized: state.user.authorized,
+    loggingIn: state.user.loggingIn,
+    error: state.user.error
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -47,7 +49,7 @@ class Login extends Component {
         return (
             <Container className="my-5">
                 <Row className="rounded-3 shadow">
-                    <Col md="6" className="d-none d-md d-lg-flex p-0">
+                    <Col md="6" className="d-none d-md-flex p-0">
                         <img src="assets/login.jpg" alt="banner" className="d-flex mx-auto w-100 h-100 rounded-left-3"></img>
                     </Col>
                     
@@ -60,6 +62,7 @@ class Login extends Component {
 
                         <Row className="pl-md-5 pr-md-5 pl-xs-2 pr-xs-2 mt-3">
                             <Col xs="12">
+                            <p className="h4 text-danger">{this.props.error}</p>
                             <Form>
                                 <FormGroup>
                                     <Input type="text" name="username" id="username" placeholder="Username"
@@ -69,7 +72,7 @@ class Login extends Component {
                                     <Input type="password" name="password" id="password" placeholder="Password"
                                         value={this.state.password} onChange={this.handlePasswordChange}/>
                                 </FormGroup>
-                                <Button color="info" onClick={this.handleSubmit} className='bg-color-main-ui w-50 rounded-pill mt-3 mb-4'>Login</Button>
+                                <Button color="info" disabled={this.props.loggingIn} onClick={this.handleSubmit} className='bg-color-main-ui w-50 rounded-pill mt-3 mb-4'>Login</Button>
                             </Form>
                             </Col>
 

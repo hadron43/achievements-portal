@@ -34,6 +34,7 @@ export const clearUserData = () => ({
 
 // Login thunk, returns a function
 export const login = (username, password) => (dispatch) => {
+    dispatch(loggingIn(true));
     return fetch(baseUrl+'rest-auth/login/', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
@@ -44,16 +45,33 @@ export const login = (username, password) => (dispatch) => {
             password: password
         }) // body data type must match "Content-Type" header
     })
+    .then(response => {
+        if(!response.ok)
+            throw Error("Error occurred!");
+        return response;
+    })
     .then(response => response.json())
     .then(({key}) => {
         console.log(key);
         dispatch(loadKey(key));
-        return key;
+        dispatch(loggingIn(false));
     })
     .catch(err => {
         console.log(err);
+        dispatch(loggingIn(false));
+        dispatch(loginFailed(err.message));
     });
 }
+
+export const loggingIn = (value) => ({
+    type: ActionTypes.LOGGING_IN,
+    payload: value
+})
+
+export const loginFailed = (err) => ({
+    type: ActionTypes.LOGIN_FAILED,
+    payload: err
+})
 
 // Thunk to fetch profile
 export const fetchUserProfile = (key) => (dispatch) => {
