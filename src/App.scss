@@ -43,6 +43,10 @@ h1, h2, h3, h4, h5, h6 {
 .m-auto {
     margin: auto;
 }
+.my-auto {
+    margin-top: auto;
+    margin-bottom: auto;
+}
 .rounded-2 {
     border-radius: 20px;
 }
@@ -80,7 +84,10 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 /* End of Navigation */
-
+.icon {
+    width: 30px;
+    height: 30px;
+}
 .arrow {
     width: 50px;
     height: 50px;
