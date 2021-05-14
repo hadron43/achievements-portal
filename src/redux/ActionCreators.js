@@ -130,3 +130,218 @@ export const addUpdates = (updates) => ({
     type: ActionTypes.ADD_UPDATES,
     payload: updates
 });
+
+
+export const fetchStudentsList = (key) => (dispatch) => {
+    let token_head = 'Token '+key;
+    dispatch(studentsListLoading(true));
+    fetch(baseUrl+'main/api/get-students', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(loadStudentsList(response.students));
+    })
+    .catch(err => {
+        console.log(err);
+        dispatch(studentsListLoading(false));
+    })
+}
+
+export const loadStudentsList = (students) => ({
+    type: ActionTypes.LOAD_STUDENTS_LIST,
+    payload: students
+})
+
+export const studentsListLoading = (value) => ({
+    type: ActionTypes.STUDENTS_LIST_LOADING,
+    payload: value
+})
+
+export const fetchProfessorsList = (key) => (dispatch) => {
+    dispatch(professorsListLoading(true));
+    let token_head = 'Token '+key;
+    fetch(baseUrl+'main/api/get-professors', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(loadProfessorsList(response.professors));
+    })
+    .catch(err => {
+        console.log(err);
+        dispatch(professorsListLoading(false));
+    })
+}
+
+export const loadProfessorsList = (professors) => ({
+    type: ActionTypes.LOAD_PROFESSORS_LIST,
+    payload: professors
+})
+
+export const professorsListLoading = (value) => ({
+    type: ActionTypes.PROFESSORS_LIST_LOADING,
+    payload: value
+})
+
+export const fetchInstitutesList = (key) => (dispatch) => {
+    dispatch(institutesLoading(true));
+    let token_head = 'Token '+key;
+    fetch(baseUrl+'main/api/institution/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(loadInstitutesList(response));
+    })
+    .catch(err => {
+        console.log(err);
+        dispatch(institutesLoading(false));
+    })
+}
+
+export const loadInstitutesList = (institutes) => ({
+    type: ActionTypes.LOAD_INSTITUTES_LIST,
+    payload: institutes
+})
+
+export const institutesLoading = (value) => ({
+    type: ActionTypes.INSTITUTES_LIST_LOADING,
+    payload: value
+})
+
+export const fetchTagsList = (key) => (dispatch) => {
+    dispatch(tagsLoading(true));
+    let token_head = 'Token '+key;
+    fetch(baseUrl+'main/api/tag/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(loadTagsList(response));
+    })
+    .catch(err => {
+        console.log(err);
+        dispatch(tagsLoading(false));
+    })
+}
+
+export const addTagList = (tagObj) => ({
+    type: ActionTypes.ADD_TAG_LIST,
+    payload: tagObj
+})
+
+export const loadTagsList = (institutes) => ({
+    type: ActionTypes.LOAD_TAGS_LIST,
+    payload: institutes
+})
+
+export const tagsLoading = (value) => ({
+    type: ActionTypes.TAGS_LIST_LOADING,
+    payload: value
+})
+
+export const postTag = (key, tag, callback, errorFunction) => (dispatch) => {
+    let token_head = 'Token '+key;
+    fetch(baseUrl+'main/api/tag/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        },
+        body: JSON.stringify({
+            title: tag
+        })
+    })
+    .then((response) => {
+        if(!response.ok)
+            throw new Error('There was a problem adding this tag to the database!')
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log(response)
+        dispatch(addTagList(response))
+        return response
+    })
+    .then((response) => callback(response))
+    .catch(error => {
+        console.log(error)
+        errorFunction(error.message)
+    })
+}
+
+export const addAchievementPosting = (value) => ({
+    type: ActionTypes.ADD_ACHIEVEMENT_POSTING,
+    payload: value
+})
+
+export const addAchievementPostingError = (message) => ({
+    type: ActionTypes.ADD_ACHIEVEMENT_POSTING_ERROR,
+    payload: message
+})
+
+export const addAchievementPostingSuccess = (message) => ({
+    type: ActionTypes.ADD_ACHIEVEMENT_POSTING_SUCCESS,
+    payload: message
+})
+
+export const postNewAchievement = (key, stateObj, clearFunction) => (dispatch) => {
+    dispatch(addAchievementPosting(true));
+    let token_head = 'Token '+key;
+    console.log(stateObj)
+    var bodyObj = {
+        title: stateObj.title,
+        description: stateObj.description,
+        institution: stateObj.institution,
+        achievedDate: stateObj.dateofachievement,
+        teamMembers: stateObj.team.map(member => member.id),
+        mentors: stateObj.mentors.map(mentor => mentor.id),
+        tags: stateObj.tags.map(tag => tag.id),
+        category: stateObj.category
+    }
+
+    console.log(bodyObj)
+
+    fetch(baseUrl+'main/api/achievement/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        },
+        body: JSON.stringify(bodyObj)
+    })
+    .then((response) => {
+        if(!response.ok)
+            throw new Error('There was a problem adding this achievement!')
+        console.log(response)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        // Success dispatch
+        clearFunction();
+        dispatch(addAchievementPostingSuccess("Your achivement has been posted! Wait for the adming to approve it."))
+        return response
+    })
+    .catch(error => {
+        console.log(error)
+        dispatch(addAchievementPostingError(error.message))
+    })
+}

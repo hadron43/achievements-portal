@@ -2,36 +2,69 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router';
 import { Container, Row, Col, Label, Button, Form, Input, CustomInput } from 'reactstrap';
+// import Loading from '../../components/Loading';
+import { fetchStudentsList, fetchProfessorsList, fetchInstitutesList, fetchTagsList, postTag, postNewAchievement, addAchievementPostingSuccess } from '../../redux/ActionCreators';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
     token: state.user.token,
-    listOfInstitutions: [
-        "Indraprastha Intitute of Information Technology",
-        "Others"
-    ]
+
+    professorsList: state.forms.professorsList,
+    professorsLoading: state.forms.professorsLoading,
+
+    studentsList: state.forms.studentsList,
+    studentsLoading: state.forms.studentsLoading,
+
+    institutesList: state.forms.institutesList,
+    institutesLoading: state.forms.institutesLoading,
+
+    tagsList: state.forms.tagsList,
+    tagsLoading: state.forms.tagsLoading,
+    
+    awardCategory: state.forms.awardCategory,
+
+    addAchievementPosting: state.forms.addAchievementPosting,
+    addAchievementPostingError: state.forms.addAchievementPostingError,
+    addAchievementPostingMessage: state.forms.addAchievementPostingMessage
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
+    fetchStudentsList: (key) => dispatch(fetchStudentsList(key)),
+    fetchProfessorsList: (key) => dispatch(fetchProfessorsList(key)),
+    fetchInstitutesList: (key) => dispatch(fetchInstitutesList(key)),
+    fetchTagsList: (key) => dispatch(fetchTagsList(key)),
+    postNewAchievement: (key, stateObj, clearFunction) => dispatch(postNewAchievement(key, stateObj, clearFunction)),
+    addAchievementPostingMessageClear: (key) => dispatch(addAchievementPostingSuccess('')),
+    postTag: (key, tag, callback, errorFunction) => dispatch(postTag(key, tag, callback, errorFunction))
 })
+
+const initialState = {
+    title: '',
+    description: '',
+    institution: 0,
+    otherInstitution: '',
+    dateofachievement: '',
+    mentors: [],
+    mentorsInput: '',
+    mentorAdding: false,
+    mentorsInputErr: '',
+    team: [],
+    teamInput: '',
+    teamAdding: false,
+    teamInputErr: '',
+    tags: [],
+    tagsInput: '',
+    tagsAdding: false,
+    tagsInputErr: '',
+    category: 0,
+    type: false
+}
 
 class AddAchievement extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            title: '',
-            description: '',
-            institution: '',
-            otherInstitution: '',
-            dateofachievement: '',
-            mentors: [],
-            mentorsInput: '',
-            team: [],
-            teamInput: '',
-            tags: [],
-            tagsInput: ''
-        }
+        this.state = initialState
+        
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.addTeamMember = this.addTeamMember.bind(this);
@@ -39,54 +72,134 @@ class AddAchievement extends Component {
         this.addTag = this.addTag.bind(this);
         this.addTeamMember = this.addTeamMember.bind(this);
         this.removeFromList = this.removeFromList.bind(this);
+        this.clearState = this.clearState.bind(this);
+    }
+
+    clearState() {
+        this.setState(initialState);
     }
 
     handleInputChange(event) {
         const target = event.target
         const value = target.value
         const name = target.name
-        
+
         this.setState({
-            [name] : value
+            [name] : value,
+            [name+"Err"] : '',
         })
+        
+        if(this.props.addAchievementPostingMessage)
+            this.props.addAchievementPostingMessageClear();
     }
 
     handleSubmit(event) {
         console.log('Submit detected.')
+        this.props.postNewAchievement(this.props.token, this.state, this.clearState);
         event.preventDefault();
     }
 
+    componentDidMount() {
+        if(!this.props.professorsLoading)
+            this.props.fetchStudentsList(this.props.token)
+        if(!this.props.studentsLoading)
+            this.props.fetchProfessorsList(this.props.token)
+        if(!this.props.tagsLoading)
+            this.props.fetchTagsList(this.props.token)
+        if(!this.props.institutesLoading)
+            this.props.fetchInstitutesList(this.props.token)
+    }
+
     addTeamMember() {
-        var validation = true
-        // Perform validation
-        if(validation) {
+        this.setState({teamAdding: true})
+        var studentObj = this.props.studentsList.find(student => student.user__email === this.state.teamInput)
+        var validation = studentObj !== undefined
+        console.log(this.props.studentsList)
+
+        if(validation && this.state.team.indexOf(studentObj) === -1) {
             this.setState({
-                team: [...this.state.team, this.state.teamInput],
+                team: [...this.state.team, studentObj],
                 teamInput: ''
             })
         }
+        else if (this.state.team.indexOf(studentObj) !== -1) {
+            this.setState({
+                teamInputErr : 'Team member already added!'
+            })
+        }
+        else {
+            this.setState({
+                teamInputErr : 'No such student found in our database!'
+            })
+        }
+        this.setState({teamAdding: false})
     }
 
     addMentor() {
-        var validation = true
-        // Perform validation
-        if(validation) {
+        this.setState({mentorAdding: true})
+        var profObj = this.props.professorsList.find(prof => prof.user__email === this.state.mentorsInput)
+        var validation = profObj !== undefined
+
+        if(validation && this.state.mentors.indexOf(profObj) === -1) {
             this.setState({
-                mentors: [...this.state.mentors, this.state.mentorsInput],
+                mentors: [...this.state.mentors, profObj],
                 mentorsInput: ''
             })
         }
+        else if (this.state.mentors.indexOf(profObj) !== -1) {
+            this.setState({
+                mentorsInputErr : 'Mentor already added!'
+            })
+        }
+        else {
+            this.setState({
+                mentorsInputErr : 'No such mentor found in our database!'
+            })
+        }
+        this.setState({mentorAdding: false})
+    }
+
+    capitalize(input) {  
+        return input.split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');  
     }
 
     addTag() {
-        var validation = true
-        // Perform validation
-        if(validation) {
+        this.setState({tagsAdding: true})
+        var tagObj = this.props.tagsList.find(tag => tag.title.toUpperCase() === this.state.tagsInput.toUpperCase())
+        var validation = tagObj !== undefined
+        var processing = false
+
+        console.log(this.props.tagsList, this.state.tagsInput, tagObj)
+        
+        if(validation && this.state.tags.indexOf(tagObj) === -1) {
             this.setState({
-                tags: [...this.state.tags, this.state.tagsInput],
+                tags: [...this.state.tags, tagObj],
                 tagsInput: ''
             })
         }
+        else if (this.state.tags.indexOf(tagObj) !== -1) {
+            this.setState({
+                tagsInput : 'Tag Already Added!'
+            })
+        }
+        else {
+            processing = true
+            this.props.postTag(this.props.token, this.capitalize(this.state.tagsInput), 
+            (tagObj) => {
+                this.setState({
+                    tags: [...this.state.tags, tagObj],
+                    tagsInput : '',
+                    tagsAdding: false
+                })
+            }
+            , (message) => {
+                this.setState({
+                    tagsInputErr: message,
+                    tagsAdding: false
+                })
+            })
+        }
+        if (!processing) this.setState({tagsAdding: false})
     }
 
     removeFromList(listName, item) {
@@ -96,7 +209,6 @@ class AddAchievement extends Component {
         this.setState({
             [listName]: list
         })
-        console.log(this.state.mentors)
     }
 
     render(){
@@ -139,23 +251,59 @@ class AddAchievement extends Component {
                     </Row>
 
                     <Row className="form-group">
-                        <Label htmlFor="institution" md={3}>
-                            <h4 className="font-weight-bold">Institution / Organization</h4>
+                        <Label htmlFor="category" md={3}>
+                            <h4 className="font-weight-bold">Category</h4>
                         </Label>
                         <Col md={9}>
-                            <Input type="select" name="institution" value={this.state.institution} onChange={this.handleInputChange} className="w-100">
+                            <Input type="select" name="category" value={this.state.category} onChange={this.handleInputChange} className="w-100">
                                 <>
                                 {
-                                    this.props.listOfInstitutions.map((institute) => {
+                                    this.props.awardCategory.map((category) => {
                                         return (
-                                            <option value={institute}>{institute}</option>
+                                            <option value={category.id}>{category.title}</option>
                                         );
                                     })
                                 }
                                 </>
                             </Input>
+                        </Col>
+                    </Row>
+
+                    <Row className="form-group">
+                        <Label htmlFor="type" md={3}>
+                            <h4 className="font-weight-bold">Type</h4>
+                        </Label>
+                        <Col md={9}>
+                            <Input type="select" name="type" value={this.state.type} onChange={this.handleInputChange} className="w-100">
+                                <option value={true}>Technical</option>
+                                <option value={false}>Non Technical</option>
+                            </Input>
+                        </Col>
+                    </Row>
+
+                    <Row className="form-group">
+                        <Label htmlFor="institution" md={3}>
+                            <h4 className="font-weight-bold">Institution / Organization</h4>
+                        </Label>
+                        <Col md={9}>
+                            <Input type="select" name="institution" value={this.state.institution} onChange={this.handleInputChange} className="w-100"
+                                disabled={this.props.institutesLoading}
+                             >
+                                <>
+                                {
+                                    (this.props.institutesList) ?
+                                    this.props.institutesList.map((institute) => {
+                                        return (
+                                            <option value={institute.id}>{institute.title}</option>
+                                        );
+                                    })
+                                    :
+                                    <></>
+                                }
+                                </>
+                            </Input>
                             {
-                                (this.state.institution === "Others") ? 
+                                (this.state.institution === "-1") ? 
                                 <>
                                 <Input type="text" 
                                     value={this.state.otherInstitution}
@@ -198,9 +346,16 @@ class AddAchievement extends Component {
                                     onChange={this.handleInputChange}
                                     placeholder="Enter mentor's email ID"
                                     />
+                                <p className="text-danger m-0 px-2">{this.state.mentorsInputErr}</p>
                             </Col>
                             <Col xs={5} md={4} lg={3} className="pl-0">
-                                <Button color="info" className="w-100" onClick={this.addMentor}>Add Mentor</Button>
+                                <Button color="info" className="w-100" 
+                                    onClick={this.addMentor}
+                                    disabled={this.props.professorsLoading
+                                        || this.state.mentorAdding}
+                                    >
+                                    Add Mentor
+                                </Button>
                             </Col>
                             <Col xs={12} className="mt-1">
                                 <div className="box w-100">
@@ -208,7 +363,7 @@ class AddAchievement extends Component {
                                     this.state.mentors.map((mentor) => {
                                         return (
                                             <div className="rounded-pill p-2 pl-3 mr-2 mt-2 bg-color-off-white d-inline-block">
-                                                {mentor}
+                                                {mentor.user__email}
                                                 <Button className="rounded-circle ml-3"
                                                     size="sm" color="danger"
                                                     onClick={() => this.removeFromList('mentors', mentor)}
@@ -239,9 +394,15 @@ class AddAchievement extends Component {
                                     onChange={this.handleInputChange}
                                     placeholder="Enter team member's email ID"
                                     />
+                                <p className="text-danger m-0 px-2">{this.state.teamInputErr}</p>
                             </Col>
                             <Col xs={5} md={4} lg={3} className="pl-0">
-                                <Button color="info" className="w-100" onClick={this.addTeamMember}>Add Member</Button>
+                                <Button color="info" className="w-100" onClick={this.addTeamMember}
+                                    disabled={this.props.studentsLoading
+                                        || this.state.teamAdding}
+                                 >
+                                    Add Member
+                                </Button>
                             </Col>
                             <Col xs={12} className="mt-1">
                                 <div className="box w-100">
@@ -249,7 +410,7 @@ class AddAchievement extends Component {
                                     this.state.team.map((member) => {
                                         return (
                                             <div className="rounded-pill p-2 pl-3 mr-2 mt-2 bg-color-off-white d-inline-block">
-                                                {member}
+                                                {member.user__email}
                                                 <Button className="rounded-circle ml-3"
                                                     size="sm" color="danger"
                                                     onClick={() => this.removeFromList('team', member)}
@@ -281,7 +442,12 @@ class AddAchievement extends Component {
                                     />
                             </Col>
                             <Col xs={5} md={4} lg={3} className="pl-0">
-                                <Button color="info" className="w-100" onClick={this.addTag}>Add Tag</Button>
+                                <Button color="info" className="w-100" onClick={this.addTag}
+                                    disabled={this.props.tagsLoading
+                                        || this.state.tagsAdding}
+                                 >
+                                    Add Tag
+                                </Button>
                             </Col>
                             <Col xs={12} className="mt-1">
                                 <div className="box w-100">
@@ -289,7 +455,7 @@ class AddAchievement extends Component {
                                     this.state.tags.map((tag) => {
                                         return (
                                             <div className="rounded-pill p-2 pl-3 mr-2 mt-2 bg-color-off-white d-inline-block">
-                                                {tag}
+                                                {tag.title}
                                                 <Button className="rounded-circle ml-3"
                                                     size="sm" color="danger"
                                                     onClick={() => this.removeFromList('tags', tag)}
@@ -317,8 +483,22 @@ class AddAchievement extends Component {
 
                     <Row>
                         <Col xs="12">
-                            <Button color="success" className="mr-3"> Request for Approval </Button>
-                            <Button color="danger" >Cancel</Button>
+                            <Button color="success" className="mr-3"
+                                disabled={this.props.addAchievementPosting}
+                             >
+                                Request for Approval
+                            </Button>
+                            <Button color="danger" onClick={this.clearState}
+                                disabled={this.props.addAchievementPosting}
+                             >
+                                Clear Form
+                            </Button>
+                        </Col>
+
+                        <Col xs="12" className="mt-2">
+                            <h6 className={`${this.props.addAchievementPostingError ? "text-danger" : "text-success"}`}>
+                                {this.props.addAchievementPostingMessage}
+                            </h6>
                         </Col>
                     </Row>
                 </Form>

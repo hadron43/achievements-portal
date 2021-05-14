@@ -5,6 +5,7 @@ import { Blogs } from './blogs';
 import { Pending } from './pending';
 import { Updates } from './updates';
 import { User } from './user';
+import { Forms } from './forms';
 
 export const ConfigureStore = () => {
     const store = createStore(
@@ -12,7 +13,8 @@ export const ConfigureStore = () => {
             blogs: Blogs,
             updates: Updates,
             pending: Pending,
-            user: User
+            user: User,
+            forms: Forms
         }),
         applyMiddleware(thunk, logger)
     );

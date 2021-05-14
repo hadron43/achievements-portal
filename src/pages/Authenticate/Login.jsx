@@ -36,10 +36,6 @@ class Login extends Component {
     }
     handleSubmit(event) {
         this.props.login(this.state.username, this.state.password);
-        this.setState ({
-            username: "",
-            password: ""
-        })
     }
 
     render() {
