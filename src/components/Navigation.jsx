@@ -26,15 +26,25 @@ function UserIcon({authorized, admin, logout}) {
             src="../../assets/Profile/dp.png" alt="Display" />
         </DropdownToggle>
         <DropdownMenu right>
-          <DropdownItem>
-          <Link to="/addachievement">Add Achievement</Link>
-          </DropdownItem>
-          <DropdownItem>
-          <Link to="/profile">My Achievements</Link>
-          </DropdownItem>
-          <DropdownItem>
-            <Link to="/profile">My Profile</Link>
-          </DropdownItem>
+          
+          <Link to="/addachievement">
+            <DropdownItem>
+            Add Achievement
+            </DropdownItem>
+          </Link>
+
+          <Link to="/myachievements">
+            <DropdownItem>
+            My Achievements
+            </DropdownItem>
+          </Link>
+
+          <Link to="/profile">
+            <DropdownItem>
+              My Profile
+            </DropdownItem>
+          </Link>
+
           <DropdownItem divider />
           <DropdownItem onClick={logout}>
             Logout

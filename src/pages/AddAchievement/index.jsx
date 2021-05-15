@@ -218,7 +218,7 @@ class AddAchievement extends Component {
             )
         return(
             <Container className="my-5 bg-color-lightest-grey p-4 p-md-5 rounded-3">
-                <h2 className="font-weight-bold">Add Achievement</h2>
+                <h2 className="font-weight-bold text-center">Add Achievement</h2>
                 <Form className="mt-5" onSubmit={this.handleSubmit}>
                     <Row className="form-group">
                         <Label htmlFor="title" md={3}>
