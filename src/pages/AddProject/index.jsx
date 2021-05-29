@@ -3,11 +3,14 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router';
 import { Container, Row, Col, Label, Button, Form, Input, CustomInput } from 'reactstrap';
 // import Loading from '../../components/Loading';
-import { fetchStudentsList, fetchInstitutesList, fetchTagsList, postTag, postNewAchievement, addAchievementPostingSuccess } from '../../redux/ActionCreators';
+import { fetchStudentsList, fetchProfessorsList, fetchInstitutesList, fetchTagsList, postTag, postNewProject, addProjectPostingSuccess } from '../../redux/ActionCreators';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
     token: state.user.token,
+
+    professorsList: state.forms.professorsList,
+    professorsLoading: state.forms.professorsLoading,
 
     studentsList: state.forms.studentsList,
     studentsLoading: state.forms.studentsLoading,
@@ -17,20 +20,19 @@ const mapStateToProps = (state) => ({
 
     tagsList: state.forms.tagsList,
     tagsLoading: state.forms.tagsLoading,
-    
-    awardCategory: state.forms.awardCategory,
 
-    addAchievementPosting: state.forms.addAchievementPosting,
-    addAchievementPostingError: state.forms.addAchievementPostingError,
-    addAchievementPostingMessage: state.forms.addAchievementPostingMessage
+    addProjectPosting: state.forms.addProjectPosting,
+    addProjectPostingError: state.forms.addProjectPostingError,
+    addProjectPostingMessage: state.forms.addProjectPostingMessage
 })
 
 const mapDispatchToProps = (dispatch) => ({
     fetchStudentsList: (key) => dispatch(fetchStudentsList(key)),
+    fetchProfessorsList: (key) => dispatch(fetchProfessorsList(key)),
     fetchInstitutesList: (key) => dispatch(fetchInstitutesList(key)),
     fetchTagsList: (key) => dispatch(fetchTagsList(key)),
-    postNewAchievement: (key, stateObj, clearFunction) => dispatch(postNewAchievement(key, stateObj, clearFunction)),
-    addAchievementPostingMessageClear: (key) => dispatch(addAchievementPostingSuccess('')),
+    postNewProject: (key, stateObj, clearFunction) => dispatch(postNewProject(key, stateObj, clearFunction)),
+    addProjectPostingMessageClear: (key) => dispatch(addProjectPostingSuccess('')),
     postTag: (key, tag, callback, errorFunction) => dispatch(postTag(key, tag, callback, errorFunction))
 })
 
@@ -39,7 +41,14 @@ const initialState = {
     description: '',
     institution: 0,
     otherInstitution: '',
-    dateofachievement: '',
+    startdate: '',
+    enddate: '',
+    field: '',
+    domain: '',
+    mentors: [],
+    mentorsInput: '',
+    mentorAdding: false,
+    mentorsInputErr: '',
     team: [],
     teamInput: '',
     teamAdding: false,
@@ -52,7 +61,7 @@ const initialState = {
     type: false
 }
 
-class AddAchievement extends Component {
+class AddProject extends Component {
     constructor(props) {
         super(props);
         this.state = initialState
@@ -60,6 +69,7 @@ class AddAchievement extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.addTeamMember = this.addTeamMember.bind(this);
+        this.addMentor = this.addMentor.bind(this);
         this.addTag = this.addTag.bind(this);
         this.addTeamMember = this.addTeamMember.bind(this);
         this.removeFromList = this.removeFromList.bind(this);
@@ -80,19 +90,21 @@ class AddAchievement extends Component {
             [name+"Err"] : '',
         })
         
-        if(this.props.addAchievementPostingMessage)
-            this.props.addAchievementPostingMessageClear();
+        if(this.props.addProjectPostingMessage)
+            this.props.addProjectPostingMessageClear();
     }
 
     handleSubmit(event) {
         console.log('Submit detected.')
-        this.props.postNewAchievement(this.props.token, this.state, this.clearState);
+        this.props.postNewProject(this.props.token, this.state, this.clearState);
         event.preventDefault();
     }
 
     componentDidMount() {
-        if(!this.props.studentsLoading)
+        if(!this.props.professorsLoading)
             this.props.fetchStudentsList(this.props.token)
+        if(!this.props.studentsLoading)
+            this.props.fetchProfessorsList(this.props.token)
         if(!this.props.tagsLoading)
             this.props.fetchTagsList(this.props.token)
         if(!this.props.institutesLoading)
@@ -122,6 +134,30 @@ class AddAchievement extends Component {
             })
         }
         this.setState({teamAdding: false})
+    }
+
+    addMentor() {
+        this.setState({mentorAdding: true})
+        var profObj = this.props.professorsList.find(prof => prof.user__email === this.state.mentorsInput)
+        var validation = profObj !== undefined
+
+        if(validation && this.state.mentors.indexOf(profObj) === -1) {
+            this.setState({
+                mentors: [...this.state.mentors, profObj],
+                mentorsInput: ''
+            })
+        }
+        else if (this.state.mentors.indexOf(profObj) !== -1) {
+            this.setState({
+                mentorsInputErr : 'Mentor already added!'
+            })
+        }
+        else {
+            this.setState({
+                mentorsInputErr : 'No such mentor found in our database!'
+            })
+        }
+        this.setState({mentorAdding: false})
     }
 
     capitalize(input) {  
@@ -183,7 +219,7 @@ class AddAchievement extends Component {
             )
         return(
             <Container className="my-5 bg-color-lightest-grey p-4 p-md-5 rounded-3">
-                <h2 className="font-weight-bold text-center">Add Achievement</h2>
+                <h2 className="font-weight-bold text-center">Add Project</h2>
                 <Form className="mt-5" onSubmit={this.handleSubmit}>
                     <Row className="form-group">
                         <Label htmlFor="title" md={3}>
@@ -212,37 +248,6 @@ class AddAchievement extends Component {
                                 placeholder="Enter description"
                                 className="w-100 px-2"
                                     />
-                        </Col>
-                    </Row>
-
-                    <Row className="form-group">
-                        <Label htmlFor="category" md={3}>
-                            <h4 className="font-weight-bold">Category</h4>
-                        </Label>
-                        <Col md={9}>
-                            <Input type="select" name="category" value={this.state.category} onChange={this.handleInputChange} className="w-100">
-                                <>
-                                {
-                                    this.props.awardCategory.map((category) => {
-                                        return (
-                                            <option value={category.id}>{category.title}</option>
-                                        );
-                                    })
-                                }
-                                </>
-                            </Input>
-                        </Col>
-                    </Row>
-
-                    <Row className="form-group">
-                        <Label htmlFor="type" md={3}>
-                            <h4 className="font-weight-bold">Type</h4>
-                        </Label>
-                        <Col md={9}>
-                            <Input type="select" name="type" value={this.state.type} onChange={this.handleInputChange} className="w-100">
-                                <option value={true}>Technical</option>
-                                <option value={false}>Non Technical</option>
-                            </Input>
                         </Col>
                     </Row>
 
@@ -285,17 +290,103 @@ class AddAchievement extends Component {
                     </Row>
 
                     <Row className="form-group">
-                        <Label htmlFor="dateofachievement" md={3}>
-                            <h4 className="font-weight-bold">Date of Achievement</h4>
+                        <Label htmlFor="startdate" md={3}>
+                            <h4 className="font-weight-bold">Duration</h4>
                         </Label>
                         <Col md={3} className="d-flex">
                             <Input type="date" 
-                                name="dateofachievement"
-                                value={this.state.dateofachievement}
+                                name="startdate"
+                                value={this.state.startdate}
                                 onChange={this.handleInputChange}
                                 className="d-flex my-auto"
                                     />
                         </Col>
+                        <Label htmlFor="enddate" md={1} className="d-flex">
+                            <h4 className="font-weight-bold d-flex m-auto">to</h4>
+                        </Label>
+                        <Col md={3} className="d-flex">
+                            <Input type="date" 
+                                name="enddate"
+                                value={this.state.enddate}
+                                onChange={this.handleInputChange}
+                                className="d-flex my-auto"
+                                    />
+                        </Col>
+                    </Row>
+
+                    <Row className="form-group">
+                        <Label htmlFor="field" md={3}>
+                            <h4 className="font-weight-bold">Field</h4>
+                        </Label>
+                        <Col md={3} className="d-flex">
+                            <Input type="text" 
+                                name="field"
+                                value={this.state.field}
+                                placeholder="Enter field"
+                                onChange={this.handleInputChange}
+                                className="d-flex my-auto"
+                                    />
+                        </Col>
+                        <Label htmlFor="domain" md={3} className="d-flex">
+                            <h4 className="font-weight-bold d-md-flex m-md-auto">Domain</h4>
+                        </Label>
+                        <Col md={3} className="d-flex">
+                            <Input type="text" 
+                                name="domain"
+                                value={this.state.domain}
+                                placeholder="Enter domain"
+                                onChange={this.handleInputChange}
+                                className="d-flex my-auto"
+                                    />
+                        </Col>
+                    </Row>
+
+                    <Row className="form-group">
+                        <Label htmlFor="mentorsInput" md={3}>
+                            <h4 className="font-weight-bold">Mentors</h4>
+                        </Label>
+                        <Col md={9}>
+                            <Row>
+                            <Col xs={7} md={8} lg={9}>
+                                <Input type="email"
+                                    name="mentorsInput"
+                                    value={this.state.mentorsInput}
+                                    onChange={this.handleInputChange}
+                                    placeholder="Enter mentor's email ID"
+                                    />
+                                <p className="text-danger m-0 px-2">{this.state.mentorsInputErr}</p>
+                            </Col>
+                            <Col xs={5} md={4} lg={3} className="pl-0">
+                                <Button color="info" className="w-100" 
+                                    onClick={this.addMentor}
+                                    disabled={this.props.professorsLoading
+                                        || this.state.mentorAdding}
+                                    >
+                                    Add Mentor
+                                </Button>
+                            </Col>
+                            <Col xs={12} className="mt-1">
+                                <div className="box w-100">
+                                {
+                                    this.state.mentors.map((mentor) => {
+                                        return (
+                                            <div className="rounded-pill p-2 pl-3 mr-2 mt-2 bg-color-off-white d-inline-block">
+                                                {mentor.user__email}
+                                                <Button className="rounded-circle ml-3"
+                                                    size="sm" color="danger"
+                                                    onClick={() => this.removeFromList('mentors', mentor)}
+                                                        >
+                                                    <i className="fa fa-times"></i>
+                                                </Button>
+                                            </div>
+                                        );
+                                    })
+                                }
+                                </div>
+                            </Col>
+                            </Row>
+                        </Col>
+                        
                     </Row>
 
                     <Row className="form-group">
@@ -401,20 +492,20 @@ class AddAchievement extends Component {
                     <Row>
                         <Col xs="12">
                             <Button color="success" className="mr-3"
-                                disabled={this.props.addAchievementPosting}
+                                disabled={this.props.addProjectPosting}
                              >
                                 Request for Approval
                             </Button>
                             <Button color="danger" onClick={this.clearState}
-                                disabled={this.props.addAchievementPosting}
+                                disabled={this.props.addProjectPosting}
                              >
                                 Clear Form
                             </Button>
                         </Col>
 
                         <Col xs="12" className="mt-2">
-                            <h6 className={`${this.props.addAchievementPostingError ? "text-danger" : "text-success"}`}>
-                                {this.props.addAchievementPostingMessage}
+                            <h6 className={`${this.props.addProjectPostingError ? "text-danger" : "text-success"}`}>
+                                {this.props.addProjectPostingMessage}
                             </h6>
                         </Col>
                     </Row>
@@ -424,4 +515,4 @@ class AddAchievement extends Component {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddAchievement));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddProject));

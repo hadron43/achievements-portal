@@ -337,11 +337,72 @@ export const postNewAchievement = (key, stateObj, clearFunction) => (dispatch) =
     .then(response => {
         // Success dispatch
         clearFunction();
-        dispatch(addAchievementPostingSuccess("Your achivement has been posted! Wait for the adming to approve it."))
+        dispatch(addAchievementPostingSuccess("Your achivement has been posted! Wait for the admin to approve it."))
         return response
     })
     .catch(error => {
         console.log(error)
         dispatch(addAchievementPostingError(error.message))
+    })
+}
+
+export const addProjectPosting = (value) => ({
+    type: ActionTypes.ADD_PROJECT_POSTING,
+    payload: value
+})
+
+export const addProjectPostingError = (message) => ({
+    type: ActionTypes.ADD_PROJECT_POSTING_ERROR,
+    payload: message
+})
+
+export const addProjectPostingSuccess = (message) => ({
+    type: ActionTypes.ADD_PROJECT_POSTING_SUCCESS,
+    payload: message
+})
+
+export const postNewProject = (key, stateObj, clearFunction) => (dispatch) => {
+    dispatch(addProjectPosting(true));
+    let token_head = 'Token '+key;
+    console.log(stateObj)
+    var bodyObj = {
+        title: stateObj.title,
+        description: stateObj.description,
+        institution: stateObj.institution,
+        startDate: stateObj.startdate,
+        endDate: stateObj.enddate,
+        field: stateObj.field,
+        domain: stateObj.domain,
+        students: stateObj.team.map(member => member.id),
+        mentors: stateObj.mentors.map(mentor => mentor.id),
+        tags: stateObj.tags.map(tag => tag.id)
+    }
+
+    console.log(bodyObj)
+
+    fetch(baseUrl+'main/api/project/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        },
+        body: JSON.stringify(bodyObj)
+    })
+    .then((response) => {
+        if(!response.ok)
+            throw new Error('There was a problem adding this project!')
+        console.log(response)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        // Success dispatch
+        clearFunction();
+        dispatch(addProjectPostingSuccess("Your project has been posted! Wait for the admin to approve it."))
+        return response
+    })
+    .catch(error => {
+        console.log(error)
+        dispatch(addProjectPostingError(error.message))
     })
 }

@@ -12,7 +12,9 @@ import './App.scss';
 import Login from './pages/Authenticate/Login';
 import SignUp from './pages/Authenticate/SignUp';
 import AddAchievement from './pages/AddAchievement';
+import AddProject from './pages/AddProject';
 import MyAchievements from './pages/MyAchievements';
+import MyProjects from './pages/MyProjects';
 
 const store = ConfigureStore();
 
@@ -30,7 +32,9 @@ function App() {
             <Route path="/login" component={Login}></Route>
             <Route path="/signup" component={SignUp}></Route>
             <Route path="/addachievement" component={AddAchievement}></Route>
+            <Route path="/addproject" component={AddProject}></Route>
             <Route path="/myachievements" component={MyAchievements}></Route>
+            <Route path="/myprojects" component={MyProjects}></Route>
           </Switch>
           
         </div>

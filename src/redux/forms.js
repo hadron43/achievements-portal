@@ -25,7 +25,11 @@ const initialState = {
 
     addAchievementPosting: false,
     addAchievementPostingError: false,
-    addAchievementPostingMessage: ''
+    addAchievementPostingMessage: '',
+
+    addProjectPosting: false,
+    addProjectPostingError: false,
+    addProjectPostingMessages: ''
 }
 
 export const Forms = (state = initialState, action) => {
@@ -57,6 +61,12 @@ export const Forms = (state = initialState, action) => {
             return {...state, addAchievementPostingError: true, addAchievementPostingMessage: action.payload, addAchievementPosting: false};
         case ActionTypes.ADD_ACHIEVEMENT_POSTING_SUCCESS:
             return {...state, addAchievementPostingError: false, addAchievementPostingMessage: action.payload, addAchievementPosting: false};
+        case ActionTypes.ADD_PROJECT_POSTING:
+            return {...state, addProjectPosting: action.payload};
+        case ActionTypes.ADD_PROJECT_POSTING_ERROR:
+            return {...state, addProjectPostingError: true, addProjectPostingMessage: action.payload, addProjectPosting: false};
+        case ActionTypes.ADD_PROJECT_POSTING_SUCCESS:
+            return {...state, addProjectPostingError: false, addProjectPostingMessage: action.payload, addProjectPosting: false};
         default: 
             return state;
     }

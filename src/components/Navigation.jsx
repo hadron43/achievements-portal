@@ -33,9 +33,21 @@ function UserIcon({authorized, admin, logout}) {
             </DropdownItem>
           </Link>
 
+          <Link to="/addproject">
+            <DropdownItem>
+            Add Project
+            </DropdownItem>
+          </Link>
+
           <Link to="/myachievements">
             <DropdownItem>
             My Achievements
+            </DropdownItem>
+          </Link>
+
+          <Link to="/myprojects">
+            <DropdownItem>
+            My Projects
             </DropdownItem>
           </Link>
 
