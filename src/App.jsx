@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { ConfigureStore } from './redux/configureStore';
 
 import Navigation from './components/Navigation';
+import Footer from './components/Footer';
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import Search from './pages/Search';
@@ -22,7 +23,7 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter basename="/">
-        <div className="App pl-2 pr-2">
+        <div className="App pl-2 pr-2" style={{minHeight: '90vh'}}>
           <Navigation />
 
           <Switch>
@@ -36,8 +37,10 @@ function App() {
             <Route path="/myachievements" component={MyAchievements}></Route>
             <Route path="/myprojects" component={MyProjects}></Route>
           </Switch>
-          
+
         </div>
+
+        <Footer />
       </BrowserRouter>
     </Provider>
   );

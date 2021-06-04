@@ -47,7 +47,7 @@ function Profile(props) {
                     <img src="assets/Profile/dp.png" alt="profile" className="rounded-circle w-100 p-3"/>
                 </Col>
                 <Col md="8">
-                    {/* <Field title="Name" value={props.profile.name} /> */}
+                    <Field title="Name" value={props.profile.name} />
                     <Field title="Role" value={[
                         "Student",
                         "Staff",
@@ -59,18 +59,18 @@ function Profile(props) {
                             "Female", "Male", "Other"
                         ]
                         [props.profile.gender-1]} />
-                    {/* <Field title="Email" value={props.profile.email} /> */}
+                    <Field title="Email" value={props.profile.email} />
                     <SocialMedia
                         instagram={props.profile.instagram}
                         facebook={props.profile.facebook}
                         twitter={props.profile.twitter}
                         github={props.profile.github}
                     />
-                    <Field title="Group" value={props.profile.group} />
-                    {/* <Field title="Bio" value={props.profile.bio} /> */}
-                    {/* <Field title="User Since" value={props.profile.reg_date} /> */}
                 </Col>
             </Row>
+            <Field title="Group" value={props.profile.group} />
+            {/* <Field title="Bio" value={props.profile.bio} /> */}
+            {/* <Field title="User Since" value={props.profile.reg_date} /> */}
             <Field title="Skills" value={skill_str} />
             <Field title="Address" value={props.profile.address}></Field>
             <Field title="Recent Achievements" value="" />

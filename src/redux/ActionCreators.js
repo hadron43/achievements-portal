@@ -86,8 +86,8 @@ export const fetchUserProfile = (key) => (dispatch) => {
     })
     .then(response => response.json())
     .then(response => {
-        // console.log(response);
-        dispatch(loadProfile(response));
+        console.log(response.profile);
+        dispatch(loadProfile(response.profile));
     })
     .catch(err => {
         console.log(err);
@@ -312,7 +312,6 @@ export const postNewAchievement = (key, stateObj, clearFunction) => (dispatch) =
         institution: stateObj.institution,
         achievedDate: stateObj.dateofachievement,
         teamMembers: stateObj.team.map(member => member.id),
-        mentors: stateObj.mentors.map(mentor => mentor.id),
         tags: stateObj.tags.map(tag => tag.id),
         category: stateObj.category
     }
