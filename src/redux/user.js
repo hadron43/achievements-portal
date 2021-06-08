@@ -9,7 +9,8 @@ const initialState = {
 
     profileLoaded: false,
     profile: {},
-    achievements: null
+    achievements: null,
+    projects: null,
 }
 
 export const User = (state = initialState, action) => {
@@ -21,6 +22,8 @@ export const User = (state = initialState, action) => {
             return {...state, profileLoaded: true, profile: action.payload}
         case ActionTypes.LOAD_PROFILE_ACHIEVEMENTS:
             return {...state, achievements: action.payload}
+        case ActionTypes.LOAD_PROFILE_PROJECTS:
+            return {...state, projects: action.payload}
         case ActionTypes.CLEAR_USER_DATA:
             sessionStorage.clear();
             return initialState;

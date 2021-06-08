@@ -114,6 +114,31 @@ export const fetchUserAchievements = (key) => (dispatch) => {
     })
 }
 
+export const loadProfileProjects = (projects) => ({
+    type: ActionTypes.LOAD_PROFILE_PROJECTS,
+    payload: projects
+});
+
+export const fetchUserProjects = (key) => (dispatch) => {
+    let token_head = 'Token '+key;
+    // Fetch achievements of the logged in user
+    fetch(baseUrl+'main/api/project/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log(response);
+        dispatch(loadProfileProjects(response));
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
 // Create action to indicate updates are loading
 export const updatesLoading = () => ({
     type: ActionTypes.UPDATES_LOADING

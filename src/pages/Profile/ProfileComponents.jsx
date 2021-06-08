@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Table } from 'reactstrap';
+import { Row, Col, Table, Button } from 'reactstrap';
 import Loading from '../../components/Loading';
 
 function Field({title, value}) {
@@ -53,12 +53,14 @@ function AchievementsTable(props) {
         );
 
     return (
+        <div className="bg-color-off-white rounded-2 col-12">
         <Table hover responsive className="rounded-2">
             <thead>
                 <th className="text-color-main h5">#</th>
                 <th className="text-color-main h5">Title</th>
                 <th className="text-color-main h5">Description</th>
-                <th className="text-color-main h5">Date</th>
+                <th className="text-color-main h5">Achieved Date</th>
+                <th className="text-color-main h5">Details</th>
             </thead>
             <tbody>
                 {
@@ -69,15 +71,63 @@ function AchievementsTable(props) {
                             <th scope="row">{index+1}</th>
                             <td>{achievement.title}</td>
                             <td>{achievement.description}</td>
-                            <td>{achievement.added_on}</td>
+                            <td>{new Date(achievement.achievedDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
+                            <td><Button color="warning" >View</Button></td>
                             </tr>
                         )
                     })
                 }
             </tbody>
         </Table>
+        </div>
     ); 
         
 }
 
-export {Field, SocialMedia, AchievementsTable};
+function ProjectsTable(props) {
+    if(!props.projects)
+        return (
+            <Loading />
+        );
+    else if(props.projects.length === 0)
+        return (
+            <div className="w-100 rounded-3 p-3 bg-color-silver">
+                <p className="h3 text-center my-5">No projects to show</p>
+            </div>
+        );
+
+    return (
+        <div className="bg-color-off-white rounded-2 col-12">
+        <Table hover responsive className="rounded-2">
+            <thead>
+                <th className="text-color-main h5">#</th>
+                <th className="text-color-main h5">Title</th>
+                <th className="text-color-main h5">Description</th>
+                <th className="text-color-main h5">Field</th>
+                <th className="text-color-main h5">Domain</th>
+                <th className="text-color-main h5">Detals</th>
+            </thead>
+            <tbody>
+                {
+                    props.projects.map((project) => {
+                        let index = props.projects.indexOf(project)
+                        return (
+                            <tr>
+                            <th scope="row">{index+1}</th>
+                            <td>{project.title}</td>
+                            <td>{project.description}</td>
+                            <td>{project.field}</td>
+                            <td>{project.domain}</td>
+                            <td><Button color="warning">View</Button></td>
+                            </tr>
+                        )
+                    })
+                }
+            </tbody>
+        </Table>
+        </div>
+    ); 
+        
+}
+
+export {Field, SocialMedia, AchievementsTable, ProjectsTable};

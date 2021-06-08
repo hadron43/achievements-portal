@@ -3,20 +3,22 @@ import { Redirect, withRouter } from 'react-router'
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
-import { SocialMedia, Field, AchievementsTable } from './ProfileComponents'
-import { fetchUserProfile, fetchUserAchievements } from '../../redux/ActionCreators';
+import { SocialMedia, Field, AchievementsTable, ProjectsTable } from './ProfileComponents'
+import { fetchUserProfile, fetchUserAchievements, fetchUserProjects } from '../../redux/ActionCreators';
 
 const mapStateToProps = (state) => ({
     profileLoaded: state.user.profileLoaded,
     profile: state.user.profile,
     authorized: state.user.authorized,
     token: state.user.token,
-    achievements: state.user.achievements
+    achievements: state.user.achievements,
+    projects: state.user.projects
 })
 
 const mapDispatchToProps = (dispatch) => ({
     fetchUserProfile: (key) => dispatch(fetchUserProfile(key)),
-    fetchUserAchievements: (key) => dispatch(fetchUserAchievements(key))
+    fetchUserAchievements: (key) => dispatch(fetchUserAchievements(key)),
+    fetchUserProjects: (key) => dispatch(fetchUserProjects(key))
 });
 
 function Profile(props) {
@@ -32,6 +34,9 @@ function Profile(props) {
     }
     if(!props.achievements) {
         props.fetchUserAchievements(props.token);
+    }
+    if(!props.projects) {
+        props.fetchUserProjects(props.token);
     }
 
     let skill_str = ""
@@ -73,8 +78,10 @@ function Profile(props) {
             {/* <Field title="User Since" value={props.profile.reg_date} /> */}
             <Field title="Skills" value={skill_str} />
             <Field title="Address" value={props.profile.address}></Field>
-            <Field title="Recent Achievements" value="" />
+            <Field title="Achievements" value="" />
             <AchievementsTable achievements={props.achievements} />
+            <Field title="Projects" value="" />
+            <ProjectsTable projects={props.projects} />
         </Container>
     )
 }

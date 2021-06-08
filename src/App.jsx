@@ -23,7 +23,7 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter basename="/">
-        <div className="App pl-2 pr-2" style={{minHeight: '90vh'}}>
+        <div className="App pl-2 pr-2" style={{minHeight: '100vh'}}>
           <Navigation />
 
           <Switch>
