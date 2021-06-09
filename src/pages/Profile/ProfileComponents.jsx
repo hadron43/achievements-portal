@@ -24,16 +24,16 @@ function SocialMedia({instagram, facebook, github, twitter}) {
             </Col>
             <Col md="8">
                 <Link to={{pathname: facebook}} target="_blank">
-                    <i class="fa fa-facebook-square fa-2x mr-3 text-primary"></i>
+                    <i class={`fa fa-facebook-square fa-2x mr-3 text-primary ${!facebook ? "d-none" : ""}`}></i>
                 </Link>
                 <Link to={{pathname: instagram}} target="_blank">
-                    <i class="fa fa-instagram fa-2x mr-3 text-danger"></i>
+                    <i class={`fa fa-instagram fa-2x mr-3 text-danger ${!instagram ? "d-none" : ""}`}></i>
                 </Link>
                 <Link to={{pathname: twitter}} target="_blank">
-                    <i class="fa fa-twitter-square fa-2x mr-3 text-info"></i>
+                    <i class={`fa fa-twitter-square fa-2x mr-3 text-info ${!twitter ? "d-none" : ""}`}></i>
                 </Link>
                 <Link to={{pathname: github}} target="_blank">
-                    <i class="fa fa-github-square fa-2x mr-3"></i>
+                    <i class={`fa fa-github-square fa-2x mr-3 text-dark ${!github ? "d-none" : ""}`}></i>
                 </Link>
             </Col>
         </Row>
