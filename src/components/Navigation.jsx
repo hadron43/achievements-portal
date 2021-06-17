@@ -23,7 +23,7 @@ function UserIcon({authorized, admin, logout}) {
       <UncontrolledDropdown inNavbar>
         <DropdownToggle className="m-auto p-auto" nav caret>
           <img className={`rounded-circle mr-2 ${admin?"red-glow":""}`} width="50" height="50"
-            src="../../assets/Profile/dp.png" alt="Display" />
+            src="/assets/Profile/dp.png" alt="Display" />
         </DropdownToggle>
         <DropdownMenu right>
           
@@ -77,7 +77,7 @@ function Navigation(props) {
   return (
     <Navbar light expand="md" className="navigation pr-lg-3 pl-lg-3">
       <NavbarBrand className="mr-sm-3 d-flex" href="/">
-        <img src="IIITDLogo.png" className="" alt="AP" height="50" />
+        <img src="/IIITDLogo.png" className="" alt="AP" height="50" />
         <NavbarText className="h1 font-weight-bold text-color-main d-flex d-sm-none my-auto ml-3 p-0">
         AP
         </NavbarText>

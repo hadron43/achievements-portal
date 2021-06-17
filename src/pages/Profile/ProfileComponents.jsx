@@ -72,7 +72,11 @@ function AchievementsTable(props) {
                             <td>{achievement.title}</td>
                             <td>{achievement.description}</td>
                             <td>{new Date(achievement.achievedDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
-                            <td><Button color="warning" >View</Button></td>
+                            <td>
+                                <Link to={"/achievement/"+achievement.id}>
+                                <Button color="warning" >View</Button>
+                                </Link>
+                            </td>
                             </tr>
                         )
                     })
@@ -118,7 +122,11 @@ function ProjectsTable(props) {
                             <td>{project.description}</td>
                             <td>{project.field}</td>
                             <td>{project.domain}</td>
-                            <td><Button color="warning">View</Button></td>
+                            <td>
+                                <Link to={"/project/"+project.id}>
+                                <Button color="warning">View</Button>
+                                </Link>
+                            </td>
                             </tr>
                         )
                     })

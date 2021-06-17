@@ -16,6 +16,8 @@ import AddAchievement from './pages/AddAchievement';
 import AddProject from './pages/AddProject';
 import MyAchievements from './pages/MyAchievements';
 import MyProjects from './pages/MyProjects';
+import Achievement from './pages/Achievement';
+import Project from './pages/Project';
 
 const store = ConfigureStore();
 
@@ -23,7 +25,7 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter basename="/">
-        <div className="App pl-2 pr-2" style={{minHeight: '100vh'}}>
+        <div className="App pl-2 pr-2" style={{minHeight: '95vh'}}>
           <Navigation />
 
           <Switch>
@@ -36,6 +38,8 @@ function App() {
             <Route path="/addproject" component={AddProject}></Route>
             <Route path="/myachievements" component={MyAchievements}></Route>
             <Route path="/myprojects" component={MyProjects}></Route>
+            <Route path="/achievement/:achievementId" component={Achievement}></Route>
+            <Route path="/project/:projectId" component={Project}></Route>
           </Switch>
 
         </div>
