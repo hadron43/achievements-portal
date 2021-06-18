@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 function AchievementsTable({arrayOfAchievements}) {
     return (
@@ -21,7 +22,11 @@ function AchievementsTable({arrayOfAchievements}) {
                             <td>{achievement.title}</td>
                             <td>{achievement.description}</td>
                             <td>{new Date(achievement.achievedDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
-                            <td><Button color="warning" >View</Button></td>
+                            <td>
+                                <Link to={"/achievement/"+achievement.id}>
+                                <Button color="warning" >View</Button>
+                                </Link>
+                            </td>
                             <td><Button color="danger" >Delete</Button></td>
                             </tr>
                         )
@@ -33,6 +38,9 @@ function AchievementsTable({arrayOfAchievements}) {
 }
 
 function PendingAchievementsTable({arrayOfAchievements}) {
+    if(!arrayOfAchievements)
+        return (<>
+        </>);
     return (
         <Table hover responsive className="rounded-2">
             <thead>
@@ -53,7 +61,11 @@ function PendingAchievementsTable({arrayOfAchievements}) {
                             <td>{achievement.title}</td>
                             <td>{achievement.description}</td>
                             <td>{new Date(achievement.achievedDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
-                            <td><Button color="warning" >View</Button></td>
+                            <td>
+                            <Link to={"/achievement/"+achievement.id}>
+                                <Button color="warning" >View</Button>
+                                </Link>
+                            </td>
                             <td><Button color="success" >Approve</Button></td>
                             <td><Button color="danger" >Reject</Button></td>
                             </tr>
@@ -66,9 +78,16 @@ function PendingAchievementsTable({arrayOfAchievements}) {
 }
 
 function PendingProjectsTable({arrayOfProjects}) {
+    if(!arrayOfProjects)
+        return (
+            <>
+            </>
+        );
+
     return (
         <Table hover responsive className="rounded-2">
             <thead>
+                <tr>
                 <th className="text-color-main h5">#</th>
                 <th className="text-color-main h5">Title</th>
                 <th className="text-color-main h5">Description</th>
@@ -76,6 +95,7 @@ function PendingProjectsTable({arrayOfProjects}) {
                 <th className="text-color-main h5">Details</th>
                 <th className="text-color-main h5">Approve</th>
                 <th className="text-color-main h5">Reject</th>
+                </tr>
             </thead>
             <tbody>
                 {
@@ -85,8 +105,12 @@ function PendingProjectsTable({arrayOfProjects}) {
                             <th scope="row">{project.id}</th>
                             <td>{project.title}</td>
                             <td>{project.description}</td>
-                            <td>{new Date(project.achievedDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
-                            <td><Button color="warning" >View</Button></td>
+                            <td>{new Date(project.dateCreated).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
+                            <td>
+                                <Link to={"/project/"+project.id}>
+                                <Button color="warning" >View</Button>
+                                </Link>
+                            </td>
                             <td><Button color="success" >Approve</Button></td>
                             <td><Button color="danger" >Reject</Button></td>
                             </tr>
@@ -120,7 +144,11 @@ function ProjectsTable({arrayofProjects}) {
                             <td>{project.description}</td>
                             <td>{new Date(project.startDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>{new Date(project.endDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
-                            <td><Button color="warning" >View</Button></td>
+                            <td>
+                                <Link to={"/project/"+project.id}>
+                                <Button color="warning" >View</Button>
+                                </Link>
+                            </td>
                             <td><Button color="danger" >Delete</Button></td>
                             </tr>
                         )

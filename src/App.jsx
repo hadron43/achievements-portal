@@ -18,6 +18,8 @@ import MyAchievements from './pages/MyAchievements';
 import MyProjects from './pages/MyProjects';
 import Achievement from './pages/Achievement';
 import Project from './pages/Project';
+import PendingProjects from './pages/PendingProjects';
+import PendingAchievements from './pages/PendingAchievements';
 
 const store = ConfigureStore();
 
@@ -40,6 +42,8 @@ function App() {
             <Route path="/myprojects" component={MyProjects}></Route>
             <Route path="/achievement/:achievementId" component={Achievement}></Route>
             <Route path="/project/:projectId" component={Project}></Route>
+            <Route path="/pending-projects" component={PendingProjects}></Route>
+            <Route path="/pending-achievements" component={PendingAchievements}></Route>
           </Switch>
 
         </div>

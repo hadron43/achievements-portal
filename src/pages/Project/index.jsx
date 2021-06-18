@@ -4,6 +4,7 @@ import { Redirect, useParams, withRouter } from "react-router";
 import { baseUrl } from '../../shared/baseUrl';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
+import NotFound from '../../components/NotFound';
 
 function fetchProject(key, projectId, setProjectDetails, setLoading, setErrorMessage) {
     let token_head = 'Token '+key;
@@ -51,6 +52,11 @@ function Project (props) {
         fetchProject(props.token, projectId, setProjectDetails, setLoading, setErrorMessage);
     }
 
+    if(errorMessage)
+        return (
+            <NotFound />
+        );
+
     return (
         <Container className="p-3 p-md-4 p-lg-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
         {
@@ -62,27 +68,15 @@ function Project (props) {
         (
             <Loading />
         ) :
-        (errorMessage) ?
-        (
-            <Row>
-                <Col xs={12}>
-                    <img src="/assets/page-not-found.png" alt="Page not found" className="d-flex m-auto"/>
-                </Col>
-
-                <Col xs={12}>
-                    <h3 className="text-danger text-center mt-5">{errorMessage}</h3>
-                </Col>
-            </Row>
-        ) :
         (
             <>
             <Row className="mb-5">
-                <Col xs={10} lg={11} className="d-flex">
+                <Col xs={10} className="d-flex">
                     <h1 className="d-flex m-auto font-weight-bold">Project</h1>
                 </Col>
 
-                <Col xs={2} lg={1} className="d-flex">
-                    <img src="/assets/medal.png" alt="Medal" className="d-flex m-auto"
+                <Col xs={2} className="d-flex">
+                    <img src="/assets/idea.png" alt="Idea" className="d-flex m-auto"
                         style={{maxHeight: "100%", maxWidth: "100%"}} />
                 </Col>
             </Row>

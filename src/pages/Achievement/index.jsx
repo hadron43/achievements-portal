@@ -4,6 +4,7 @@ import { Redirect, useParams, withRouter } from "react-router";
 import { baseUrl } from '../../shared/baseUrl';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
+import NotFound from '../../components/NotFound'
 
 function fetchAchievement(key, achievementId, setAchievementDetails, setLoading, setErrorMessage) {
     let token_head = 'Token '+key;
@@ -51,6 +52,11 @@ function Achievement (props) {
         fetchAchievement(props.token, achievementId, setAchievementDetails, setLoading, setErrorMessage);
     }
 
+    if(errorMessage)
+        return (
+            <NotFound />
+        );
+
     return (
         <Container className="p-3 p-md-4 p-lg-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
         {
@@ -62,26 +68,14 @@ function Achievement (props) {
         (
             <Loading />
         ) :
-        (errorMessage) ?
-        (
-            <Row>
-                <Col xs={12}>
-                    <img src="/assets/page-not-found.png" alt="Page not found" className="d-flex m-auto"/>
-                </Col>
-
-                <Col xs={12}>
-                    <h3 className="text-danger text-center mt-5">{errorMessage}</h3>
-                </Col>
-            </Row>
-        ) :
         (
             <>
             <Row className="mb-5">
-                <Col xs={10} lg={11} className="d-flex">
+                <Col xs={10} className="d-flex">
                     <h1 className="d-flex m-auto font-weight-bold">Achievement</h1>
                 </Col>
 
-                <Col xs={2} lg={1} className="d-flex">
+                <Col xs={2} className="d-flex">
                     <img src="/assets/medal.png" alt="Medal" className="d-flex m-auto"
                         style={{maxHeight: "100%", maxWidth: "100%"}} />
                 </Col>
@@ -98,10 +92,44 @@ function Achievement (props) {
 
             <Row className="mt-3">
                 <Col md={4}>
+                    <h3 className="text-color-main">Status</h3>
+                </Col>
+                <Col md={8}>
+                    <h3>
+                    {
+                        (achievementDetails.approved) ?
+                        <Badge color="success" pill>Approved</Badge>
+                        :
+                        <Badge color="danger" pill>Not Approved</Badge>
+                    }
+                    </h3>
+                </Col>
+            </Row>
+
+            {/* <Row className={`${achievementDetails.approvedBy ? "d-block" : "d-none"} mt-3`}>
+                <Col md={4}>
+                    <h3 className="text-color-main">Approved By</h3>
+                </Col>
+                <Col md={8}>
+                <p className="h4 text-black">{achievementDetails.approvedBy}</p>
+                </Col>
+            </Row> */}
+
+            <Row className="mt-3">
+                <Col md={4}>
                     <h3 className="text-color-main">Title</h3>
                 </Col>
                 <Col md={8}>
                 <p className="h4 text-black">{achievementDetails.title}</p>
+                </Col>
+            </Row>
+
+            <Row className="mt-3">
+                <Col md={4}>
+                    <h3 className="text-color-main">Institution</h3>
+                </Col>
+                <Col md={8}>
+                <p className="h4 text-black">{(achievementDetails.institution) ? achievementDetails.institution.title : ""}</p>
                 </Col>
             </Row>
 
@@ -141,30 +169,7 @@ function Achievement (props) {
                 </Col>
             </Row>
 
-            <Row className="mt-3">
-                <Col md={4}>
-                    <h3 className="text-color-main">Status</h3>
-                </Col>
-                <Col md={8}>
-                    <h3>
-                    {
-                        (achievementDetails.approved) ?
-                        <Badge color="success" pill>Approved</Badge>
-                        :
-                        <Badge color="danger" pill>Not Approved</Badge>
-                    }
-                    </h3>
-                </Col>
-            </Row>
-
-            <Row className={`${achievementDetails.approvedBy ? "d-block" : "d-none"} mt-3`}>
-                <Col md={4}>
-                    <h3 className="text-color-main">Approved By</h3>
-                </Col>
-                <Col md={8}>
-                <p className="h4 text-black">{achievementDetails.approvedBy}</p>
-                </Col>
-            </Row>
+            
 
             </>
         )

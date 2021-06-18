@@ -110,7 +110,11 @@ function Navigation(props) {
 
           {/* SHOW ONLY WHEN AUTHORIZED  */}
           <NavItem className={`mr-4 my-2 ${props.authorized ? "d-block" : "d-none"}`}>
-            <Link className="m-auto text-center d-block" to="/search">Pending</Link>
+            <Link className="m-auto text-center d-block" to="/pending-projects">Pending Projects</Link>
+          </NavItem>
+
+          <NavItem className={`mr-4 my-2 ${props.authorized ? "d-block" : "d-none"}`}>
+            <Link className="m-auto text-center d-block" to="/pending-achievements">Pending Achievements</Link>
           </NavItem>
 
           <NavItem className="d-block d-md-none my-2">

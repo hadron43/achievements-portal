@@ -97,7 +97,7 @@ export const fetchUserProfile = (key) => (dispatch) => {
 export const fetchUserAchievements = (key) => (dispatch) => {
     let token_head = 'Token '+key;
     // Fetch achievements of the logged in user
-    fetch(baseUrl+'main/api/achievement/', {
+    fetch(baseUrl+'main/api/achievement', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ export const fetchUserAchievements = (key) => (dispatch) => {
     .then(response => response.json())
     .then(response => {
         console.log(response);
-        dispatch(loadProfileAchievements(response));
+        dispatch(loadProfileAchievements(response.achievements));
     })
     .catch(err => {
         console.log(err);
@@ -132,7 +132,7 @@ export const fetchUserProjects = (key) => (dispatch) => {
     .then(response => response.json())
     .then(response => {
         console.log(response);
-        dispatch(loadProfileProjects(response));
+        dispatch(loadProfileProjects(response.projects));
     })
     .catch(err => {
         console.log(err);
@@ -428,5 +428,89 @@ export const postNewProject = (key, stateObj, clearFunction) => (dispatch) => {
     .catch(error => {
         console.log(error)
         dispatch(addProjectPostingError(error.message))
+    })
+}
+
+export const addPendingProjects = (pendingProjects) => ({
+    type: ActionTypes.ADD_PENDING_PROJECTS,
+    payload: pendingProjects
+})
+
+export const pendingProjectsLoading = (value) => ({
+    type: ActionTypes.PENDING_PROJECTS_LOADING,
+    payload: value
+})
+
+export const pendingProjectsLoadingError = (message) => ({
+    type: ActionTypes.PENDING_PROJECTS_LOADING_ERROR,
+    payload: message
+})
+
+export const fetchPendingProjects = (key) => (dispatch) => {
+    dispatch(pendingProjectsLoading(true));
+    let token_head = 'Token '+key;
+    fetch(baseUrl+'main/api/get-projects-admin', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then((response) => {
+        if(!response.ok)
+            throw new Error('There was a problem fetching pending projects!')
+        console.log(response)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(addPendingProjects(response.unapproved))
+        return response
+    })
+    .catch(error => {
+        console.log(error)
+        dispatch(pendingProjectsLoadingError(error.message))
+    })
+}
+
+export const addPendingAchievements = (pendingAchievements) => ({
+    type: ActionTypes.ADD_PENDING_ACHIEVEMENTS,
+    payload: pendingAchievements
+})
+
+export const pendingAchievementsLoading = (value) => ({
+    type: ActionTypes.PENDING_ACHIEVEMENTS_LOADING,
+    payload: value
+})
+
+export const pendingAchievementsLoadingError = (message) => ({
+    type: ActionTypes.PENDING_ACHIEVEMENTS_LOADING_ERROR,
+    payload: message
+})
+
+export const fetchPendingAchievements = (key) => (dispatch) => {
+    dispatch(pendingAchievementsLoading(true));
+    let token_head = 'Token '+key;
+    fetch(baseUrl+'main/api/get-achievements-admin', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then((response) => {
+        if(!response.ok)
+            throw new Error('There was a problem fetching pending achievements!')
+        console.log(response)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(addPendingAchievements(response.unapproved))
+        return response
+    })
+    .catch(error => {
+        console.log(error)
+        dispatch(pendingAchievementsLoadingError(error.message))
     })
 }
