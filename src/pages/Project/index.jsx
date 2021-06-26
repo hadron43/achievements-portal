@@ -101,6 +101,22 @@ function Project (props) {
 
             <Row className="mt-3">
                 <Col md={4}>
+                    <h3 className="text-color-main">Status</h3>
+                </Col>
+                <Col md={8}>
+                    <h3>
+                    {
+                        (projectDetails.approved) ?
+                        <Badge color="success" pill>Approved</Badge>
+                        :
+                        <Badge color="danger" pill>Not Approved</Badge>
+                    }
+                    </h3>
+                </Col>
+            </Row>
+
+            <Row className="mt-3">
+                <Col md={4}>
                     <h3 className="text-color-main">Domain</h3>
                 </Col>
                 <Col md={8}>
@@ -162,28 +178,33 @@ function Project (props) {
                 </Col>
             </Row>
 
-            <Row className="mt-3">
-                <Col md={4}>
-                    <h3 className="text-color-main">Status</h3>
-                </Col>
-                <Col md={8}>
-                    <h3>
-                    {
-                        (projectDetails.approved) ?
-                        <Badge color="success" pill>Approved</Badge>
-                        :
-                        <Badge color="danger" pill>Not Approved</Badge>
-                    }
-                    </h3>
-                </Col>
-            </Row>
-
             <Row className={`${projectDetails.approvedBy ? "d-block" : "d-none"} mt-3`}>
                 <Col md={4}>
                     <h3 className="text-color-main">Approved By</h3>
                 </Col>
                 <Col md={8}>
                 <p className="h4 text-black">{projectDetails.approvedBy}</p>
+                </Col>
+            </Row>
+            
+            <Row className={`mt-3`}>
+                <Col md={4}>
+                    <h3 className="text-color-main">Tags</h3>
+                </Col>
+                <Col md={8}>
+                <p className="h4 text-black">
+                    {(projectDetails.tags && projectDetails.tags.length > 0) ?(
+                        projectDetails.tags.map((tag) => {
+                            return (
+                                <Badge color="info" pill className="mr-2 mb-2">{tag.title}</Badge>
+                            );
+                        })
+                    )
+                    :
+                    (
+                        <>None</>
+                    )}
+                </p>
                 </Col>
             </Row>
 

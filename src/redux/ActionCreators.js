@@ -514,3 +514,61 @@ export const fetchPendingAchievements = (key) => (dispatch) => {
         dispatch(pendingAchievementsLoadingError(error.message))
     })
 }
+
+export const projectApproving = (projectId) => ({
+    type: ActionTypes.PROJECT_APPROVING,
+    payload: projectId
+})
+
+export const projectApproved = (projectId) => ({
+    type: ActionTypes.PROJECT_APPROVED,
+    payload: projectId
+})
+
+export const projectRejecting = (projectId) => ({
+    type: ActionTypes.PROJECT_REJECTING,
+    payload: projectId
+})
+
+export const projectRejected = (projectId) => ({
+    type: ActionTypes.PROJECT_REJECTED,
+    payload: projectId
+})
+
+export const projectError = (projectId, message) => ({
+    type: ActionTypes.PROJECT_ERROR,
+    payload: [projectId, message]
+})
+
+export const approveProject = (key, projectId, userId) => (dispatch) => {
+    dispatch(projectApproving(projectId));
+    let token_head = 'Token '+key;
+    fetch(baseUrl+'main/api/project/'+projectId+'/', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        },
+        body: JSON.stringify({
+            approved: true,
+            approvedBy: userId
+        })
+    })
+    .then((response) => {
+        if(!response.ok) {
+            console.log(response)
+            throw new Error('There was a problem approving this project!')
+        }
+        console.log(response)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(projectApproved(projectId))
+        return response
+    })
+    .catch(error => {
+        console.log(error)
+        dispatch(projectError(projectId, error.message))
+    })
+}

@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router';
 import Loading from '../../components/Loading';
-import { PendingProjectsTable } from '../../components/Tables';
+import PendingProjectsTable from '../../components/Tables';
 import { fetchPendingProjects } from '../../redux/ActionCreators';
 
 const mapStateToProps = (state) => ({
@@ -54,7 +54,7 @@ function PendingProjects(props) {
 
                     <Row>
                         <Col xs={12}>
-                        <PendingProjectsTable arrayOfProjects={props.pendingProjects} />
+                        <PendingProjectsTable />
                         </Col>
                     </Row>
                     </>

@@ -169,7 +169,26 @@ function Achievement (props) {
                 </Col>
             </Row>
 
-            
+            <Row className={`mt-3`}>
+                <Col md={4}>
+                    <h3 className="text-color-main">Tags</h3>
+                </Col>
+                <Col md={8}>
+                <p className="h4 text-black">
+                    {(achievementDetails.tags && achievementDetails.tags.length > 0) ?(
+                        achievementDetails.tags.map((tag) => {
+                            return (
+                                <Badge color="info" pill className="mr-2 mb-2">{tag.title}</Badge>
+                            );
+                        })
+                    )
+                    :
+                    (
+                        <>None</>
+                    )}
+                </p>
+                </Col>
+            </Row>            
 
             </>
         )

@@ -1,17 +1,33 @@
 import React from 'react';
 import { Table, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { withRouter } from "react-router";
+import { connect } from 'react-redux';
+
+import { approveProject } from '../redux/ActionCreators';
+
+const mapStateToProps = (state) => ({
+    authorized: state.user.authorized,
+    token: state.user.token,
+    pendingProjects: state.admin.pendingProjects
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    approveProject: (key, projectId, userId) => dispatch(approveProject(key, projectId, userId))
+});
 
 function AchievementsTable({arrayOfAchievements}) {
     return (
         <Table hover responsive className="rounded-2">
             <thead>
+                <tr>
                 <th className="text-color-main h5">#</th>
                 <th className="text-color-main h5">Title</th>
                 <th className="text-color-main h5">Description</th>
                 <th className="text-color-main h5">Date</th>
                 <th className="text-color-main h5">Details</th>
                 <th className="text-color-main h5">Delete</th>
+                </tr>
             </thead>
             <tbody>
                 {
@@ -44,6 +60,7 @@ function PendingAchievementsTable({arrayOfAchievements}) {
     return (
         <Table hover responsive className="rounded-2">
             <thead>
+                <tr>
                 <th className="text-color-main h5">#</th>
                 <th className="text-color-main h5">Title</th>
                 <th className="text-color-main h5">Description</th>
@@ -51,6 +68,7 @@ function PendingAchievementsTable({arrayOfAchievements}) {
                 <th className="text-color-main h5">Details</th>
                 <th className="text-color-main h5">Approve</th>
                 <th className="text-color-main h5">Reject</th>
+                </tr>
             </thead>
             <tbody>
                 {
@@ -77,8 +95,8 @@ function PendingAchievementsTable({arrayOfAchievements}) {
     );
 }
 
-function PendingProjectsTable({arrayOfProjects}) {
-    if(!arrayOfProjects)
+function PendingProjectsTable(props) {
+    if(!props.pendingProjects)
         return (
             <>
             </>
@@ -99,7 +117,7 @@ function PendingProjectsTable({arrayOfProjects}) {
             </thead>
             <tbody>
                 {
-                    arrayOfProjects.map((project) => {
+                    props.pendingProjects.map((project) => {
                         return (
                             <tr>
                             <th scope="row">{project.id}</th>
@@ -111,8 +129,27 @@ function PendingProjectsTable({arrayOfProjects}) {
                                 <Button color="warning" >View</Button>
                                 </Link>
                             </td>
-                            <td><Button color="success" >Approve</Button></td>
-                            <td><Button color="danger" >Reject</Button></td>
+                            <td>
+                                <Button 
+                                onClick={() => props.approveProject(props.token, project.id, null)}
+                                color="success"
+                                className="w-100"
+                                disabled={project.approving || project.rejecting || project.approved || project.rejected} >
+                                    {
+                                        (project.approved) ? 
+                                            <i className="fa fa-check w-100 text-center" aria-hidden="true"></i>
+                                        :
+                                        <>Approve</>
+                                    }
+                                </Button>
+                            </td>
+                            <td>
+                                <Button 
+                                disabled={project.approving || project.rejecting || project.approved || project.rejected}
+                                color="danger" >
+                                Reject
+                                </Button>
+                            </td>
                             </tr>
                         )
                     })
@@ -126,6 +163,7 @@ function ProjectsTable({arrayofProjects}) {
     return (
         <Table hover responsive className="rounded-2">
             <thead>
+                <tr>
                 <th className="text-color-main h5">#</th>
                 <th className="text-color-main h5">Title</th>
                 <th className="text-color-main h5">Description</th>
@@ -133,6 +171,7 @@ function ProjectsTable({arrayofProjects}) {
                 <th className="text-color-main h5">End Date</th>
                 <th className="text-color-main h5">Details</th>
                 <th className="text-color-main h5">Delete</th>
+                </tr>
             </thead>
             <tbody>
                 {
@@ -159,4 +198,5 @@ function ProjectsTable({arrayofProjects}) {
     );
 }
 
-export {AchievementsTable, ProjectsTable, PendingAchievementsTable, PendingProjectsTable};
+export {AchievementsTable, ProjectsTable, PendingAchievementsTable};
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PendingProjectsTable));
