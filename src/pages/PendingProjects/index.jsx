@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router';
 import Loading from '../../components/Loading';
-import PendingProjectsTable from '../../components/Tables';
+import PendingProjectsTable from './PendingProjectsTable';
 import { fetchPendingProjects } from '../../redux/ActionCreators';
 
 const mapStateToProps = (state) => ({

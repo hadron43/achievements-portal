@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router';
 import Loading from '../../components/Loading';
-import { PendingAchievementsTable } from '../../components/Tables';
+import PendingAchievementsTable from './PendingAchievementsTable.jsx';
 import { fetchPendingAchievements } from '../../redux/ActionCreators';
 
 const mapStateToProps = (state) => ({
@@ -54,7 +54,7 @@ function PendingAchievements(props) {
 
                     <Row>
                         <Col xs={12}>
-                        <PendingAchievementsTable arrayOfAchievements={props.pendingAchievements} />
+                        <PendingAchievementsTable />
                         </Col>
                     </Row>
                     </>

@@ -572,3 +572,61 @@ export const approveProject = (key, projectId, userId) => (dispatch) => {
         dispatch(projectError(projectId, error.message))
     })
 }
+
+export const achievementApproving = (achievementId) => ({
+    type: ActionTypes.ACHIEVEMENT_APPROVING,
+    payload: achievementId
+})
+
+export const achievementApproved = (achievementId) => ({
+    type: ActionTypes.ACHIEVEMENT_APPROVED,
+    payload: achievementId
+})
+
+export const achievementRejecting = (achievementId) => ({
+    type: ActionTypes.ACHIEVEMENT_REJECTING,
+    payload: achievementId
+})
+
+export const achievementRejected = (achievementId) => ({
+    type: ActionTypes.ACHIEVEMENT_REJECTED,
+    payload: achievementId
+})
+
+export const achievementError = (achievementId, message) => ({
+    type: ActionTypes.ACHIEVEMENT_ERROR,
+    payload: [achievementId, message]
+})
+
+export const approveAchievement = (key, achievementId, userId) => (dispatch) => {
+    dispatch(achievementApproving(achievementId));
+    let token_head = 'Token '+key;
+    fetch(baseUrl+'main/api/achievement/'+achievementId+'/', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        },
+        body: JSON.stringify({
+            approved: true,
+            approvedBy: userId
+        })
+    })
+    .then((response) => {
+        if(!response.ok) {
+            console.log(response)
+            throw new Error('There was a problem approving this achievement!')
+        }
+        console.log(response)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(achievementApproved(achievementId))
+        return response
+    })
+    .catch(error => {
+        console.log(error)
+        dispatch(achievementError(achievementId, error.message))
+    })
+}

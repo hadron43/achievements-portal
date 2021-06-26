@@ -36,10 +36,10 @@ export const Admin = (state = initialState, action) => {
             
             newState.pendingProjects[objIndex].approving = true
             newState.pendingProjects[objIndex].error = ''
-            console.log("I was here", objIndex)
+            
             return newState
         case ActionTypes.PROJECT_APPROVED:
-            console.log("Why am i here?")
+            
             if(!state.pendingProjects)
                 return state
             newState.pendingProjects = [...newState.pendingProjects]
@@ -50,7 +50,7 @@ export const Admin = (state = initialState, action) => {
             newState.pendingProjects[objIndex].approved = true
             return newState
         case ActionTypes.PROJECT_REJECTING:
-            console.log("Why am i here?")
+            
             if(!state.pendingProjects)
                 return state
             newState.pendingProjects = [...newState.pendingProjects]
@@ -61,7 +61,7 @@ export const Admin = (state = initialState, action) => {
             newState.pendingProjects[objIndex].error = ''
             return newState
         case ActionTypes.PROJECT_REJECTED:
-            console.log("Why am i here?")
+            
             if(!state.pendingProjects)
                 return state
             newState.pendingProjects = [...newState.pendingProjects]
@@ -81,6 +81,62 @@ export const Admin = (state = initialState, action) => {
             newState.pendingProjects[objIndex].rejecting = false
             newState.pendingProjects[objIndex].approving = false
             newState.pendingProjects[objIndex].error = action.payload[1]
+            return newState
+        case ActionTypes.ACHIEVEMENT_APPROVING:
+            if(!state.pendingAchievements)
+                return newState
+            newState.pendingAchievements = [...newState.pendingAchievements]
+            objIndex = newState.pendingAchievements.findIndex((obj => obj.id === action.payload));
+            if(objIndex < 0)
+                return newState
+            
+            newState.pendingAchievements[objIndex].approving = true
+            newState.pendingAchievements[objIndex].error = ''
+            
+            return newState
+        case ActionTypes.ACHIEVEMENT_APPROVED:
+            
+            if(!state.pendingAchievements)
+                return state
+            newState.pendingAchievements = [...newState.pendingAchievements]
+            objIndex = newState.pendingAchievements.findIndex((obj => obj.id === action.payload));
+            if(objIndex < 0)
+                return newState
+            newState.pendingAchievements[objIndex].approving = false
+            newState.pendingAchievements[objIndex].approved = true
+            return newState
+        case ActionTypes.ACHIEVEMENT_REJECTING:
+            
+            if(!state.pendingAchievements)
+                return state
+            newState.pendingAchievements = [...newState.pendingAchievements]
+            objIndex = newState.pendingAchievements.findIndex((obj => obj.id === action.payload));
+            if(objIndex < 0)
+                return newState
+            newState.pendingAchievements[objIndex].rejecting = true
+            newState.pendingAchievements[objIndex].error = ''
+            return newState
+        case ActionTypes.ACHIEVEMENT_REJECTED:
+            
+            if(!state.pendingAchievements)
+                return state
+            newState.pendingAchievements = [...newState.pendingAchievements]
+            objIndex = newState.pendingAchievements.findIndex((obj => obj.id === action.payload));
+            if(objIndex < 0)
+                return newState
+            newState.pendingAchievements[objIndex].rejecting = false
+            newState.pendingAchievements[objIndex].rejected = true
+            return newState
+        case ActionTypes.ACHIEVEMENT_ERROR:
+            if(!state.pendingAchievements)
+                return state
+            newState.pendingAchievements = [...newState.pendingAchievements]
+            objIndex = newState.pendingAchievements.findIndex((obj => obj.id === action.payload[0]));
+            if(objIndex < 0)
+                return newState
+            newState.pendingAchievements[objIndex].rejecting = false
+            newState.pendingAchievements[objIndex].approving = false
+            newState.pendingAchievements[objIndex].error = action.payload[1]
             return newState
         default: 
             return state;
