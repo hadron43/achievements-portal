@@ -3,7 +3,7 @@ import { pending as PENDING } from '../shared/pending';
 
 export const Pending = (state = PENDING, action) => {
     switch(action.type) {
-        default: 
+        default:
             return state;
     }
 }

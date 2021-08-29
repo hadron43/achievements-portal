@@ -31,7 +31,7 @@ export const User = (state = initialState, action) => {
             return {...state, error: action.payload}
         case ActionTypes.LOGGING_IN:
             return {...state, loggingIn: action.payload}
-        default: 
+        default:
             return state;
     }
 }

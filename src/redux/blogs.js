@@ -3,7 +3,7 @@ import { blogs as BLOGS } from '../shared/blogs';
 
 export const Blogs = (state = BLOGS, action) => {
     switch(action.type) {
-        default: 
+        default:
             return state;
     }
 }

@@ -67,7 +67,7 @@ export const Forms = (state = initialState, action) => {
             return {...state, addProjectPostingError: true, addProjectPostingMessage: action.payload, addProjectPosting: false};
         case ActionTypes.ADD_PROJECT_POSTING_SUCCESS:
             return {...state, addProjectPostingError: false, addProjectPostingMessage: action.payload, addProjectPosting: false};
-        default: 
+        default:
             return state;
     }
 }

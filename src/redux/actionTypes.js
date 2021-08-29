@@ -1,6 +1,6 @@
 /**
  * Define action types here
- * 
+ *
  * Action Types are string constants to indentify different actions
  * in the reducers of Redux Store
  */

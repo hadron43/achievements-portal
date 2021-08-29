@@ -47,13 +47,13 @@ function PendingAchievementsTable(props) {
                                 </Link>
                             </td>
                             <td>
-                                <Button 
+                                <Button
                                 onClick={() => props.approveAchievement(props.token, achievement.id, null)}
                                 color="success"
                                 className="w-100"
                                 disabled={achievement.approving || achievement.rejecting || achievement.approved || achievement.rejected} >
                                     {
-                                        (achievement.approved) ? 
+                                        (achievement.approved) ?
                                             <i className="fa fa-check w-100 text-center" aria-hidden="true"></i>
                                         :
                                         <>Approve</>
@@ -61,7 +61,7 @@ function PendingAchievementsTable(props) {
                                 </Button>
                             </td>
                             <td>
-                                <Button 
+                                <Button
                                 disabled={achievement.approving || achievement.rejecting || achievement.approved || achievement.rejected}
                                 color="danger" >
                                 Reject

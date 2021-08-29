@@ -15,7 +15,7 @@ export const Updates = (state = {
         case ActionTypes.UPDATES_FAILED:
             return {...state, isLoading: false, errMess: action.payload, updates: {}}
 
-        default: 
+        default:
             return state;
     }
 }

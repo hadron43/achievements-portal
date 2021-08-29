@@ -26,7 +26,7 @@ function UserIcon({authorized, admin, logout}) {
             src="/assets/Profile/dp.png" alt="Display" />
         </DropdownToggle>
         <DropdownMenu right>
-          
+
           <Link to="/addachievement">
             <DropdownItem>
             Add Achievement
@@ -54,6 +54,18 @@ function UserIcon({authorized, admin, logout}) {
           <Link to="/profile">
             <DropdownItem>
               My Profile
+            </DropdownItem>
+          </Link>
+
+          <Link to="/pending-projects">
+            <DropdownItem>
+              Pending Projects
+            </DropdownItem>
+          </Link>
+
+          <Link to="/pending-achievements">
+            <DropdownItem>
+              Pending Achievements
             </DropdownItem>
           </Link>
 
@@ -97,7 +109,10 @@ function Navigation(props) {
             <Link className="m-auto text-center d-block" to="/">About</Link>
           </NavItem>
           <NavItem className="mr-4 my-2 d-block">
-            <Link className="m-auto text-center d-block" to="/search">Search</Link>
+            <Link className="m-auto text-center d-block" to="/projects">Projects</Link>
+          </NavItem>
+          <NavItem className="mr-4 my-2 d-block">
+            <Link className="m-auto text-center d-block" to="/achievements">Achievements</Link>
           </NavItem>
 
           {/* SHOW ONLY WHEN NOT AUTHORIZED  */}
@@ -106,15 +121,6 @@ function Navigation(props) {
           </NavItem>
           <NavItem className={`mr-4 my-2 ${props.authorized ? "d-none" : "d-block"}`}>
             <Link className="m-auto text-center d-block" to="/login">Login</Link>
-          </NavItem>
-
-          {/* SHOW ONLY WHEN AUTHORIZED  */}
-          <NavItem className={`mr-4 my-2 ${props.authorized ? "d-block" : "d-none"}`}>
-            <Link className="m-auto text-center d-block" to="/pending-projects">Pending Projects</Link>
-          </NavItem>
-
-          <NavItem className={`mr-4 my-2 ${props.authorized ? "d-block" : "d-none"}`}>
-            <Link className="m-auto text-center d-block" to="/pending-achievements">Pending Achievements</Link>
           </NavItem>
 
           <NavItem className="d-block d-md-none my-2">

@@ -84,8 +84,8 @@ function AchievementsTable(props) {
             </tbody>
         </Table>
         </div>
-    ); 
-        
+    );
+
 }
 
 function ProjectsTable(props) {
@@ -134,8 +134,8 @@ function ProjectsTable(props) {
             </tbody>
         </Table>
         </div>
-    ); 
-        
+    );
+
 }
 
 export {Field, SocialMedia, AchievementsTable, ProjectsTable};

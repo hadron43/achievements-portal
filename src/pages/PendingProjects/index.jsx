@@ -32,12 +32,12 @@ function PendingProjects(props) {
     return (
         <Container className="p-3 p-md-4 p-lg-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
             {
-                (props.pendingProjectsLoading) ? 
+                (props.pendingProjectsLoading) ?
                 (
                     <Loading />
                 )
                 :
-                (props.pendingProjectsLoadingError) ? 
+                (props.pendingProjectsLoadingError) ?
                 (
                     <h3 className="text-danger">
                         {props.pendingProjectsLoadingError}

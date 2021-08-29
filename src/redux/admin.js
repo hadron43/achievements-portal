@@ -33,13 +33,13 @@ export const Admin = (state = initialState, action) => {
             objIndex = newState.pendingProjects.findIndex((obj => obj.id === action.payload));
             if(objIndex < 0)
                 return newState
-            
+
             newState.pendingProjects[objIndex].approving = true
             newState.pendingProjects[objIndex].error = ''
-            
+
             return newState
         case ActionTypes.PROJECT_APPROVED:
-            
+
             if(!state.pendingProjects)
                 return state
             newState.pendingProjects = [...newState.pendingProjects]
@@ -50,7 +50,7 @@ export const Admin = (state = initialState, action) => {
             newState.pendingProjects[objIndex].approved = true
             return newState
         case ActionTypes.PROJECT_REJECTING:
-            
+
             if(!state.pendingProjects)
                 return state
             newState.pendingProjects = [...newState.pendingProjects]
@@ -61,7 +61,7 @@ export const Admin = (state = initialState, action) => {
             newState.pendingProjects[objIndex].error = ''
             return newState
         case ActionTypes.PROJECT_REJECTED:
-            
+
             if(!state.pendingProjects)
                 return state
             newState.pendingProjects = [...newState.pendingProjects]
@@ -89,13 +89,13 @@ export const Admin = (state = initialState, action) => {
             objIndex = newState.pendingAchievements.findIndex((obj => obj.id === action.payload));
             if(objIndex < 0)
                 return newState
-            
+
             newState.pendingAchievements[objIndex].approving = true
             newState.pendingAchievements[objIndex].error = ''
-            
+
             return newState
         case ActionTypes.ACHIEVEMENT_APPROVED:
-            
+
             if(!state.pendingAchievements)
                 return state
             newState.pendingAchievements = [...newState.pendingAchievements]
@@ -106,7 +106,7 @@ export const Admin = (state = initialState, action) => {
             newState.pendingAchievements[objIndex].approved = true
             return newState
         case ActionTypes.ACHIEVEMENT_REJECTING:
-            
+
             if(!state.pendingAchievements)
                 return state
             newState.pendingAchievements = [...newState.pendingAchievements]
@@ -117,7 +117,7 @@ export const Admin = (state = initialState, action) => {
             newState.pendingAchievements[objIndex].error = ''
             return newState
         case ActionTypes.ACHIEVEMENT_REJECTED:
-            
+
             if(!state.pendingAchievements)
                 return state
             newState.pendingAchievements = [...newState.pendingAchievements]
@@ -138,7 +138,7 @@ export const Admin = (state = initialState, action) => {
             newState.pendingAchievements[objIndex].approving = false
             newState.pendingAchievements[objIndex].error = action.payload[1]
             return newState
-        default: 
+        default:
             return state;
     }
 }

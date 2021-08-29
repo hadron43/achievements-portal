@@ -7,7 +7,7 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Home'
 import Profile from './pages/Profile'
-import Search from './pages/Search';
+import Projects from './pages/Projects';
 
 import './App.scss';
 import Login from './pages/Authenticate/Login';
@@ -33,7 +33,8 @@ function App() {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
-            <Route path="/search" component={Search}></Route>
+            <Route path="/projects" component={Projects}></Route>
+            <Route path="/achievements" component={Projects}></Route>
             <Route path="/login" component={Login}></Route>
             <Route path="/signup" component={SignUp}></Route>
             <Route path="/addachievement" component={AddAchievement}></Route>

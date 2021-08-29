@@ -30,9 +30,7 @@ function Results() {
                 <th className="text-color-main h5">Description</th>
                 <th className="text-color-main h5">Added By</th>
                 <th className="text-color-main h5">Date</th>
-                <th className="text-color-main h5">Proof</th>
-                <th className="text-color-main h5">Approve</th>
-                <th className="text-color-main h5">Reject</th>
+                <th className="text-color-main h5">Details</th>
             </thead>
             <tbody>
                 {
@@ -45,8 +43,6 @@ function Results() {
                             <td>{achievement.addedBy}</td>
                             <td>{achievement.date}</td>
                             <td><Button color="warning" >View</Button></td>
-                            <td><Button color="info" >Approve</Button></td>
-                            <td><Button color="danger" >Reject</Button></td>
                             </tr>
                         )
                     })
@@ -56,7 +52,7 @@ function Results() {
     );
 }
 
-function Search() {
+function Projects() {
     return (
         <Container className="p-3 p-md-4 mt-4 mb-4 bg-color-lightest-grey rounded-3">
             <Row>
@@ -79,4 +75,4 @@ function Search() {
     )
 }
 
-export default Search;
+export default Projects;

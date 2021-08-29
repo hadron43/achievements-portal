@@ -60,7 +60,7 @@ function Project (props) {
     return (
         <Container className="p-3 p-md-4 p-lg-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
         {
-        (!props.authorized) ? 
+        (!props.authorized) ?
         (
             <Redirect to="/login" />
         ) :
@@ -186,7 +186,7 @@ function Project (props) {
                 <p className="h4 text-black">{projectDetails.approvedBy}</p>
                 </Col>
             </Row>
-            
+
             <Row className={`mt-3`}>
                 <Col md={4}>
                     <h3 className="text-color-main">Tags</h3>
