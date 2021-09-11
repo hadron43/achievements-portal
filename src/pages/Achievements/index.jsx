@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { Col, Container, Row, Button, Table } from 'reactstrap';
-import { Redirect, withRouter } from "react-router";
+import { withRouter } from "react-router";
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SearchBar from '../../components/Search'
 import Loading from '../../components/Loading';
@@ -49,10 +50,6 @@ function fetchAchievements(key, query, setAchievements, setLoading, setErrorMess
 }
 
 function Results( {achievements} ) {
-    const [redirectUrl, setRedirectUrl] = useState(false)
-    if(redirectUrl)
-        return <Redirect to={redirectUrl} />
-
     return (
         <Table hover responsive className="rounded-2">
             <thead>
@@ -74,9 +71,11 @@ function Results( {achievements} ) {
                             <td>{(achievement.addedBy) ? achievement.addedBy.first_name: ''}</td>
                             <td>{new Date(achievement.dateCreated).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
-                                <Button color="warning" onClick={() => setRedirectUrl("/achievement/"+achievement.id)}>
-                                    View
-                                </Button>
+                                <Link to={"/achievement/"+achievement.id}>
+                                    <Button color="warning">
+                                        View
+                                    </Button>
+                                </Link>
                             </td>
                             </tr>
                         )

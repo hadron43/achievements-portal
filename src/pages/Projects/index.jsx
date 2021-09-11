@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { Col, Container, Row, Button, Table } from 'reactstrap';
-import { Redirect, withRouter } from "react-router";
+import { withRouter } from "react-router";
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SearchBar from '../../components/Search'
 import Loading from '../../components/Loading';
@@ -49,10 +50,6 @@ function fetchProjects(key, query, setProjects, setLoading, setErrorMessage) {
 }
 
 function Results( {projects} ) {
-    const [redirectUrl, setRedirectUrl] = useState(false)
-    if(redirectUrl)
-        return <Redirect to={redirectUrl} />
-
     return (
         <Table hover responsive className="rounded-2">
             <thead>
@@ -74,9 +71,11 @@ function Results( {projects} ) {
                             <td>{(project.addedBy) ? project.addedBy.first_name: ''}</td>
                             <td>{new Date(project.dateCreated).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
-                                <Button color="warning" onClick={() => setRedirectUrl("/project/"+project.id)}>
-                                    View
-                                </Button>
+                                <Link to={"/project/"+project.id}>
+                                    <Button color="warning">
+                                        View
+                                    </Button>
+                                </Link>
                             </td>
                             </tr>
                         )
