@@ -188,7 +188,7 @@ function Achievement (props) {
                     )}
                 </p>
                 </Col>
-            </Row>            
+            </Row>
 
             </>
         )

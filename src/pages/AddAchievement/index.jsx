@@ -79,7 +79,7 @@ class AddAchievement extends Component {
             [name] : value,
             [name+"Err"] : '',
         })
-        
+
         if(this.props.addAchievementPostingMessage)
             this.props.addAchievementPostingMessageClear();
     }

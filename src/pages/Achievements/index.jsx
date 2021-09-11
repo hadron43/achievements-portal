@@ -12,14 +12,14 @@ const mapStateToProps = (state) => ({
     token: state.user.token,
 })
 
-function fetchProjects(key, query, setProjects, setLoading, setErrorMessage) {
+function fetchAchievements(key, query, setAchievements, setLoading, setErrorMessage) {
     let token_head = 'Token '+key;
     console.log(token_head)
 
     var target = baseUrl+'main/api/search?q='+query
     console.log('searching: ', query)
     if(!query)
-        target = baseUrl+'main/api/project'
+        target = baseUrl+'main/api/achievement'
 
     fetch(target, {
         method: 'GET',
@@ -37,7 +37,7 @@ function fetchProjects(key, query, setProjects, setLoading, setErrorMessage) {
     .then(response => response.json())
     .then(response => {
         console.log(response)
-        setProjects(response.projects)
+        setAchievements(response.achievements)
         setLoading(false)
         return response
     })
@@ -48,7 +48,7 @@ function fetchProjects(key, query, setProjects, setLoading, setErrorMessage) {
     })
 }
 
-function Results( {projects} ) {
+function Results( {achievements} ) {
     const [redirectUrl, setRedirectUrl] = useState(false)
     if(redirectUrl)
         return <Redirect to={redirectUrl} />
@@ -65,16 +65,16 @@ function Results( {projects} ) {
             </thead>
             <tbody>
                 {
-                    projects.map((project) => {
+                    achievements.map((achievement) => {
                         return (
                             <tr>
-                            <th scope="row">{project.id}</th>
-                            <td>{project.title}</td>
-                            <td>{project.description}</td>
-                            <td>{(project.addedBy) ? project.addedBy.first_name: ''}</td>
-                            <td>{new Date(project.dateCreated).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
+                            <th scope="row">{achievement.id}</th>
+                            <td>{achievement.title}</td>
+                            <td>{achievement.description}</td>
+                            <td>{(achievement.addedBy) ? achievement.addedBy.first_name: ''}</td>
+                            <td>{new Date(achievement.dateCreated).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
-                                <Button color="warning" onClick={() => setRedirectUrl("/project/"+project.id)}>
+                                <Button color="warning" onClick={() => setRedirectUrl("/achievement/"+achievement.id)}>
                                     View
                                 </Button>
                             </td>
@@ -87,15 +87,15 @@ function Results( {projects} ) {
     );
 }
 
-function Projects(props) {
+function Achievements(props) {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [projects, setProjects] = useState(false);
+    const [achievements, setAchievements] = useState(false);
     const [query, setQuery] = useState('');
 
-    if(!loading && !errorMessage && !projects) {
+    if(!loading && !errorMessage && !achievements) {
         setLoading(true);
-        fetchProjects(props.token, query, setProjects, setLoading, setErrorMessage);
+        fetchAchievements(props.token, query, setAchievements, setLoading, setErrorMessage);
     }
 
     if(errorMessage)
@@ -107,7 +107,7 @@ function Projects(props) {
                 <Col md={{size: 8, offset: 2}}>
                     <SearchBar query={query} setQuery={setQuery} onSearch={ () => {
                         setLoading(true)
-                        fetchProjects(props.token, query, setProjects, setLoading, setErrorMessage);
+                        fetchAchievements(props.token, query, setAchievements, setLoading, setErrorMessage);
                     }} />
                 </Col>
             </Row>
@@ -124,11 +124,11 @@ function Projects(props) {
                     (loading) ?
                         <Loading />
                     :
-                        <Results projects={projects}/>
+                        <Results achievements={achievements}/>
                 }
             </Row>
         </Container>
     )
 }
 
-export default withRouter(connect(mapStateToProps)(Projects));
+export default withRouter(connect(mapStateToProps)(Achievements));
