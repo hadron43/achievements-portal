@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-function AchievementsTable({arrayOfAchievements}) {
+function AchievementsTable({arrayOfAchievements, deleteAchievement, key}) {
     return (
         <Table hover responsive className="rounded-2">
             <thead>
@@ -29,7 +29,21 @@ function AchievementsTable({arrayOfAchievements}) {
                                 <Button color="warning" >View</Button>
                                 </Link>
                             </td>
-                            <td><Button color="danger" >Delete</Button></td>
+                            <td>
+                                <Button
+                                    onClick={() => deleteAchievement(key, achievement.id)}
+                                    color="danger"
+                                    className="w-100"
+                                    disabled={achievement.deleting || achievement.deleted}
+                                >
+                                    {
+                                        (achievement.deleted) ? 
+                                            <i className="fa fa-check w-100 text-center" aria-hidden="true"></i>
+                                        :
+                                        <>Delete</>
+                                    }
+                                </Button>
+                            </td>
                             </tr>
                         )
                     })
@@ -40,7 +54,7 @@ function AchievementsTable({arrayOfAchievements}) {
 }
 
 
-function ProjectsTable({arrayofProjects}) {
+function ProjectsTable({arrayofProjects, deleteProject, key}) {
     return (
         <Table hover responsive className="rounded-2">
             <thead>
@@ -69,7 +83,21 @@ function ProjectsTable({arrayofProjects}) {
                                 <Button color="warning" >View</Button>
                                 </Link>
                             </td>
-                            <td><Button color="danger" >Delete</Button></td>
+                            <td>
+                                <Button
+                                    onClick={() => deleteProject(key, project.id)}
+                                    color="danger"
+                                    className="w-100"
+                                    disabled={project.deleting || project.deleting}
+                                >
+                                    {
+                                        (project.deleted) ?
+                                            <i className="fa fa-check w-100 text-center" aria-hidden="true"></i>
+                                        :
+                                            <>Delete</>
+                                    }
+                                </Button>
+                            </td>
                             </tr>
                         )
                     })

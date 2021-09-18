@@ -3,7 +3,7 @@ import { Redirect, withRouter } from 'react-router';
 import { Container, Row, Col } from 'reactstrap';
 import { AchievementsTable } from '../../components/Tables';
 import { connect } from 'react-redux';
-import { fetchUserAchievements} from '../../redux/ActionCreators';
+import { deleteAchievement, fetchUserAchievements} from '../../redux/ActionCreators';
 import Loading from '../../components/Loading';
 
 const mapStateToProps = (state) => ({
@@ -13,7 +13,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchUserAchievements: (key) => dispatch(fetchUserAchievements(key))
+    fetchUserAchievements: (key) => dispatch(fetchUserAchievements(key)),
+    deleteAchievement: (key, achievementId) => dispatch(deleteAchievement(key, achievementId))
 })
 
 function MyAchievements(props) {
@@ -37,7 +38,11 @@ function MyAchievements(props) {
                 <Col xs="12" className="bg-color-off-white rounded-2">
                     {
                     props.achievements ? 
-                        <AchievementsTable arrayOfAchievements={props.achievements} />
+                        <AchievementsTable 
+                            arrayOfAchievements={props.achievements}
+                            deleteAchievement={props.deleteAchievement}
+                            key={props.token}
+                            />
                     :
                         <Loading />
                     }

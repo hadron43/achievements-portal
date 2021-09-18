@@ -535,6 +535,16 @@ export const projectRejected = (projectId) => ({
     payload: projectId
 })
 
+export const projectDeleting = (projectId) => ({
+    type: ActionTypes.PROJECT_DELETING,
+    payload: projectId
+})
+
+export const projectDeleted = (projectId) => ({
+    type: ActionTypes.PROJECT_DELETED,
+    payload: projectId
+})
+
 export const projectError = (projectId, message) => ({
     type: ActionTypes.PROJECT_ERROR,
     payload: [projectId, message]
@@ -573,6 +583,71 @@ export const approveProject = (key, projectId, userId) => (dispatch) => {
     })
 }
 
+export const rejectProject = (key, projectId, userId) => (dispatch) => {
+    // decide how to denote rejected projects
+    dispatch(projectRejecting(projectId));
+    let token_head = 'Token '+key;
+    fetch(baseUrl+'main/api/project/'+projectId+'/', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        },
+        body: JSON.stringify({
+            // dedide what to do here
+            approved: false,
+            approvedBy: userId
+        })
+    })
+    .then((response) => {
+        if(!response.ok) {
+            console.log(response)
+            throw new Error('There was a problem rejecting this project!')
+        }
+        console.log(response)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(projectRejected(projectId))
+        return response
+    })
+    .catch(error => {
+        console.log(error)
+        dispatch(projectError(projectId, error.message))
+    })
+}
+
+export const deleteProject = (key, projectId) => (dispatch) => {
+    dispatch(projectDeleting(projectId));
+    let token_head = 'Token '+key;
+    fetch(baseUrl+'main/api/project/'+projectId+'/', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then((response) => {
+        if(!response.ok) {
+            console.log(response)
+            throw new Error('There was a problem deleting this project!')
+        }
+        console.log(response)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(projectDeleted(projectId))
+        return response
+    })
+    .catch(error => {
+        console.log(error)
+        // the error here is for pending projects, make something similar here
+        // dispatch(projectError(projectId, error.message))
+    })
+}
+
 export const achievementApproving = (achievementId) => ({
     type: ActionTypes.ACHIEVEMENT_APPROVING,
     payload: achievementId
@@ -590,6 +665,16 @@ export const achievementRejecting = (achievementId) => ({
 
 export const achievementRejected = (achievementId) => ({
     type: ActionTypes.ACHIEVEMENT_REJECTED,
+    payload: achievementId
+})
+
+export const achievementDeleting = (achievementId) => ({
+    type: ActionTypes.ACHIEVEMENT_DELETING,
+    payload: achievementId
+})
+
+export const achievementDeleted = (achievementId) => ({
+    type: ActionTypes.ACHIEVEMENT_DELETED,
     payload: achievementId
 })
 
@@ -628,5 +713,69 @@ export const approveAchievement = (key, achievementId, userId) => (dispatch) => 
     .catch(error => {
         console.log(error)
         dispatch(achievementError(achievementId, error.message))
+    })
+}
+
+export const rejectAchievement = (key, achievementId, userId) => (dispatch) => {
+    dispatch(achievementRejecting(achievementId));
+    let token_head = 'Token '+key;
+    fetch(baseUrl+'main/api/achievement/'+achievementId+'/', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        },
+        body: JSON.stringify({
+            // decide what to do here
+            approved: false,
+            approvedBy: userId
+        })
+    })
+    .then((response) => {
+        if(!response.ok) {
+            console.log(response)
+            throw new Error('There was a problem approving this achievement!')
+        }
+        console.log(response)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(achievementApproved(achievementId))
+        return response
+    })
+    .catch(error => {
+        console.log(error)
+        dispatch(achievementError(achievementId, error.message))
+    })
+}
+
+export const deleteAchievement = (key, achievementId) => (dispatch) => {
+    dispatch(achievementDeleting(achievementId));
+    let token_head = 'Token '+key;
+    fetch(baseUrl+'main/api/achievement/'+achievementId+'/', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then((response) => {
+        if(!response.ok) {
+            console.log(response)
+            throw new Error('There was a problem deleting this achievement!')
+        }
+        console.log(response)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(achievementDeleted(achievementId))
+        return response
+    })
+    .catch(error => {
+        console.log(error)
+        // error is for pending achievements, make something similar here
+        // dispatch(achievementError(achievementId, error.message))
     })
 }
