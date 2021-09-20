@@ -1,15 +1,32 @@
 import * as ActionTypes from './actionTypes';
-import {data as Updates} from '../shared/updates';
 import { baseUrl } from '../shared/baseUrl';
 import fetch from 'cross-fetch';
 
 // Thunk, returns a function
-export const fetchUpdates = () => (dispatch) => {
+export const fetchUpdates = (key) => (dispatch) => {
+    let token_head = 'Token '+key;
     dispatch(updatesLoading(true));
-    // Simulate delay by server
-    setTimeout(() => {
-        dispatch(addUpdates(Updates));
-    }, 2000);
+    return fetch(baseUrl+'main/homepage', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then(response => {
+        if(!response.ok)
+            throw Error("Error occurred while fetching /main/homepage");
+        return response;
+    })
+    .then(response => response.json())
+    .then((response) => {
+        dispatch(addUpdates(response));
+        dispatch(updatesLoading(false));
+    })
+    .catch(err => {
+        console.log(err);
+        dispatch(updatesLoading(false));
+    });
 }
 
 export const loadKey = (key) => ({
@@ -140,8 +157,9 @@ export const fetchUserProjects = (key) => (dispatch) => {
 }
 
 // Create action to indicate updates are loading
-export const updatesLoading = () => ({
-    type: ActionTypes.UPDATES_LOADING
+export const updatesLoading = (value) => ({
+    type: ActionTypes.UPDATES_LOADING,
+    payload: value
 });
 
 // Create action to indicate loading updates has failed

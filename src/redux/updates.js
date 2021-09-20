@@ -10,7 +10,7 @@ export const Updates = (state = {
             return {...state, isLoading: false, errMess: null, updates: action.payload}
 
         case ActionTypes.UPDATES_LOADING:
-            return {...state, isLoading: true, errMess: null, updates: {}}
+            return {...state, isLoading: action.payload, errMess: null}
 
         case ActionTypes.UPDATES_FAILED:
             return {...state, isLoading: false, errMess: action.payload, updates: {}}

@@ -4,37 +4,35 @@ import {Link} from 'react-router-dom';
 
 import Loading from '../../components/Loading';
 
-function UpdatesCard({heading, updates, buttonText, buttonLink, isLoading, errMess}) {
+function UpdatesCard({heading, updates, buttonText="More Updates", buttonLink}) {
     return (
         <Container className="shadow rounded-lg bg-color-lightest-grey p-4 pb-5 h-100">
             
             <h4 className="text-color-main font-weight-bold mb-4">
-                {(!isLoading && !errMess) ? heading : (errMess) ? {errMess} : "Loading..."}
+                {heading}
             </h4>
             
             {
-                (!isLoading && !errMess) ? 
-                    <>
-                    {updates.map((update) => {
-                        return (
-                            <p>{update}</p>
-                        );
-                    })}
-
-                    <br />
-
-                    <div className="bottom clearfix w-100">
-                        <Link to={buttonLink}>
-                            <Button color="info" className="mt-2 float-right bottom-button bg-color-main-ui">{buttonText}</Button>
-                        </Link>
-                    </div>
-                    </>
+                (!updates.length) ?
+                <p className="text-info">No updates yet!</p>
                 :
-                (errMess) ? <> </>
-                :
-                <Loading />
+                updates.map((update) => {
+                    return (
+                        <>
+                        <p>{update.title}</p>
+                        </>
+                    );
+                })
             }
-            
+
+            <br />
+
+            <div className="bottom clearfix w-100">
+                <Link to={buttonLink}>
+                    <Button color="info" className="mt-2 float-right bottom-button bg-color-main-ui">{buttonText}</Button>
+                </Link>
+            </div>
+
         </Container>
     );
 }
