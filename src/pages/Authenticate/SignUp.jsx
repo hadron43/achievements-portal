@@ -5,9 +5,9 @@ import {Link} from 'react-router-dom'
 function SignUp(props) {
 
     return (
-        <Container className="mt-5 mb-5">
+        <Container className="my-5">
             <Row className="rounded-3 shadow">
-                <Col md="6" className="d-none d-md d-lg-flex p-0">
+                <Col md="6" className="d-none d-md-flex p-0">
                     <img src="assets/login.jpg" alt="banner" className="d-flex mx-auto w-100 h-100 rounded-left-3"></img>
                 </Col>
                 
