@@ -5,13 +5,15 @@ import {Link} from 'react-router-dom';
 import Loading from '../../components/Loading';
 
 function UpdatesCard({heading, updates, buttonText="More Updates", buttonLink}) {
+    if(!updates)
+        return (<></>)
     return (
         <Container className="shadow rounded-lg bg-color-lightest-grey p-4 pb-5 h-100">
-            
+
             <h4 className="text-color-main font-weight-bold mb-4">
                 {heading}
             </h4>
-            
+
             {
                 (!updates.length) ?
                 <p className="text-info">No updates yet!</p>
@@ -51,7 +53,7 @@ function rankToColor(rank) {
 function TopCard({heading, toppers, buttonText, buttonLink, isLoading, errMess}) {
     return (
         <Container fluid className="shadow rounded-lg bg-color-lightest-grey p-4 pb-5 h-100">
-            
+
             <h4 className="text-color-main font-weight-bold mb-4">
                 {(!isLoading && !errMess) ? heading : (errMess) ? {errMess} : "Loading..."}
             </h4>
@@ -85,7 +87,7 @@ function TopCard({heading, toppers, buttonText, buttonLink, isLoading, errMess})
                 :
                 <Loading />
             }
-            
+
         </Container>
     );
 }

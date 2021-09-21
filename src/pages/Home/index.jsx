@@ -26,7 +26,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 class  Home extends Component {
     componentDidMount() {
-        this.props.fetchUpdates();
+        console.log(this.props.isLoading, this.props.errMess, this.props.publications)
+        if(!this.props.isLoading && !this.props.errMess && !this.props.publications)
+            this.props.fetchUpdates();
     }
 
     render() {
@@ -37,7 +39,7 @@ class  Home extends Component {
             <Container fluid className="mt-3 mb-3">
                 <Row equal className="p-1 p-sm-2 p-lg-3 p-xl-5">
                     {
-                        (this.props.isLoading) ? 
+                        (this.props.isLoading) ?
                         <Loading />
                         :
                         (this.props.errMess) ?
