@@ -106,7 +106,7 @@ function Navigation(props) {
             <Link className="m-auto text-center d-block" to="/">Home</Link>
           </NavItem>
           <NavItem className="mr-4 my-2 d-block">
-            <Link className="m-auto text-center d-block" to="/">About</Link>
+            <Link className="m-auto text-center d-block" to="/about">About</Link>
           </NavItem>
 
           {/* SHOW ONLY WHEN AUTHORIZED  */}

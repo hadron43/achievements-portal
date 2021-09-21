@@ -21,6 +21,7 @@ import Project from './pages/Project';
 import PendingProjects from './pages/PendingProjects';
 import PendingAchievements from './pages/PendingAchievements';
 import Achievements from './pages/Achievements';
+import About from './pages/About';
 
 const store = ConfigureStore();
 
@@ -33,6 +34,7 @@ function App() {
 
           <Switch>
             <Route path="/" exact component={Home} />
+            <Route path="/about" exact component={About} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/projects" component={Projects}></Route>
             <Route path="/achievements" component={Achievements}></Route>
