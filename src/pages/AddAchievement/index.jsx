@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch) => ({
 const initialState = {
     title: '',
     description: '',
-    institution: 0,
+    institution: 1,
     otherInstitution: '',
     dateofachievement: '',
     team: [],

@@ -25,6 +25,7 @@ function MyAchievements(props) {
     if(!props.achievements) {
         props.fetchUserAchievements(props.token);
     }
+    console.log(props.token)
 
     return (
         <Container className="p-4 p-md-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
@@ -41,7 +42,7 @@ function MyAchievements(props) {
                         <AchievementsTable 
                             arrayOfAchievements={props.achievements}
                             deleteAchievement={props.deleteAchievement}
-                            key={props.token}
+                            token={props.token}
                             />
                     :
                         <Loading />

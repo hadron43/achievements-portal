@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch) => ({
 const initialState = {
     title: '',
     description: '',
-    institution: 0,
+    institution: 1,
     otherInstitution: '',
     startdate: '',
     enddate: '',
@@ -65,7 +65,7 @@ class AddProject extends Component {
     constructor(props) {
         super(props);
         this.state = initialState
-        
+
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.addTeamMember = this.addTeamMember.bind(this);
@@ -89,7 +89,7 @@ class AddProject extends Component {
             [name] : value,
             [name+"Err"] : '',
         })
-        
+
         if(this.props.addProjectPostingMessage)
             this.props.addProjectPostingMessageClear();
     }
@@ -160,8 +160,8 @@ class AddProject extends Component {
         this.setState({mentorAdding: false})
     }
 
-    capitalize(input) {  
-        return input.split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');  
+    capitalize(input) {
+        return input.split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
     }
 
     addTag() {
@@ -171,7 +171,7 @@ class AddProject extends Component {
         var processing = false
 
         console.log(this.props.tagsList, this.state.tagsInput, tagObj)
-        
+
         if(validation && this.state.tags.indexOf(tagObj) === -1) {
             this.setState({
                 tags: [...this.state.tags, tagObj],
@@ -185,7 +185,7 @@ class AddProject extends Component {
         }
         else {
             processing = true
-            this.props.postTag(this.props.token, this.capitalize(this.state.tagsInput), 
+            this.props.postTag(this.props.token, this.capitalize(this.state.tagsInput),
             (tagObj) => {
                 this.setState({
                     tags: [...this.state.tags, tagObj],
@@ -226,7 +226,7 @@ class AddProject extends Component {
                             <h4 className="font-weight-bold">Title</h4>
                         </Label>
                         <Col md={9}>
-                            <Input type="text" 
+                            <Input type="text"
                                 value={this.state.title}
                                 onChange={this.handleInputChange}
                                 name="title"
@@ -241,7 +241,7 @@ class AddProject extends Component {
                             <h4 className="font-weight-bold">Description</h4>
                         </Label>
                         <Col md={9}>
-                            <Input type="textarea" 
+                            <Input type="textarea"
                                 value={this.state.description}
                                 onChange={this.handleInputChange}
                                 name="description"
@@ -273,9 +273,9 @@ class AddProject extends Component {
                                 </>
                             </Input>
                             {
-                                (this.state.institution === "-1") ? 
+                                (this.state.institution === "-1") ?
                                 <>
-                                <Input type="text" 
+                                <Input type="text"
                                     value={this.state.otherInstitution}
                                     onChange={this.handleInputChange}
                                     name="otherInstitution"
@@ -294,7 +294,7 @@ class AddProject extends Component {
                             <h4 className="font-weight-bold">Duration</h4>
                         </Label>
                         <Col md={3} className="d-flex">
-                            <Input type="date" 
+                            <Input type="date"
                                 name="startdate"
                                 value={this.state.startdate}
                                 onChange={this.handleInputChange}
@@ -305,7 +305,7 @@ class AddProject extends Component {
                             <h4 className="font-weight-bold d-flex m-auto">to</h4>
                         </Label>
                         <Col md={3} className="d-flex">
-                            <Input type="date" 
+                            <Input type="date"
                                 name="enddate"
                                 value={this.state.enddate}
                                 onChange={this.handleInputChange}
@@ -319,7 +319,7 @@ class AddProject extends Component {
                             <h4 className="font-weight-bold">Field</h4>
                         </Label>
                         <Col md={3} className="d-flex">
-                            <Input type="text" 
+                            <Input type="text"
                                 name="field"
                                 value={this.state.field}
                                 placeholder="Enter field"
@@ -331,7 +331,7 @@ class AddProject extends Component {
                             <h4 className="font-weight-bold d-md-flex m-md-auto">Domain</h4>
                         </Label>
                         <Col md={3} className="d-flex">
-                            <Input type="text" 
+                            <Input type="text"
                                 name="domain"
                                 value={this.state.domain}
                                 placeholder="Enter domain"
@@ -357,7 +357,7 @@ class AddProject extends Component {
                                 <p className="text-danger m-0 px-2">{this.state.mentorsInputErr}</p>
                             </Col>
                             <Col xs={5} md={4} lg={3} className="pl-0">
-                                <Button color="info" className="w-100" 
+                                <Button color="info" className="w-100"
                                     onClick={this.addMentor}
                                     disabled={this.props.professorsLoading
                                         || this.state.mentorAdding}
@@ -386,7 +386,7 @@ class AddProject extends Component {
                             </Col>
                             </Row>
                         </Col>
-                        
+
                     </Row>
 
                     <Row className="form-group">
