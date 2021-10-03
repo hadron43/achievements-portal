@@ -97,10 +97,16 @@ function Achievement (props) {
                 <Col md={8}>
                     <h3>
                     {
-                        (achievementDetails.approved) ?
+                        (!achievementDetails.approved) ?
+                        <Badge color="danger" pill>Error</Badge>
+                        :
+                        (achievementDetails.approved.toLowerCase() === 'approved') ?
                         <Badge color="success" pill>Approved</Badge>
                         :
-                        <Badge color="danger" pill>Not Approved</Badge>
+                        (achievementDetails.approved.toLowerCase() === 'pending') ?
+                        <Badge color="warning" pill>Pending</Badge>
+                        :
+                        <Badge color="danger" pill>Rejected</Badge>
                     }
                     </h3>
                 </Col>

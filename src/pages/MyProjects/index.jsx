@@ -33,15 +33,15 @@ function MyAchievements(props) {
                     <h2 className="font-weight-bold">My Projects</h2>
                 </Col>
             </Row>
-            
+
             <Row className="mt-5">
                 <Col xs="12" className="bg-color-off-white rounded-2">
                 {
-                    props.projects ? 
+                    props.projects ?
                         <ProjectsTable
                             arrayofProjects={props.projects}
                             deleteProject={props.deleteProject}
-                            key={props.token}
+                            token={props.token}
                             />
                     :
                         <Loading />

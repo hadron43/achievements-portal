@@ -106,10 +106,16 @@ function Project (props) {
                 <Col md={8}>
                     <h3>
                     {
-                        (projectDetails.approved) ?
+                        (!projectDetails.approved) ?
+                        <Badge color="danger" pill>Error</Badge>
+                        :
+                        (projectDetails.approved.toLowerCase() === 'approved') ?
                         <Badge color="success" pill>Approved</Badge>
                         :
-                        <Badge color="danger" pill>Not Approved</Badge>
+                        (projectDetails.approved.toLowerCase() === 'pending') ?
+                        <Badge color="warning" pill>Pending</Badge>
+                        :
+                        <Badge color="danger" pill>Rejected</Badge>
                     }
                     </h3>
                 </Col>

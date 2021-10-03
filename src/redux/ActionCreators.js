@@ -578,7 +578,7 @@ export const approveProject = (key, projectId, userId) => (dispatch) => {
             'Authorization': token_head
         },
         body: JSON.stringify({
-            approved: true,
+            approved: 'approved',
             approvedBy: userId
         })
     })
@@ -613,7 +613,7 @@ export const rejectProject = (key, projectId, userId) => (dispatch) => {
         },
         body: JSON.stringify({
             // dedide what to do here
-            approved: false,
+            approved: 'rejected',
             approvedBy: userId
         })
     })
@@ -654,7 +654,6 @@ export const deleteProject = (key, projectId) => (dispatch) => {
         console.log(response)
         return response
     })
-    .then(response => response.json())
     .then(response => {
         dispatch(projectDeleted(projectId))
         return response
@@ -711,7 +710,7 @@ export const approveAchievement = (key, achievementId, userId) => (dispatch) => 
             'Authorization': token_head
         },
         body: JSON.stringify({
-            approved: true,
+            approved: 'approved',
             approvedBy: userId
         })
     })
@@ -745,7 +744,7 @@ export const rejectAchievement = (key, achievementId, userId) => (dispatch) => {
         },
         body: JSON.stringify({
             // decide what to do here
-            approved: false,
+            approved: 'rejected',
             approvedBy: userId
         })
     })
@@ -786,7 +785,6 @@ export const deleteAchievement = (key, achievementId) => (dispatch) => {
         console.log(response)
         return response
     })
-    .then(response => response.json())
     .then(response => {
         dispatch(achievementDeleted(achievementId))
         return response

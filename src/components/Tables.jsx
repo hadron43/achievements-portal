@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-function AchievementsTable({arrayOfAchievements, deleteAchievement, key}) {
+function AchievementsTable({arrayOfAchievements, deleteAchievement, token}) {
     return (
         <Table hover responsive className="rounded-2">
             <thead>
@@ -31,7 +31,7 @@ function AchievementsTable({arrayOfAchievements, deleteAchievement, key}) {
                             </td>
                             <td>
                                 <Button
-                                    onClick={() => deleteAchievement(key, achievement.id)}
+                                    onClick={() => deleteAchievement(token, achievement.id)}
                                     color="danger"
                                     className="w-100"
                                     disabled={achievement.deleting || achievement.deleted}
@@ -54,7 +54,7 @@ function AchievementsTable({arrayOfAchievements, deleteAchievement, key}) {
 }
 
 
-function ProjectsTable({arrayofProjects, deleteProject, key}) {
+function ProjectsTable({arrayofProjects, deleteProject, token}) {
     return (
         <Table hover responsive className="rounded-2">
             <thead>
@@ -85,7 +85,7 @@ function ProjectsTable({arrayofProjects, deleteProject, key}) {
                             </td>
                             <td>
                                 <Button
-                                    onClick={() => deleteProject(key, project.id)}
+                                    onClick={() => deleteProject(token, project.id)}
                                     color="danger"
                                     className="w-100"
                                     disabled={project.deleting || project.deleting}
