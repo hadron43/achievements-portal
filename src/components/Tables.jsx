@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { ApprovedBadge } from '../components/Extras'
 
 function AchievementsTable({arrayOfAchievements, deleteAchievement, token}) {
     return (
@@ -10,6 +11,7 @@ function AchievementsTable({arrayOfAchievements, deleteAchievement, token}) {
                 <th className="text-color-main h5">#</th>
                 <th className="text-color-main h5">Title</th>
                 <th className="text-color-main h5">Description</th>
+                <th className="text-color-main h5">Status</th>
                 <th className="text-color-main h5">Date</th>
                 <th className="text-color-main h5">Details</th>
                 <th className="text-color-main h5">Delete</th>
@@ -23,6 +25,7 @@ function AchievementsTable({arrayOfAchievements, deleteAchievement, token}) {
                             <th scope="row">{achievement.id}</th>
                             <td>{achievement.title}</td>
                             <td>{achievement.description}</td>
+                            <td><h5><ApprovedBadge value={achievement.approved} /></h5></td>
                             <td>{new Date(achievement.achievedDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
                                 <Link to={"/achievement/"+achievement.id}>
@@ -62,6 +65,7 @@ function ProjectsTable({arrayofProjects, deleteProject, token}) {
                 <th className="text-color-main h5">#</th>
                 <th className="text-color-main h5">Title</th>
                 <th className="text-color-main h5">Description</th>
+                <th className="text-color-main h5">Status</th>
                 <th className="text-color-main h5">Start Date</th>
                 <th className="text-color-main h5">End Date</th>
                 <th className="text-color-main h5">Details</th>
@@ -76,6 +80,7 @@ function ProjectsTable({arrayofProjects, deleteProject, token}) {
                             <th scope="row">{project.id}</th>
                             <td>{project.title}</td>
                             <td>{project.description}</td>
+                            <td><h5><ApprovedBadge value={project.approved} /></h5></td>
                             <td>{new Date(project.startDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>{new Date(project.endDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>

@@ -3,6 +3,7 @@ import { Container, Row, Col, Badge } from 'reactstrap';
 import { Redirect, useParams, withRouter } from "react-router";
 import { baseUrl } from '../../shared/baseUrl';
 import { connect } from 'react-redux';
+import { ApprovedBadge } from '../../components/Extras';
 import Loading from '../../components/Loading';
 import NotFound from '../../components/NotFound';
 
@@ -104,20 +105,7 @@ function Project (props) {
                     <h3 className="text-color-main">Status</h3>
                 </Col>
                 <Col md={8}>
-                    <h3>
-                    {
-                        (!projectDetails.approved) ?
-                        <Badge color="danger" pill>Error</Badge>
-                        :
-                        (projectDetails.approved.toLowerCase() === 'approved') ?
-                        <Badge color="success" pill>Approved</Badge>
-                        :
-                        (projectDetails.approved.toLowerCase() === 'pending') ?
-                        <Badge color="warning" pill>Pending</Badge>
-                        :
-                        <Badge color="danger" pill>Rejected</Badge>
-                    }
-                    </h3>
+                <h3><ApprovedBadge value={projectDetails.approved} /></h3>
                 </Col>
             </Row>
 
