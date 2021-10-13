@@ -16,9 +16,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchUserProfile: (key) => dispatch(fetchUserProfile(key)),
-    fetchUserAchievements: (key) => dispatch(fetchUserAchievements(key)),
-    fetchUserProjects: (key) => dispatch(fetchUserProjects(key))
+    fetchUserProfile: (key) => dispatch(fetchUserProfile(key))
 });
 
 function Profile(props) {
@@ -31,12 +29,6 @@ function Profile(props) {
         return(
             <Loading />
         );
-    }
-    if(!props.achievements) {
-        props.fetchUserAchievements(props.token);
-    }
-    if(!props.projects) {
-        props.fetchUserProjects(props.token);
     }
 
     let skill_str = ""
@@ -79,9 +71,9 @@ function Profile(props) {
             <Field title="Skills" value={skill_str} />
             <Field title="Address" value={props.profile.address}></Field>
             <Field title="Achievements" value="" />
-            <AchievementsTable achievements={props.achievements} />
+            <AchievementsTable achievements={props.profile.achievements} />
             <Field title="Projects" value="" />
-            <ProjectsTable projects={props.projects} />
+            <ProjectsTable projects={props.profile.projects} />
         </Container>
     )
 }

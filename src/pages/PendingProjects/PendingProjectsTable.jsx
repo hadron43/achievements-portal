@@ -55,9 +55,9 @@ function PendingProjectsTable(props) {
                                 onClick={() => props.approveProject(props.token, project.id, null)}
                                 color="success"
                                 className="w-100"
-                                disabled={project.approving || project.rejecting || project.approved || project.rejected} >
+                                disabled={project.approving || project.rejecting || (project.approved == 'approved') || project.rejected} >
                                     {
-                                        (project.approved) ?
+                                        (project.approved == 'approved') ?
                                             <i className="fa fa-check w-100 text-center" aria-hidden="true"></i>
                                         :
                                         <>Approve</>
@@ -66,7 +66,7 @@ function PendingProjectsTable(props) {
                             </td>
                             <td>
                                 <Button
-                                disabled={project.approving || project.rejecting || project.approved || project.rejected}
+                                disabled={project.approving || project.rejecting || (project.approved == 'approved') || project.rejected}
                                 color="danger" >
                                 Reject
                                 </Button>

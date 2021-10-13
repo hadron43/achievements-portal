@@ -22,6 +22,7 @@ import PendingProjects from './pages/PendingProjects';
 import PendingAchievements from './pages/PendingAchievements';
 import Achievements from './pages/Achievements';
 import About from './pages/About';
+import UserProfile from './pages/UserProfile';
 
 const store = ConfigureStore();
 
@@ -36,6 +37,7 @@ function App() {
             <Route path="/" exact component={Home} />
             <Route path="/about" exact component={About} />
             <Route path="/profile" exact component={Profile} />
+            <Route path="/profile/:profileId" component={UserProfile} />
             <Route path="/projects" component={Projects}></Route>
             <Route path="/achievements" component={Achievements}></Route>
             <Route path="/login" component={Login}></Route>
