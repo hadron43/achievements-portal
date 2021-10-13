@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router';
-import { Container, Row, Col, Label, Button, Form, Input, CustomInput } from 'reactstrap';
+import { Container, Row, Col, Label, Button, Form, Input, CustomInput, Progress } from 'reactstrap';
 // import Loading from '../../components/Loading';
 import { fetchStudentsList, fetchProfessorsList, fetchInstitutesList, fetchTagsList, postTag, postNewProject, addProjectPostingSuccess } from '../../redux/ActionCreators';
+import { storage } from '../../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from '@firebase/storage';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
@@ -58,7 +60,10 @@ const initialState = {
     tagsAdding: false,
     tagsInputErr: '',
     category: 0,
-    type: false
+    type: false,
+    proof: null,
+    file: null,
+    progress: 0
 }
 
 class AddProject extends Component {
@@ -74,10 +79,20 @@ class AddProject extends Component {
         this.addTeamMember = this.addTeamMember.bind(this);
         this.removeFromList = this.removeFromList.bind(this);
         this.clearState = this.clearState.bind(this);
+        this.handleUpload = this.handleUpload.bind(this);
+        this.handleFileChange = this.handleFileChange.bind(this);
     }
 
     clearState() {
         this.setState(initialState);
+    }
+
+    handleFileChange(event) {
+        if(event.target.files[0]) {
+            this.setState({
+                file : event.target.files[0]
+            })
+        }
     }
 
     handleInputChange(event) {
@@ -94,6 +109,36 @@ class AddProject extends Component {
             this.props.addProjectPostingMessageClear();
     }
 
+    handleUpload() {
+        console.log(this.state.file)
+        const storageRef = ref(storage, `proofs/projects/${this.state.file.name}`)
+        const uploadTask = uploadBytesResumable(storageRef, this.state.file)
+
+        uploadTask.on(
+            "state_changed",
+            snapshot => {
+              const progress = Math.round(
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              );
+              this.setState({
+                progress: progress
+              })
+            },
+            error => {
+              console.log(error);
+            },
+            () => {
+                // Upload completed successfully, now we can get the download URL
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('File available at', downloadURL);
+                    this.setState({
+                        proof: downloadURL
+                    })
+                });
+            }
+        );
+    }
+
     handleSubmit(event) {
         console.log('Submit detected.')
         this.props.postNewProject(this.props.token, this.state, this.clearState);
@@ -101,13 +146,13 @@ class AddProject extends Component {
     }
 
     componentDidMount() {
-        if(!this.props.professorsLoading)
-            this.props.fetchStudentsList(this.props.token)
-        if(!this.props.studentsLoading)
+        if(!this.props.professorsLoading && !this.props.professorsList)
             this.props.fetchProfessorsList(this.props.token)
-        if(!this.props.tagsLoading)
+        if(!this.props.studentsLoading && !this.props.studentsList)
+            this.props.fetchStudentsList(this.props.token)
+        if(!this.props.tagsLoading && !this.props.tagsList)
             this.props.fetchTagsList(this.props.token)
-        if(!this.props.institutesLoading)
+        if(!this.props.institutesLoading && !this.props.institutesList)
             this.props.fetchInstitutesList(this.props.token)
     }
 
@@ -485,7 +530,31 @@ class AddProject extends Component {
                             <h4 className="font-weight-bold">Proof</h4>
                         </Label>
                         <Col md={9}>
-                            <CustomInput type="file" id="proof" name="proof" />
+                            <Row>
+                            <Col xs={7} md={8} lg={9}>
+                                <CustomInput type="file" id="proof" name="proof"
+                                    onChange={this.handleFileChange}/>
+
+                                <Progress multi
+                                    className={`mt-2 ${this.state.progress > 0 && this.state.progress !== 100 ? "" : "d-none"}`}>
+                                    <Progress bar animated color="success"
+                                        value={this.state.progress} />
+                                </Progress>
+                            </Col>
+                            <Col xs={5} md={4} lg={3} className="pl-0">
+                                <Button className="w-100"
+                                    color={(this.state.proof) ? "success" :"info"}
+                                    disabled={this.state.proof || !this.state.file ? true : false}
+                                    onClick={this.handleUpload}
+                                >
+                                    {(this.state.proof) ?
+                                        <i className="fa fa-check w-100 text-center" aria-hidden="true"></i>
+                                    :
+                                        <>Upload</>
+                                    }
+                                </Button>
+                            </Col>
+                            </Row>
                         </Col>
                     </Row>
 

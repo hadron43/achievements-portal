@@ -356,10 +356,9 @@ export const postNewAchievement = (key, stateObj, clearFunction) => (dispatch) =
         achievedDate: stateObj.dateofachievement,
         teamMembers: stateObj.team.map(member => member.id),
         tags: stateObj.tags.map(tag => tag.id),
-        category: stateObj.category
+        category: stateObj.category,
+        proof: stateObj.proof
     }
-
-    console.log(bodyObj)
 
     fetch(baseUrl+'main/api/achievement/', {
         method: 'POST',

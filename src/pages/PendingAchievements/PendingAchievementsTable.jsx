@@ -51,9 +51,9 @@ function PendingAchievementsTable(props) {
                                 onClick={() => props.approveAchievement(props.token, achievement.id, null)}
                                 color="success"
                                 className="w-100"
-                                disabled={achievement.approving || achievement.rejecting || (achievement.approved == 'approved') || achievement.rejected} >
+                                disabled={achievement.approving || achievement.rejecting || (achievement.approved === 'approved') || achievement.rejected} >
                                     {
-                                        (achievement.approved == 'approved') ?
+                                        (achievement.approved === 'approved') ?
                                             <i className="fa fa-check w-100 text-center" aria-hidden="true"></i>
                                         :
                                         <>Approve</>
@@ -62,7 +62,7 @@ function PendingAchievementsTable(props) {
                             </td>
                             <td>
                                 <Button
-                                disabled={achievement.approving || achievement.rejecting || (achievement.approved == 'approved') || achievement.rejected}
+                                disabled={achievement.approving || achievement.rejecting || (achievement.approved === 'approved') || achievement.rejected}
                                 color="danger" >
                                 Reject
                                 </Button>
