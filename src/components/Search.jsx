@@ -9,7 +9,7 @@ function SearchBar({query, setQuery, onSearch}) {
                 <InputGroupAddon addonType="prepend">
                 <InputGroupText className="text-color-main bg-color-lightest-grey"> <i class="fa fa-search" aria-hidden="true"></i> </InputGroupText>
                 </InputGroupAddon>
-                <Input placeholder="Query" value={query} onChange={(event) => {
+                <Input placeholder="Enter title" value={query} onChange={(event) => {
                         setQuery(event.target.value)
                     }} className="p-3"/>
             </InputGroup>

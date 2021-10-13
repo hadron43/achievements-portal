@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Table, Button } from 'reactstrap';
+import { ApprovedBadge } from '../components/Extras';
 import Loading from './Loading';
 
 function Field({title, value}) {
@@ -58,6 +59,7 @@ function AchievementsTable(props) {
             <thead>
                 <th className="text-color-main h5">#</th>
                 <th className="text-color-main h5">Title</th>
+                <th className="text-color-main h5">Status</th>
                 <th className="text-color-main h5">Description</th>
                 <th className="text-color-main h5">Achieved Date</th>
                 <th className="text-color-main h5">Details</th>
@@ -70,6 +72,7 @@ function AchievementsTable(props) {
                             <tr>
                             <th scope="row">{index+1}</th>
                             <td>{achievement.title}</td>
+                            <td><h5><ApprovedBadge value={achievement.approved} /></h5></td>
                             <td>{achievement.description}</td>
                             <td>{new Date(achievement.achievedDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
@@ -106,10 +109,11 @@ function ProjectsTable(props) {
             <thead>
                 <th className="text-color-main h5">#</th>
                 <th className="text-color-main h5">Title</th>
+                <th className="text-color-main h5">Status</th>
                 <th className="text-color-main h5">Description</th>
                 <th className="text-color-main h5">Field</th>
                 <th className="text-color-main h5">Domain</th>
-                <th className="text-color-main h5">Detals</th>
+                <th className="text-color-main h5">Details</th>
             </thead>
             <tbody>
                 {
@@ -119,6 +123,7 @@ function ProjectsTable(props) {
                             <tr>
                             <th scope="row">{index+1}</th>
                             <td>{project.title}</td>
+                            <td><h5><ApprovedBadge value={project.approved} /></h5></td>
                             <td>{project.description}</td>
                             <td>{project.field}</td>
                             <td>{project.domain}</td>

@@ -110,14 +110,14 @@ function Projects(props) {
                     }} />
                 </Col>
             </Row>
-            <Row className="mt-4 bg-color-off-white rounded-2 p-2">
+            {/* <Row className="mt-4 bg-color-off-white rounded-2 p-2">
                 <Col xs="auto">
                     <h3 className="text-color-main font-weight-bold mb-0 mr-4 d-inline">Filters</h3>
                 </Col>
                 <Col xs="auto">
 
                 </Col>
-            </Row>
+            </Row> */}
             <Row className="mt-4">
                 {
                     (loading) ?

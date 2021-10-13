@@ -105,8 +105,6 @@ function Profile(props) {
                 </Col>
             </Row>
             <Field title="Group" value={profile.group} />
-            {/* <Field title="Bio" value={profile.bio} /> */}
-            {/* <Field title="User Since" value={profile.reg_date} /> */}
             <Field title="Skills" value={skill_str} />
             <Field title="Address" value={profile.address}></Field>
             <Field title="Achievements" value="" />

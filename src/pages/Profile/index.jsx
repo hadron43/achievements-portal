@@ -3,7 +3,7 @@ import { Redirect, withRouter } from 'react-router'
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
-import { SocialMedia, Field, AchievementsTable, ProjectsTable } from './ProfileComponents'
+import { SocialMedia, Field, AchievementsTable, ProjectsTable } from '../../components/ProfileComponents'
 import { fetchUserProfile } from '../../redux/ActionCreators';
 
 const mapStateToProps = (state) => ({
