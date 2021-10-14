@@ -3,7 +3,7 @@ import { Container, Row, Col, Badge } from 'reactstrap';
 import { Redirect, useParams, withRouter } from "react-router";
 import { baseUrl } from '../../shared/baseUrl';
 import { connect } from 'react-redux';
-import { ApprovedBadge } from '../../components/Extras';
+import { ApprovedBadge, RenderUser } from '../../components/Extras';
 import Loading from '../../components/Loading';
 import NotFound from '../../components/NotFound';
 
@@ -72,11 +72,11 @@ function Project (props) {
         (
             <>
             <Row className="mb-5">
-                <Col xs={10} className="d-flex">
+                <Col xs={8} md={10} className="d-flex">
                     <h1 className="d-flex m-auto font-weight-bold">Project</h1>
                 </Col>
 
-                <Col xs={2} className="d-flex">
+                <Col xs={4} md={2} className="d-flex">
                     <img src="/assets/idea.png" alt="Idea" className="d-flex m-auto"
                         style={{maxHeight: "100%", maxWidth: "100%"}} />
                 </Col>
@@ -106,6 +106,15 @@ function Project (props) {
                 </Col>
                 <Col md={8}>
                 <h3><ApprovedBadge value={projectDetails.approved} /></h3>
+                </Col>
+            </Row>
+
+            <Row className="mt-3">
+                <Col md={4}>
+                    <h3 className="text-color-main">Added By</h3>
+                </Col>
+                <Col md={8}>
+                    <RenderUser user={projectDetails.addedBy} />
                 </Col>
             </Row>
 
@@ -172,12 +181,12 @@ function Project (props) {
                 </Col>
             </Row>
 
-            <Row className={`${projectDetails.approvedBy ? "d-block" : "d-none"} mt-3`}>
+            <Row className={`${projectDetails.approvedBy ? "" : "d-none"} mt-3`}>
                 <Col md={4}>
                     <h3 className="text-color-main">Approved By</h3>
                 </Col>
                 <Col md={8}>
-                <p className="h4 text-black">{projectDetails.approvedBy}</p>
+                    <RenderUser user={projectDetails.approvedBy} />
                 </Col>
             </Row>
 

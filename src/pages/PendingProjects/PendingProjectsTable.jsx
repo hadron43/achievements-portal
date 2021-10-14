@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 import { connect } from 'react-redux';
 
-import { approveProject } from '../../redux/ActionCreators';
+import { approveProject, rejectProject } from '../../redux/ActionCreators';
+import { RejectionModal } from '../../components/Extras';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
@@ -13,17 +14,27 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    approveProject: (key, projectId, userId) => dispatch(approveProject(key, projectId, userId))
+    approveProject: (key, projectId, userId) => dispatch(approveProject(key, projectId, userId)),
+    rejectProject: (key, projectId, userId, feedback) => dispatch(rejectProject(key, projectId, userId, feedback))
 });
 
 function PendingProjectsTable(props) {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [projectId, setProjectId] = useState(null);
+    const [projectTitle, setProjectTitle] = useState(null);
+
     if(!props.pendingProjects)
-        return (
-            <>
-            </>
-        );
+        return (<></>);
 
     return (
+        <>
+        <RejectionModal
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}
+            id={projectId}
+            title={projectTitle}
+            onReject={(reason) => props.rejectProject(props.token, projectId, null, reason)}
+                />
         <Table hover responsive className="rounded-2">
             <thead>
                 <tr>
@@ -55,7 +66,7 @@ function PendingProjectsTable(props) {
                                 onClick={() => props.approveProject(props.token, project.id, null)}
                                 color="success"
                                 className="w-100"
-                                disabled={project.approving || project.rejecting || (project.approved === 'approved') || project.rejected} >
+                                disabled={project.approving || project.rejecting || (project.approved === 'approved') || (project.approved === 'rejected')} >
                                     {
                                         (project.approved === 'approved') ?
                                             <i className="fa fa-check w-100 text-center" aria-hidden="true"></i>
@@ -66,9 +77,20 @@ function PendingProjectsTable(props) {
                             </td>
                             <td>
                                 <Button
-                                disabled={project.approving || project.rejecting || (project.approved === 'approved') || project.rejected}
+                                disabled={project.approving || project.rejecting || (project.approved === 'approved') || (project.approved === 'rejected')}
+                                className="w-100"
+                                onClick={() => {
+                                    setModalOpen(true)
+                                    setProjectId(project.id)
+                                    setProjectTitle(project.title)
+                                }}
                                 color="danger" >
-                                Reject
+                                    {
+                                        (project.approved === 'rejected') ?
+                                            <i className="fa fa-check w-100 text-center" aria-hidden="true"></i>
+                                        :
+                                        <>Reject</>
+                                    }
                                 </Button>
                             </td>
                             </tr>
@@ -77,6 +99,7 @@ function PendingProjectsTable(props) {
                 }
             </tbody>
         </Table>
+        </>
     );
 }
 

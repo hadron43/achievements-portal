@@ -3,7 +3,7 @@ import { Container, Row, Col, Badge } from 'reactstrap';
 import { Redirect, useParams, withRouter } from "react-router";
 import { baseUrl } from '../../shared/baseUrl';
 import { connect } from 'react-redux';
-import { ApprovedBadge } from '../../components/Extras';
+import { ApprovedBadge, RenderUser } from '../../components/Extras';
 import Loading from '../../components/Loading';
 import NotFound from '../../components/NotFound'
 
@@ -61,7 +61,7 @@ function Achievement (props) {
     return (
         <Container className="p-3 p-md-4 p-lg-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
         {
-        (!props.authorized) ? 
+        (!props.authorized) ?
         (
             <Redirect to="/login" />
         ) :
@@ -72,11 +72,12 @@ function Achievement (props) {
         (
             <>
             <Row className="mb-5">
-                <Col xs={10} className="d-flex">
-                    <h1 className="d-flex m-auto font-weight-bold">Achievement</h1>
+                <Col xs={8} md={10} className="d-flex">
+                    <h2 className="d-flex d-md-none m-auto font-weight-bold">Achievement</h2>
+                    <h1 className="d-none d-md-flex m-auto font-weight-bold">Achievement</h1>
                 </Col>
 
-                <Col xs={2} className="d-flex">
+                <Col xs={4} md={2} className="d-flex">
                     <img src="/assets/medal.png" alt="Medal" className="d-flex m-auto"
                         style={{maxHeight: "100%", maxWidth: "100%"}} />
                 </Col>
@@ -124,6 +125,15 @@ function Achievement (props) {
                 </Col>
                 <Col md={8}>
                 <p className="h4 text-black">{(achievementDetails.institution) ? achievementDetails.institution.title : ""}</p>
+                </Col>
+            </Row>
+
+            <Row className="mt-3">
+                <Col md={4}>
+                    <h3 className="text-color-main">Added By</h3>
+                </Col>
+                <Col md={8}>
+                    <RenderUser user={achievementDetails.addedBy} />
                 </Col>
             </Row>
 
@@ -180,6 +190,17 @@ function Achievement (props) {
                     (
                         <>None</>
                     )}
+                </p>
+                </Col>
+            </Row>
+
+            <Row className={`mt-3 ${achievementDetails.feedback ? "" : "d-none"}`}>
+                <Col md={4}>
+                    <h3 className="text-color-main">Feedback by admin</h3>
+                </Col>
+                <Col md={8}>
+                <p className="h4 text-black">
+                    {achievementDetails.feedback}
                 </p>
                 </Col>
             </Row>

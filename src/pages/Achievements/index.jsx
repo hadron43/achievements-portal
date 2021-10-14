@@ -38,7 +38,7 @@ function fetchAchievements(key, query, setAchievements, setLoading, setErrorMess
     .then(response => response.json())
     .then(response => {
         console.log(response)
-        setAchievements(response.achievements)
+        setAchievements(response.achievements.filter(achievement => achievement.approved === 'approved'))
         setLoading(false)
         return response
     })

@@ -600,8 +600,7 @@ export const approveProject = (key, projectId, userId) => (dispatch) => {
     })
 }
 
-export const rejectProject = (key, projectId, userId) => (dispatch) => {
-    // decide how to denote rejected projects
+export const rejectProject = (key, projectId, userId, feedback) => (dispatch) => {
     dispatch(projectRejecting(projectId));
     let token_head = 'Token '+key;
     fetch(baseUrl+'main/api/project/'+projectId+'/', {
@@ -611,9 +610,9 @@ export const rejectProject = (key, projectId, userId) => (dispatch) => {
             'Authorization': token_head
         },
         body: JSON.stringify({
-            // dedide what to do here
             approved: 'rejected',
-            approvedBy: userId
+            approvedBy: userId,
+            feedback: feedback
         })
     })
     .then((response) => {
@@ -732,9 +731,10 @@ export const approveAchievement = (key, achievementId, userId) => (dispatch) => 
     })
 }
 
-export const rejectAchievement = (key, achievementId, userId) => (dispatch) => {
+export const rejectAchievement = (key, achievementId, userId, feedback) => (dispatch) => {
     dispatch(achievementRejecting(achievementId));
     let token_head = 'Token '+key;
+    console.log("try kr rha hu bhai")
     fetch(baseUrl+'main/api/achievement/'+achievementId+'/', {
         method: 'PATCH',
         headers: {
@@ -742,22 +742,22 @@ export const rejectAchievement = (key, achievementId, userId) => (dispatch) => {
             'Authorization': token_head
         },
         body: JSON.stringify({
-            // decide what to do here
             approved: 'rejected',
-            approvedBy: userId
+            approvedBy: userId,
+            feedback: feedback
         })
     })
     .then((response) => {
         if(!response.ok) {
             console.log(response)
-            throw new Error('There was a problem approving this achievement!')
+            throw new Error('There was a problem rejecting this achievement!')
         }
         console.log(response)
         return response
     })
     .then(response => response.json())
     .then(response => {
-        dispatch(achievementApproved(achievementId))
+        dispatch(achievementRejected(achievementId))
         return response
     })
     .catch(error => {

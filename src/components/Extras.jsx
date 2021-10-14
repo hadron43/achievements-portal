@@ -1,5 +1,6 @@
-import React from 'react'
-import { Badge } from 'reactstrap'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Badge, Input, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 
 function ApprovedBadge({ value }) {
     return (
@@ -20,4 +21,48 @@ function ApprovedBadge({ value }) {
     )
 }
 
-export { ApprovedBadge };
+function RejectionModal({ modalOpen, setModalOpen, onReject, title, id, className=""}) {
+    const [reason, setReason] = useState("");
+    const toggle = () => setModalOpen(!modalOpen)
+
+    return (
+        <Modal isOpen={modalOpen} toggle={toggle} className={className}>
+            <ModalHeader toggle={toggle}>
+                {id}. {title}
+            </ModalHeader>
+            <ModalBody>
+                <Input type="textarea"
+                    value={reason}
+                    onChange={(e) => setReason(e.value)}
+                    name="reason"
+                    placeholder="Enter reason for rejection"
+                    className="w-100 px-2"
+                        />
+            </ModalBody>
+            <ModalFooter>
+                <Button color="danger" onClick={() => {
+                    onReject(reason)
+                    toggle()
+                }}>
+                    Reject
+                </Button>{' '}
+                <Button color="secondary" onClick={toggle}>Cancel</Button>
+            </ModalFooter>
+        </Modal>
+    )
+}
+
+function RenderUser({ user }) {
+    if(!user)
+        return (<></>)
+
+    return (
+        <Link to={"/profile/"+user.id}>
+        <Button outline color="primary" className="rounded-pill">
+            {user.first_name + ' ' + user.last_name}
+        </Button>
+        </Link>
+    );
+}
+
+export { ApprovedBadge, RejectionModal, RenderUser };

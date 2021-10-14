@@ -69,7 +69,7 @@ export const Admin = (state = initialState, action) => {
             if(objIndex < 0)
                 return newState
             newState.pendingProjects[objIndex].rejecting = false
-            newState.pendingProjects[objIndex].rejected = true
+            newState.pendingProjects[objIndex].approved = 'rejected'
             return newState
         case ActionTypes.PROJECT_ERROR:
             if(!state.pendingProjects)
@@ -125,7 +125,7 @@ export const Admin = (state = initialState, action) => {
             if(objIndex < 0)
                 return newState
             newState.pendingAchievements[objIndex].rejecting = false
-            newState.pendingAchievements[objIndex].rejected = true
+            newState.pendingAchievements[objIndex].approved = 'rejected'
             return newState
         case ActionTypes.ACHIEVEMENT_ERROR:
             if(!state.pendingAchievements)

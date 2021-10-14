@@ -38,7 +38,7 @@ function fetchProjects(key, query, setProjects, setLoading, setErrorMessage) {
     .then(response => response.json())
     .then(response => {
         console.log(response)
-        setProjects(response.projects)
+        setProjects(response.projects.filter(project => project.approved === 'approved'))
         setLoading(false)
         return response
     })

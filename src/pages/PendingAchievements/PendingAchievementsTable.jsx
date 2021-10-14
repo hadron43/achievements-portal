@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 import { connect } from 'react-redux';
 
-import { approveAchievement } from '../../redux/ActionCreators';
+import { approveAchievement, rejectAchievement } from '../../redux/ActionCreators';
+import { RejectionModal } from '../../components/Extras';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
@@ -13,13 +14,26 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    approveAchievement: (key, achievementId, userId) => dispatch(approveAchievement(key, achievementId, userId))
+    approveAchievement: (key, achievementId, userId) => dispatch(approveAchievement(key, achievementId, userId)),
+    rejectAchievement: (key, achievementId, userId, feedback) => dispatch(rejectAchievement(key, achievementId, userId, feedback))
 });
 
 function PendingAchievementsTable(props) {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [achievementId, setAchievementId] = useState(null);
+    const [achievementTitle, setAchievementTitle] = useState(null);
+
     if(!props.pendingAchievements)
         return (<></>);
     return (
+        <>
+        <RejectionModal
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}
+            id={achievementId}
+            title={achievementTitle}
+            onReject={(reason) => props.rejectAchievement(props.token, achievementId, null, reason)}
+                />
         <Table hover responsive className="rounded-2">
             <thead>
                 <tr>
@@ -51,7 +65,7 @@ function PendingAchievementsTable(props) {
                                 onClick={() => props.approveAchievement(props.token, achievement.id, null)}
                                 color="success"
                                 className="w-100"
-                                disabled={achievement.approving || achievement.rejecting || (achievement.approved === 'approved') || achievement.rejected} >
+                                disabled={achievement.approving || achievement.rejecting || (achievement.approved === 'approved') || (achievement.approved === 'rejected')} >
                                     {
                                         (achievement.approved === 'approved') ?
                                             <i className="fa fa-check w-100 text-center" aria-hidden="true"></i>
@@ -62,9 +76,20 @@ function PendingAchievementsTable(props) {
                             </td>
                             <td>
                                 <Button
-                                disabled={achievement.approving || achievement.rejecting || (achievement.approved === 'approved') || achievement.rejected}
+                                disabled={achievement.approving || achievement.rejecting || (achievement.approved === 'approved') || (achievement.approved === 'rejected')}
+                                className="w-100"
+                                onClick={() => {
+                                    setModalOpen(true)
+                                    setAchievementId(achievement.id)
+                                    setAchievementTitle(achievement.title)
+                                }}
                                 color="danger" >
-                                Reject
+                                    {
+                                        (achievement.approved === 'rejected') ?
+                                            <i className="fa fa-check w-100 text-center" aria-hidden="true"></i>
+                                        :
+                                        <>Reject</>
+                                    }
                                 </Button>
                             </td>
                             </tr>
@@ -73,6 +98,7 @@ function PendingAchievementsTable(props) {
                 }
             </tbody>
         </Table>
+        </>
     );
 }
 
