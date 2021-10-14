@@ -33,7 +33,7 @@ function RejectionModal({ modalOpen, setModalOpen, onReject, title, id, classNam
             <ModalBody>
                 <Input type="textarea"
                     value={reason}
-                    onChange={(e) => setReason(e.value)}
+                    onChange={(e) => setReason(e.target.value)}
                     name="reason"
                     placeholder="Enter reason for rejection"
                     className="w-100 px-2"

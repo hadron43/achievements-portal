@@ -69,7 +69,6 @@ export const login = (username, password) => (dispatch) => {
     })
     .then(response => response.json())
     .then(({key}) => {
-        console.log(key);
         dispatch(loadKey(key));
         dispatch(loggingIn(false));
     })
@@ -348,7 +347,7 @@ export const addAchievementPostingSuccess = (message) => ({
 export const postNewAchievement = (key, stateObj, clearFunction) => (dispatch) => {
     dispatch(addAchievementPosting(true));
     let token_head = 'Token '+key;
-    console.log(stateObj)
+
     var bodyObj = {
         title: stateObj.title,
         description: stateObj.description,
@@ -405,7 +404,7 @@ export const addProjectPostingSuccess = (message) => ({
 export const postNewProject = (key, stateObj, clearFunction) => (dispatch) => {
     dispatch(addProjectPosting(true));
     let token_head = 'Token '+key;
-    console.log(stateObj)
+
     var bodyObj = {
         title: stateObj.title,
         description: stateObj.description,
@@ -418,8 +417,6 @@ export const postNewProject = (key, stateObj, clearFunction) => (dispatch) => {
         mentors: stateObj.mentors.map(mentor => mentor.id),
         tags: stateObj.tags.map(tag => tag.id)
     }
-
-    console.log(bodyObj)
 
     fetch(baseUrl+'main/api/project/', {
         method: 'POST',
@@ -620,7 +617,6 @@ export const rejectProject = (key, projectId, userId, feedback) => (dispatch) =>
             console.log(response)
             throw new Error('There was a problem rejecting this project!')
         }
-        console.log(response)
         return response
     })
     .then(response => response.json())
@@ -734,7 +730,6 @@ export const approveAchievement = (key, achievementId, userId) => (dispatch) => 
 export const rejectAchievement = (key, achievementId, userId, feedback) => (dispatch) => {
     dispatch(achievementRejecting(achievementId));
     let token_head = 'Token '+key;
-    console.log("try kr rha hu bhai")
     fetch(baseUrl+'main/api/achievement/'+achievementId+'/', {
         method: 'PATCH',
         headers: {
@@ -752,7 +747,6 @@ export const rejectAchievement = (key, achievementId, userId, feedback) => (disp
             console.log(response)
             throw new Error('There was a problem rejecting this achievement!')
         }
-        console.log(response)
         return response
     })
     .then(response => response.json())
