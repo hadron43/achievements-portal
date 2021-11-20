@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Container, Row, Col, Badge } from 'reactstrap';
 import { Redirect, useParams, withRouter } from "react-router";
 import { baseUrl } from '../../shared/baseUrl';
@@ -47,11 +47,12 @@ function Project (props) {
     const [errorMessage, setErrorMessage] = useState(false);
     const [projectDetails, setProjectDetails] = useState(false);
     const {projectId} = useParams();
-
-    if(!loading && !errorMessage && !projectDetails) {
-        setLoading(true);
-        fetchProject(props.token, projectId, setProjectDetails, setLoading, setErrorMessage);
-    }
+    useEffect(() => {
+        if(!loading && !errorMessage && !projectDetails) {
+            setLoading(true);
+            fetchProject(props.token, projectId, setProjectDetails, setLoading, setErrorMessage);
+        }
+    }, [loading, errorMessage, projectDetails, projectId, props.token])
 
     if(errorMessage)
         return (

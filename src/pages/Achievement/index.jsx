@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Container, Row, Col, Badge } from 'reactstrap';
 import { Redirect, useParams, withRouter } from "react-router";
 import { baseUrl } from '../../shared/baseUrl';
@@ -47,11 +47,12 @@ function Achievement (props) {
     const [errorMessage, setErrorMessage] = useState(false);
     const [achievementDetails, setAchievementDetails] = useState(false);
     const {achievementId} = useParams();
-
-    if(!loading && !errorMessage && !achievementDetails) {
-        setLoading(true);
-        fetchAchievement(props.token, achievementId, setAchievementDetails, setLoading, setErrorMessage);
-    }
+    useEffect(() => {
+        if(!loading && !errorMessage && !achievementDetails) {
+            setLoading(true);
+            fetchAchievement(props.token, achievementId, setAchievementDetails, setLoading, setErrorMessage);
+        }
+    }, [loading, errorMessage, achievementDetails, props, achievementId])
 
     if(errorMessage)
         return (

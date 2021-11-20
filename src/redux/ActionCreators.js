@@ -79,6 +79,35 @@ export const login = (username, password) => (dispatch) => {
     });
 }
 
+export const loginOSA = (username, password) => (dispatch) => {
+    dispatch(loggingIn(true));
+    return fetch(baseUrl+'auth/login/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        }) // body data type must match "Content-Type" header
+    })
+    .then(response => {
+        if(!response.ok)
+            throw Error("Error occurred!");
+        return response;
+    })
+    .then(response => response.json())
+    .then(({key}) => {
+        dispatch(loadKey(key));
+        dispatch(loggingIn(false));
+    })
+    .catch(err => {
+        console.log(err);
+        dispatch(loggingIn(false));
+        dispatch(loginFailed(err.message));
+    });
+}
+
 export const loggingIn = (value) => ({
     type: ActionTypes.LOGGING_IN,
     payload: value

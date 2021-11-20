@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Table, Button } from 'reactstrap';
+import { Row, Col, Table, Button, Input, InputGroup, InputGroupText } from 'reactstrap';
 import { ApprovedBadge } from '../components/Extras';
 import Loading from './Loading';
 
@@ -12,6 +12,83 @@ function Field({title, value}) {
             </Col>
             <Col md="8">
                 <p className="h4">{value}</p>
+            </Col>
+        </Row>
+    )
+}
+
+function FieldInput({title, value, setValue, type="text"}) {
+    return (
+        <Row className="mt-3 mb-3">
+            <Col md="4">
+                <h3 className="font-weight-bold">{title}</h3>
+            </Col>
+            <Col md="8">
+                <Input type={type} value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    ></Input>
+            </Col>
+        </Row>
+    )
+}
+
+function FieldInputDropDown({title, value, setValue, values}) {
+    return (
+        <Row className="mt-3 mb-3">
+            <Col md="4">
+                <h3 className="font-weight-bold">{title}</h3>
+            </Col>
+            <Col md="8">
+                <Input type='select' value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    >
+                    <>
+                    {
+                        values.map((category) => {
+                            return (
+                                <option value={category.id}>{category.title}</option>
+                            );
+                        })
+                    }
+                    </>
+                </Input>
+            </Col>
+        </Row>
+    )
+}
+
+function InputSocialMedia({instagram, setInstagram, facebook, setFacebook,
+    github, setGithub, twitter, setTwitter}) {
+    return (
+        <Row className="mt-3 mb-3">
+            <Col md="4">
+                <h3 className="font-weight-bold">Social Media</h3>
+            </Col>
+            <Col md="8">
+                <InputGroup className="mb-2">
+                    <InputGroupText className="p-1">
+                        <i class={`fa fa-facebook-square fa-2x text-primary`}></i>
+                    </InputGroupText>
+                    <Input bsSize="lg" value={facebook} setValue={setFacebook} />
+                </InputGroup>
+                <InputGroup className="mb-2">
+                    <InputGroupText className="p-1">
+                        <i class={`fa fa-instagram fa-2x text-danger`}></i>
+                    </InputGroupText>
+                    <Input bsSize="lg" value={instagram} setValue={setInstagram} />
+                </InputGroup>
+                <InputGroup className="mb-2">
+                    <InputGroupText className="p-1">
+                        <i class={`fa fa-twitter-square fa-2x text-info`}></i>
+                    </InputGroupText>
+                    <Input bsSize="lg" value={twitter} setValue={setTwitter} />
+                </InputGroup>
+                <InputGroup className="mb-2">
+                    <InputGroupText className="p-1">
+                        <i class={`fa fa-github-square fa-2x text-dark`}></i>
+                    </InputGroupText>
+                    <Input bsSize="lg" value={github} setValue={setGithub} />
+                </InputGroup>
             </Col>
         </Row>
     )
@@ -143,4 +220,4 @@ function ProjectsTable(props) {
 
 }
 
-export {Field, SocialMedia, AchievementsTable, ProjectsTable};
+export {Field, SocialMedia, AchievementsTable, ProjectsTable, FieldInput, FieldInputDropDown, InputSocialMedia};

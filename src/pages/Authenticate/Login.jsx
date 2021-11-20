@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, FormGroup, Input, Button } from 'reactstrap'
 import {Link, withRouter, Redirect} from 'react-router-dom';
-import { login } from '../../redux/ActionCreators';
+import { login, loginOSA } from '../../redux/ActionCreators';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
 
@@ -12,7 +12,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    login: (email, password) => {dispatch(login(email, password))}
+    login: (email, password) => {dispatch(login(email, password))},
+    loginOSA: (email, password) => {dispatch(loginOSA(email, password))}
 });
 
 class Login extends Component {
@@ -49,11 +50,12 @@ class Login extends Component {
                     <Col md="6" className="d-none d-md-flex p-0">
                         <img src="assets/login.jpg" alt="banner" className="d-flex mx-auto w-100 h-100 rounded-left-3"></img>
                     </Col>
-                    
-                    <Col md="6" xs="12">
+
+                    <Col md="6" xs="12"
+                        className="py-3">
                         <Row>
                             <Col xs="12" className="d-flex mt-4">
-                                <img src="IIITDLogo.png" alt="IIITD Logo" className="w-25 d-flex m-auto"></img>
+                                <img src="IIITDLogo.png" alt="IIITD Logo" className="w-25 d-flex mx-auto mt-4 mb-4"></img>
                             </Col>
                         </Row>
 
@@ -69,14 +71,23 @@ class Login extends Component {
                                     <Input type="password" name="password" id="password" placeholder="Password"
                                         value={this.state.password} onChange={this.handlePasswordChange}/>
                                 </FormGroup>
-                                <Button color="info" disabled={this.props.loggingIn} onClick={this.handleSubmit} className='bg-color-main-ui w-50 rounded-pill mt-3 mb-4'>Login</Button>
+                                <Button color="info" disabled={this.props.loggingIn}
+                                    onClick={this.handleSubmit}
+                                    className='bg-color-main-ui w-50 rounded-pill mt-3 mb-4'>
+                                        Login
+                                </Button>
+                                <Button color="info" disabled={this.props.loggingIn}
+                                    onClick={() => this.props.loginOSA(this.state.username, this.state.password)}
+                                    className='bg-color-main-ui pl-5 pr-5 rounded-pill mt-3 mb-4 ml-2'>
+                                        Login OSA
+                                </Button>
                             </Form>
                             </Col>
 
                             {
                                 this.props.loggingIn ?
                                     <Col xs = "12">
-                                        <Loading />
+                                        <Loading margin="my-2" />
                                     </Col>
                                 :
                                     <>
@@ -87,17 +98,6 @@ class Login extends Component {
                                         <Link to="/signup">
                                             <Button color="info" className='bg-color-main-ui w-50 rounded-pill mb-3'>Sign Up</Button>
                                         </Link>
-                                    </Col>
-
-                                    <Col xs="12">
-                                        <hr/>
-                                    </Col>
-
-                                    <Col>
-                                        <Button outline color='danger' className='w-100 rounded-pill mt-3 mb-4'>
-                                            <i className="fa fa-lg fa-google mr-3" aria-hidden="true"></i>
-                                            Continue With Google
-                                        </Button>
                                     </Col>
                                     </>
                             }
