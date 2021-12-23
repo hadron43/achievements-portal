@@ -69,25 +69,25 @@ function InputSocialMedia({instagram, setInstagram, facebook, setFacebook,
                     <InputGroupText className="p-1">
                         <i class={`fa fa-facebook-square fa-2x text-primary`}></i>
                     </InputGroupText>
-                    <Input bsSize="lg" value={facebook} setValue={setFacebook} />
+                    <Input bsSize="lg" value={facebook} onChange={(e) => setFacebook(e.target.value)} />
                 </InputGroup>
                 <InputGroup className="mb-2">
                     <InputGroupText className="p-1">
                         <i class={`fa fa-instagram fa-2x text-danger`}></i>
                     </InputGroupText>
-                    <Input bsSize="lg" value={instagram} setValue={setInstagram} />
+                    <Input bsSize="lg" value={instagram} onChange={(e) => setInstagram(e.target.value)} />
                 </InputGroup>
                 <InputGroup className="mb-2">
                     <InputGroupText className="p-1">
                         <i class={`fa fa-twitter-square fa-2x text-info`}></i>
                     </InputGroupText>
-                    <Input bsSize="lg" value={twitter} setValue={setTwitter} />
+                    <Input bsSize="lg" value={twitter} onChange={(e) => setTwitter(e.target.value)} />
                 </InputGroup>
                 <InputGroup className="mb-2">
                     <InputGroupText className="p-1">
                         <i class={`fa fa-github-square fa-2x text-dark`}></i>
                     </InputGroupText>
-                    <Input bsSize="lg" value={github} setValue={setGithub} />
+                    <Input bsSize="lg" value={github} onChange={(e) => setGithub(e.target.value)} />
                 </InputGroup>
             </Col>
         </Row>
@@ -154,7 +154,7 @@ function AchievementsTable(props) {
                             <td>{new Date(achievement.achievedDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
                                 <Link to={"/achievement/"+achievement.id}>
-                                <Button color="warning" >View</Button>
+                                <Button color="info" >View</Button>
                                 </Link>
                             </td>
                             </tr>
@@ -206,7 +206,7 @@ function ProjectsTable(props) {
                             <td>{project.domain}</td>
                             <td>
                                 <Link to={"/project/"+project.id}>
-                                <Button color="warning">View</Button>
+                                <Button color="info">View</Button>
                                 </Link>
                             </td>
                             </tr>

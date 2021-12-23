@@ -58,7 +58,7 @@ function PendingProjectsTable(props) {
                             <td>{new Date(project.dateCreated).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
                                 <Link to={"/project/"+project.id}>
-                                <Button color="warning" >View</Button>
+                                <Button color="info" >View</Button>
                                 </Link>
                             </td>
                             <td>

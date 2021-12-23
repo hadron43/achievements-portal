@@ -57,7 +57,7 @@ function PendingAchievementsTable(props) {
                             <td>{new Date(achievement.achievedDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
                             <Link to={"/achievement/"+achievement.id}>
-                                <Button color="warning" >View</Button>
+                                <Button color="info" >View</Button>
                                 </Link>
                             </td>
                             <td>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router';
-import { Container, Row, Col, Label, Button, Form, Input, CustomInput, Progress } from 'reactstrap';
+import { Container, Row, Col, Label, Button, Form, Input} from 'reactstrap';
 // import Loading from '../../components/Loading';
 import { fetchStudentsList, fetchProfessorsList, fetchInstitutesList, fetchTagsList, postTag, postNewProject, addProjectPostingSuccess } from '../../redux/ActionCreators';
 import { storage } from '../../firebase';
@@ -61,7 +61,7 @@ const initialState = {
     tagsInputErr: '',
     category: 0,
     type: false,
-    proof: null,
+    url: null,
     file: null,
     progress: 0
 }
@@ -297,8 +297,23 @@ class AddProject extends Component {
                     </Row>
 
                     <Row className="form-group">
+                        <Label htmlFor="description" md={3}>
+                            <h4 className="font-weight-bold">URL</h4>
+                        </Label>
+                        <Col md={9}>
+                            <Input type="text"
+                                value={this.state.url}
+                                onChange={this.handleInputChange}
+                                name="url"
+                                placeholder="Enter URL"
+                                className="w-100 px-2"
+                                    />
+                        </Col>
+                    </Row>
+
+                    <Row className="form-group">
                         <Label htmlFor="institution" md={3}>
-                            <h4 className="font-weight-bold">Institution / Organization</h4>
+                            <h4 className="font-weight-bold">Institution</h4>
                         </Label>
                         <Col md={9}>
                             <Input type="select" name="institution" value={this.state.institution} onChange={this.handleInputChange} className="w-100"
@@ -525,7 +540,7 @@ class AddProject extends Component {
                         </Col>
                     </Row>
 
-                    <Row className="form-group">
+                    {/* <Row className="form-group">
                         <Label md={3}>
                             <h4 className="font-weight-bold">Proof</h4>
                         </Label>
@@ -536,7 +551,7 @@ class AddProject extends Component {
                                     onChange={this.handleFileChange}/>
 
                                 <Progress multi
-                                    className={`mt-2 ${this.state.progress > 0 && this.state.progress !== 100 ? "" : "d-none"}`}>
+                                    className={`mt-2`}>
                                     <Progress bar animated color="success"
                                         value={this.state.progress} />
                                 </Progress>
@@ -556,7 +571,7 @@ class AddProject extends Component {
                             </Col>
                             </Row>
                         </Col>
-                    </Row>
+                    </Row> */}
 
                     <Row>
                         <Col xs="12">

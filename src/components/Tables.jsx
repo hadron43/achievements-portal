@@ -29,7 +29,7 @@ function AchievementsTable({arrayOfAchievements, deleteAchievement, token}) {
                             <td>{new Date(achievement.achievedDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
                                 <Link to={"/achievement/"+achievement.id}>
-                                <Button color="warning" >View</Button>
+                                <Button color="info" >View</Button>
                                 </Link>
                             </td>
                             <td>
@@ -85,7 +85,7 @@ function ProjectsTable({arrayofProjects, deleteProject, token}) {
                             <td>{new Date(project.endDate).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
                                 <Link to={"/project/"+project.id}>
-                                <Button color="warning" >View</Button>
+                                <Button color="info" >View</Button>
                                 </Link>
                             </td>
                             <td>

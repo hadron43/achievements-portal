@@ -72,7 +72,7 @@ function Results( {achievements} ) {
                             <td>{new Date(achievement.dateCreated).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
                                 <Link to={"/achievement/"+achievement.id}>
-                                    <Button color="warning">
+                                    <Button color="info">
                                         View
                                     </Button>
                                 </Link>

@@ -57,7 +57,7 @@ function RenderUser({ user }) {
         return (<></>)
 
     return (
-        <Link to={"/profile/"+user.id}>
+        <Link to={`/profile/${user.id ? user.id : user.user}`}>
         <Button outline color="primary" className="rounded-pill">
             {user.first_name + ' ' + user.last_name}
         </Button>

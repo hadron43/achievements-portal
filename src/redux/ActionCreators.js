@@ -139,6 +139,55 @@ export const fetchUserProfile = (key) => (dispatch) => {
     })
 }
 
+export const patchUserProfile = (key,
+        name, email, phone, showemail, showphone, group, dob, gender,
+        address, github, instagram, facebook, twitter, profilepic,
+        setSaving, setSavingMessage, setSavingSuccess
+    ) => (dispatch) => {
+    setSaving(true)
+    setSavingMessage('')
+    let token_head = 'Token '+key;
+    return fetch(baseUrl+'auth/api/profile/1/', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        },
+        body: JSON.stringify({
+            name: name,
+            email: email,
+            phone: phone,
+            show_email: showemail,
+            show_phone: showphone,
+            group: group,
+            dob: dob,
+            gender: gender,
+            address: address,
+            github: github,
+            instagram: instagram,
+            facebook: facebook,
+            twitter: twitter,
+            profile_pic: profilepic
+        })
+    })
+    .then(response => {
+        if(!response.ok) {
+            setSavingSuccess(false)
+            setSavingMessage('Errow while saving profile!')
+        }
+        return response.json()
+    })
+    .then(response => {
+        setSavingMessage('Profile saved!')
+        setSavingSuccess(true)
+        setSaving(false)
+    })
+    .catch(err => {
+        console.log(err);
+        setSaving(false)
+    })
+}
+
 export const fetchUserAchievements = (key) => (dispatch) => {
     let token_head = 'Token '+key;
     // Fetch achievements of the logged in user
@@ -442,9 +491,11 @@ export const postNewProject = (key, stateObj, clearFunction) => (dispatch) => {
         endDate: stateObj.enddate,
         field: stateObj.field,
         domain: stateObj.domain,
+        url: stateObj.url,
         students: stateObj.team.map(member => member.id),
         mentors: stateObj.mentors.map(mentor => mentor.id),
-        tags: stateObj.tags.map(tag => tag.id)
+        tags: stateObj.tags.map(tag => tag.id),
+        proof: stateObj.proof
     }
 
     fetch(baseUrl+'main/api/project/', {

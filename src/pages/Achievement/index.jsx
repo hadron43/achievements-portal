@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Container, Row, Col, Badge } from 'reactstrap';
+import { Container, Row, Col, Badge, Button } from 'reactstrap';
 import { Redirect, useParams, withRouter } from "react-router";
 import { baseUrl } from '../../shared/baseUrl';
 import { connect } from 'react-redux';
@@ -138,6 +138,48 @@ function Achievement (props) {
                 </Col>
             </Row>
 
+            <Row className={`mt-3`}>
+                <Col md={4}>
+                    <h3 className="text-color-main">Team Members</h3>
+                </Col>
+                <Col md={8}>
+                <p className="h4 text-black">
+                    {(achievementDetails.members && achievementDetails.members.length > 0) ?(
+                        achievementDetails.members.map((member) => {
+                            return (
+                                <RenderUser user={member} />
+                            );
+                        })
+                    )
+                    :
+                    (
+                        <>None</>
+                    )}
+                </p>
+                </Col>
+            </Row>
+
+            <Row className={`mt-3`}>
+                <Col md={4}>
+                    <h3 className="text-color-main">Mentors</h3>
+                </Col>
+                <Col md={8}>
+                <p className="h4 text-black">
+                    {(achievementDetails.mentors && achievementDetails.mentors.length > 0) ?(
+                        achievementDetails.mentors.map((mentor) => {
+                            return (
+                                <RenderUser user={mentor} />
+                            );
+                        })
+                    )
+                    :
+                    (
+                        <>None</>
+                    )}
+                </p>
+                </Col>
+            </Row>
+
             <Row className="mt-3">
                 <Col md={4}>
                     <h3 className="text-color-main">Description</h3>
@@ -192,6 +234,24 @@ function Achievement (props) {
                         <>None</>
                     )}
                 </p>
+                </Col>
+            </Row>
+
+            <Row className="mt-3">
+                <Col md={4}>
+                    <h3 className="text-color-main">Proof</h3>
+                </Col>
+                <Col md={8}>
+                    {
+                        (achievementDetails.proof) ?
+                        <a href={achievementDetails.proof} target='_blank' rel="noreferrer">
+                            <Button>View Proof</Button>
+                        </a>
+                        :
+                        <>
+                        <p className="h4 text-black">Not Available</p>
+                        </>
+                    }
                 </Col>
             </Row>
 

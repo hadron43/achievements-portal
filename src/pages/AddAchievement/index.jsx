@@ -293,7 +293,7 @@ class AddAchievement extends Component {
 
                     <Row className="form-group">
                         <Label htmlFor="institution" md={3}>
-                            <h4 className="font-weight-bold">Institution / Organization</h4>
+                            <h4 className="font-weight-bold">Institution</h4>
                         </Label>
                         <Col md={9}>
                             <Input type="select" name="institution" value={this.state.institution} onChange={this.handleInputChange} className="w-100"
@@ -445,7 +445,7 @@ class AddAchievement extends Component {
                                     onChange={this.handleFileChange}/>
 
                                 <Progress multi
-                                    className={`mt-2 ${this.state.progress > 0 && this.state.progress !== 100 ? "" : "d-none"}`}>
+                                    className={`mt-2`}>
                                     <Progress bar animated color="success"
                                         value={this.state.progress} />
                                 </Progress>

@@ -4,7 +4,7 @@ import { Container, Row, Col, FormGroup, Input, Label, Button, Progress } from '
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
 import { Field, FieldInput, FieldInputDropDown, InputSocialMedia } from '../../components/ProfileComponents'
-import { fetchUserProfile } from '../../redux/ActionCreators';
+import { fetchUserProfile, patchUserProfile } from '../../redux/ActionCreators';
 
 import { storage } from '../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from '@firebase/storage';
@@ -19,7 +19,16 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchUserProfile: (key) => dispatch(fetchUserProfile(key))
+    fetchUserProfile: (key) => dispatch(fetchUserProfile(key)),
+    patchUserProfile: (key,
+        name, email, phone, showemail, showphone, group, dob, gender,
+        address, github, instagram, facebook, twitter, profilepic,
+        setSaving, setSavingMessage, setSavingSuccess
+    ) => dispatch(patchUserProfile(key,
+        name, email, phone, showemail, showphone, group, dob, gender,
+        address, github, instagram, facebook, twitter, profilepic,
+        setSaving, setSavingMessage, setSavingSuccess
+    ))
 });
 
 function Profile(props) {
@@ -46,19 +55,24 @@ function Profile(props) {
     const [file, setFile] = useState('')
     const [progress, setProgress] = useState(0)
 
+    const [saving, setSaving] = useState(false)
+    const [savingMessage, setSavingMessage] = useState('')
+    const [savingSuccess, setSavingSuccess] = useState(true)
+
     useEffect(() => {
         setName(props.profile.name)
         setGroup(props.profile.group)
         setAddress(props.profile.address)
+        setGender(props.profile.gender)
         setdob(props.profile.dob)
         setEmail(props.profile.email)
         setShowemail(props.profile.show_email)
         setShowphone(props.profile.show_phone)
         setTwitter(props.profile.twitter)
-        setFacebook(props.profile.setFacebook)
-        setGithub(props.profile.setGithub)
-        setInstagram(props.profile.setInstagram)
-        // setProfilepic(props.profile.profile_pic)
+        setFacebook(props.profile.instagram)
+        setGithub(props.profile.github)
+        setInstagram(props.profile.instagram)
+        setProfilepic(props.profile.profile_pic)
     }, [props.profile])
 
     const handleUpload = () => {
@@ -97,17 +111,17 @@ function Profile(props) {
         );
     }
 
-    let skill_str = ""
-    for(let i=0; i<props.profile.skills.length; ++i) {
-        skill_str += props.profile.skills[i]
-        if(i !== props.profile.skills.length-1)
-            skill_str += ', '
-    }
+    // let skill_str = ""
+    // for(let i=0; i<props.profile.skills.length; ++i) {
+    //     skill_str += props.profile.skills[i]
+    //     if(i !== props.profile.skills.length-1)
+    //         skill_str += ', '
+    // }
     return (
         <Container className="p-4 p-md-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
             <Row>
                 <Col md="4">
-                    <img src={profilepic ? profilepic : "assets/Profile/dp.png"}
+                    <img src={(profilepic && profilepic !== '.') ? profilepic : "assets/Profile/dp.png"}
                         alt="profile" className="rounded-circle w-100 p-3"/>
                     <Progress multi
                         className={`mt-2 ${progress > 0 && progress !== 100 ? "" : "d-none"}`}>
@@ -136,7 +150,7 @@ function Profile(props) {
                     <FieldInput title="Date of Birth" value={dob}
                         setValue={setdob} type="date" />
                     <FieldInputDropDown title="Gender" value={gender} setValue={setGender}
-                        values={[{id: 1, title: "Male"}, {id: 2, title: "Female"}, {id: 3, title: "Others"}]} />
+                        values={[{id: 1, title: "Female"}, {id: 2, title: "Male"}, {id: 3, title: "Others"}]} />
                     <FieldInput title="Group" value={group} setValue={setGroup} />
                     <FieldInput title="Email" value={email} setValue={setEmail} />
                     <FieldInput title="Phone" value={phone} setValue={setPhone} />
@@ -160,7 +174,7 @@ function Profile(props) {
                     </Row>
                 </Col>
             </Row>
-            <Field title="Skills" value={skill_str} />
+            {/* <Field title="Skills" value={skill_str} /> */}
             <FieldInput title="Address" value={address} setValue={setAddress} type="textarea" />
             <InputSocialMedia
                 instagram={instagram} setInstagram={setInstagram}
@@ -168,7 +182,16 @@ function Profile(props) {
                 twitter={twitter} setTwitter={setTwitter}
                 github={github} setGithub={setGithub}
             />
-            <Button color="success">Save Changes</Button>
+            <Button disabled={saving}
+            onClick={() => props.patchUserProfile(
+                props.token,
+                name, email, phone, showemail, showphone, group, dob, gender,
+                address, github, instagram, facebook, twitter, profilepic,
+                setSaving, setSavingMessage, setSavingSuccess
+            )} color="success">
+                Save Changes
+            </Button>
+            <p className={`${savingSuccess ? 'text-success' : 'text-danger'} mt-3`}>{savingMessage}</p>
         </Container>
     )
 }
