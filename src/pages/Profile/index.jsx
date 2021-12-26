@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
 import { Field, FieldInput, FieldInputDropDown, InputSocialMedia } from '../../components/ProfileComponents'
 import { fetchUserProfile, patchUserProfile } from '../../redux/ActionCreators';
+import { Link } from 'react-router-dom';
 
 import { storage } from '../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from '@firebase/storage';
@@ -119,6 +120,11 @@ function Profile(props) {
     // }
     return (
         <Container className="p-4 p-md-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
+            <Row className="p-3 p-md-4 ">
+                <Col xs="12 text-center">
+                    <h2 className="font-weight-bold">Edit Profile</h2>
+                </Col>
+            </Row>
             <Row>
                 <Col md="4">
                     <img src={(profilepic && profilepic !== '.') ? profilepic : "assets/Profile/dp.png"}
@@ -159,13 +165,13 @@ function Profile(props) {
                         </Col>
                         <Col md="8">
                             <FormGroup check inline>
-                                <Input id="showemail" type="checkbox" value={showemail} onChange={(e) => setShowemail(e.target.value)} />
+                                <Input id="showemail" type="checkbox" checked={showemail} onChange={(e) => setShowemail(e.target.checked)} />
                                 <Label check for="showemail">
                                 Show Email
                                 </Label>
                             </FormGroup>
                             <FormGroup check inline>
-                                <Input id="showphone" type="checkbox" value={showphone} onChange={(e) => setShowphone(e.target.value)} />
+                                <Input id="showphone" type="checkbox" checked={showphone} onChange={(e) => setShowphone(e.target.checked)} />
                                 <Label check for="showphone">
                                 Show Phone
                                 </Label>
@@ -191,6 +197,11 @@ function Profile(props) {
             )} color="success">
                 Save Changes
             </Button>
+            <Link to={"/profile/"+props.profile.user}>
+            <Button color='primary' className='ml-3'>
+                View Public Profile
+            </Button>
+            </Link>
             <p className={`${savingSuccess ? 'text-success' : 'text-danger'} mt-3`}>{savingMessage}</p>
         </Container>
     )
