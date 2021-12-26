@@ -14,6 +14,7 @@ function AchievementsTable({arrayOfAchievements, deleteAchievement, token}) {
                 <th className="text-color-main h5">Status</th>
                 <th className="text-color-main h5">Date</th>
                 <th className="text-color-main h5">Details</th>
+                <th className="text-color-main h5">Edit</th>
                 <th className="text-color-main h5">Delete</th>
                 </tr>
             </thead>
@@ -30,6 +31,12 @@ function AchievementsTable({arrayOfAchievements, deleteAchievement, token}) {
                             <td>
                                 <Link to={"/achievement/"+achievement.id}>
                                 <Button color="info" >View</Button>
+                                </Link>
+                            </td>
+                            <td>
+                                <Link to={"/editachievement/"+achievement.id}>
+                                <Button color="secondary"
+                                disabled={achievement.approved.toLowerCase() === 'approved'} >Edit</Button>
                                 </Link>
                             </td>
                             <td>
@@ -69,6 +76,7 @@ function ProjectsTable({arrayofProjects, deleteProject, token}) {
                 <th className="text-color-main h5">Start Date</th>
                 <th className="text-color-main h5">End Date</th>
                 <th className="text-color-main h5">Details</th>
+                <th className="text-color-main h5">Edit</th>
                 <th className="text-color-main h5">Delete</th>
                 </tr>
             </thead>
@@ -86,6 +94,12 @@ function ProjectsTable({arrayofProjects, deleteProject, token}) {
                             <td>
                                 <Link to={"/project/"+project.id}>
                                 <Button color="info" >View</Button>
+                                </Link>
+                            </td>
+                            <td>
+                                <Link to={"/editproject/"+project.id}>
+                                <Button color="secondary"
+                                disabled={project.approved.toLowerCase() === 'approved'} >Edit</Button>
                                 </Link>
                             </td>
                             <td>

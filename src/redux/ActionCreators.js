@@ -407,6 +407,66 @@ export const postTag = (key, tag, callback, errorFunction) => (dispatch) => {
     })
 }
 
+export const fetchProject = (key, projectId, setProjectDetails, setLoading, setErrorMessage) => {
+    let token_head = 'Token '+key;
+    console.log(token_head)
+    fetch(baseUrl+'main/api/project/'+projectId, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then((response) => {
+        if(!response.ok)
+            throw new Error('Project not found!')
+        console.log(response.error)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log(response)
+        setProjectDetails(response)
+        setLoading(false)
+        return response
+    })
+    .catch(error => {
+        setLoading(false)
+        setErrorMessage(error.message)
+        console.log(error)
+    })
+}
+
+export const fetchAchievement = (key, achievementId, setAchievementDetails, setLoading, setErrorMessage) => {
+    let token_head = 'Token '+key;
+    console.log(token_head)
+    fetch(baseUrl+'main/api/achievement/'+achievementId, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        }
+    })
+    .then((response) => {
+        if(!response.ok)
+            throw new Error('Achievement not found!')
+        console.log(response.error)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log(response)
+        setAchievementDetails(response)
+        setLoading(false)
+        return response
+    })
+    .catch(error => {
+        setLoading(false)
+        setErrorMessage(error.message)
+        console.log(error)
+    })
+}
+
 export const addAchievementPosting = (value) => ({
     type: ActionTypes.ADD_ACHIEVEMENT_POSTING,
     payload: value
@@ -456,6 +516,48 @@ export const postNewAchievement = (key, stateObj, clearFunction) => (dispatch) =
         // Success dispatch
         clearFunction();
         dispatch(addAchievementPostingSuccess("Your achivement has been posted! Wait for the admin to approve it."))
+        return response
+    })
+    .catch(error => {
+        console.log(error)
+        dispatch(addAchievementPostingError(error.message))
+    })
+}
+
+export const patchAchievement = (key, stateObj, clearFunction) => (dispatch) => {
+    dispatch(addAchievementPosting(true));
+    let token_head = 'Token '+key;
+
+    var bodyObj = {
+        title: stateObj.title,
+        description: stateObj.description,
+        institution: stateObj.institution,
+        achievedDate: stateObj.dateofachievement,
+        teamMembers: stateObj.team.map(member => member.id),
+        tags: stateObj.tags.map(tag => tag.id),
+        category: stateObj.category,
+        proof: stateObj.proof
+    }
+
+    fetch(baseUrl+'main/api/achievement/', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        },
+        body: JSON.stringify(bodyObj)
+    })
+    .then((response) => {
+        if(!response.ok)
+            throw new Error('There was a problem saving this achievement!')
+        console.log(response)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        // Success dispatch
+        clearFunction();
+        dispatch(addAchievementPostingSuccess("Your achivement has been saved! Wait for the admin to approve it."))
         return response
     })
     .catch(error => {
@@ -517,6 +619,52 @@ export const postNewProject = (key, stateObj, clearFunction) => (dispatch) => {
         // Success dispatch
         clearFunction();
         dispatch(addProjectPostingSuccess("Your project has been posted! Wait for the admin to approve it."))
+        return response
+    })
+    .catch(error => {
+        console.log(error)
+        dispatch(addProjectPostingError(error.message))
+    })
+}
+
+export const patchProject = (key, stateObj, clearFunction, projectId) => (dispatch) => {
+    dispatch(addProjectPosting(true));
+    let token_head = 'Token '+key;
+
+    var bodyObj = {
+        title: stateObj.title,
+        description: stateObj.description,
+        institution: stateObj.institution.id,
+        startDate: stateObj.startdate,
+        endDate: stateObj.enddate,
+        field: stateObj.field,
+        domain: stateObj.domain,
+        url: stateObj.url,
+        students: stateObj.team.map(member => member.id),
+        mentors: stateObj.mentors.map(mentor => mentor.id),
+        tags: stateObj.tags.map(tag => tag.id),
+        proof: stateObj.proof
+    }
+
+    fetch(baseUrl+'main/api/project/'+projectId+'/', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        },
+        body: JSON.stringify(bodyObj)
+    })
+    .then((response) => {
+        if(!response.ok)
+            throw new Error('There was a problem saving this project!')
+        console.log(response)
+        return response
+    })
+    .then(response => response.json())
+    .then(response => {
+        // Success dispatch
+        clearFunction();
+        dispatch(addProjectPostingSuccess("Your project has been saved! Wait for the admin to approve it."))
         return response
     })
     .catch(error => {

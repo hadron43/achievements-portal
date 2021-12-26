@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router';
 import { Container, Row, Col, Label, Button, Form, Input, CustomInput, Progress } from 'reactstrap';
 // import Loading from '../../components/Loading';
-import { fetchStudentsList, fetchInstitutesList, fetchTagsList, postTag, postNewAchievement, addAchievementPostingSuccess } from '../../redux/ActionCreators';
+import { fetchStudentsList, fetchInstitutesList, fetchTagsList, postTag, postNewAchievement, addAchievementPostingSuccess, patchAchievement } from '../../redux/ActionCreators';
 import { storage } from '../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from '@firebase/storage';
 
@@ -32,7 +32,8 @@ const mapDispatchToProps = (dispatch) => ({
     fetchInstitutesList: (key) => dispatch(fetchInstitutesList(key)),
     fetchTagsList: (key) => dispatch(fetchTagsList(key)),
     postNewAchievement: (key, stateObj, clearFunction) => dispatch(postNewAchievement(key, stateObj, clearFunction)),
-    addAchievementPostingMessageClear: (key) => dispatch(addAchievementPostingSuccess('')),
+    patchAchievement: (key, stateObj, clearFunction, achievementId) => dispatch(patchAchievement(key, stateObj, clearFunction, achievementId)),
+    addAchievementPostingMessageClear: () => dispatch(addAchievementPostingSuccess('')),
     postTag: (key, tag, callback, errorFunction) => dispatch(postTag(key, tag, callback, errorFunction))
 })
 
@@ -61,6 +62,19 @@ class AddAchievement extends Component {
     constructor(props) {
         super(props);
         this.state = initialState
+
+        if(props.edit) {
+            this.state.title = props.achievementDetails.title
+            this.state.description = props.achievementDetails.description
+            this.state.institution = props.achievementDetails.institution
+            this.state.dateofachievement = props.achievementDetails.achievedDate
+            this.state.category = props.achievementDetails.category
+            this.state.proof = props.achievementDetails.proof
+            if(props.achievementDetails.tags)
+                this.state.tags = props.achievementDetails.tags
+            if(props.achievementDetails.teamMembers)
+                this.state.team = props.achievementDetails.teamMembers
+        }
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -101,7 +115,10 @@ class AddAchievement extends Component {
 
     handleSubmit(event) {
         console.log('Submit detected.')
-        this.props.postNewAchievement(this.props.token, this.state, this.clearState);
+        if(this.props.edit)
+            this.props.patchAchievement(this.props.token, this.state, this.clearState, this.props.achievementDetails.id);
+        else
+            this.props.postNewAchievement(this.props.token, this.state, this.clearState);
         event.preventDefault();
     }
 
@@ -228,7 +245,7 @@ class AddAchievement extends Component {
             )
         return(
             <Container className="my-5 bg-color-lightest-grey p-4 p-md-5 rounded-3">
-                <h2 className="font-weight-bold text-center">Add Achievement</h2>
+                <h2 className="font-weight-bold text-center">{(this.props.edit ? 'Edit' : 'Add')} Achievement</h2>
                 <Form className="mt-5" onSubmit={this.handleSubmit}>
                     <Row className="form-group">
                         <Label htmlFor="title" md={3}>

@@ -1,41 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { Container, Row, Col, Badge, Button } from 'reactstrap';
 import { Redirect, useParams, withRouter } from "react-router";
-import { baseUrl } from '../../shared/baseUrl';
 import { connect } from 'react-redux';
 import { ApprovedBadge, RenderUser } from '../../components/Extras';
 import Loading from '../../components/Loading';
 import NotFound from '../../components/NotFound'
-
-function fetchAchievement(key, achievementId, setAchievementDetails, setLoading, setErrorMessage) {
-    let token_head = 'Token '+key;
-    console.log(token_head)
-    fetch(baseUrl+'main/api/achievement/'+achievementId, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token_head
-        }
-    })
-    .then((response) => {
-        if(!response.ok)
-            throw new Error('Achievement not found!')
-        console.log(response.error)
-        return response
-    })
-    .then(response => response.json())
-    .then(response => {
-        console.log(response)
-        setAchievementDetails(response)
-        setLoading(false)
-        return response
-    })
-    .catch(error => {
-        setLoading(false)
-        setErrorMessage(error.message)
-        console.log(error)
-    })
-}
+import { fetchAchievement } from '../../redux/ActionCreators';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
