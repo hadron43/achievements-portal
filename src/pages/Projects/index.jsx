@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Col, Container, Row, Button, Table } from 'reactstrap';
 import { withRouter } from "react-router";
 import { Link } from 'react-router-dom';
@@ -15,14 +15,8 @@ const mapStateToProps = (state) => ({
 
 function fetchProjects(key, query, setProjects, setLoading, setErrorMessage) {
     let token_head = 'Token '+key;
-    console.log(token_head)
 
-    var target = baseUrl+'main/api/search?q='+query
-    console.log('searching: ', query)
-    if(!query)
-        target = baseUrl+'main/api/project'
-
-    fetch(target, {
+    fetch(baseUrl+'main/api/search?q='+query, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -62,6 +56,7 @@ function Results( {projects} ) {
             </thead>
             <tbody>
                 {
+                    (projects) ?
                     projects.map((project) => {
                         return (
                             <tr>
@@ -80,6 +75,8 @@ function Results( {projects} ) {
                             </tr>
                         )
                     })
+                    :
+                    <></>
                 }
             </tbody>
         </Table>
@@ -92,10 +89,10 @@ function Projects(props) {
     const [projects, setProjects] = useState(false);
     const [query, setQuery] = useState('');
 
-    if(!loading && !errorMessage && !projects) {
+    useEffect(() => {
         setLoading(true);
-        fetchProjects(props.token, query, setProjects, setLoading, setErrorMessage);
-    }
+        fetchProjects(props.token, '', setProjects, setLoading, setErrorMessage);
+    }, [props.token])
 
     if(errorMessage)
         return ( <NotFound message={errorMessage} /> );

@@ -3,17 +3,19 @@ import { Link } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavbarText, UncontrolledDropdown, DropdownItem, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { clearUserData } from '../redux/ActionCreators'
+import { clearUserData, fetchUserProfile } from '../redux/ActionCreators'
+import { useEffect } from 'react';
 
-const mapStateToProps = state => {
-  return {
-    authorized: state.user.authorized,
-    admin: state.user.admin
-  }
-}
+const mapStateToProps = state => ({
+  authorized: state.user.authorized,
+  token: state.user.token,
+  profile: state.user.profile,
+  profileLoaded: state.user.profileLoaded
+})
 
 const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch(clearUserData())
+  logout: () => dispatch(clearUserData()),
+  fetchUserProfile: (key) => dispatch(fetchUserProfile(key))
 });
 
 function UserIcon({authorized, admin, logout}) {
@@ -57,13 +59,13 @@ function UserIcon({authorized, admin, logout}) {
             </DropdownItem>
           </Link>
 
-          <Link to="/pending-projects">
+          <Link className={admin ? '' : 'd-none'} to="/pending-projects">
             <DropdownItem>
               Pending Projects
             </DropdownItem>
           </Link>
 
-          <Link to="/pending-achievements">
+          <Link className={admin ? '' : 'd-none'} to="/pending-achievements">
             <DropdownItem>
               Pending Achievements
             </DropdownItem>
@@ -85,6 +87,13 @@ function UserIcon({authorized, admin, logout}) {
 function Navigation(props) {
   const [collapsed, setCollapsed] = useState(true);
   const toggleNavbar = () => setCollapsed(!collapsed);
+  const [admin, setAdmin] = useState(false)
+
+  useEffect(() => {
+    if(props.authorized && !props.profileLoaded)
+      props.fetchUserProfile(props.token);
+    setAdmin(props.profile && props.profile.designation === 3)
+  }, [props])
 
   return (
     <Navbar light expand="md" className="navigation pr-lg-3 pl-lg-3">
@@ -127,7 +136,7 @@ function Navigation(props) {
 
           <NavItem className="d-block d-md-none my-2">
             <div className="m-auto text-center d-block">
-              <UserIcon authorized={props.authorized} admin={props.admin} logout={props.logout} />
+              <UserIcon authorized={props.authorized} admin={admin}  logout={props.logout} />
             </div>
           </NavItem>
         </Nav>
@@ -137,7 +146,7 @@ function Navigation(props) {
       Achievements Portal
       </NavbarText>
       <div className="d-none d-md-block ml-4">
-        <UserIcon authorized={props.authorized} admin={true} logout={props.logout} />
+        <UserIcon authorized={props.authorized} admin={admin} logout={props.logout} />
       </div>
     </Navbar>
   );

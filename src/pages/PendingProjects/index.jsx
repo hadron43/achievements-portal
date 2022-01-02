@@ -5,6 +5,7 @@ import { Redirect, withRouter } from 'react-router';
 import Loading from '../../components/Loading';
 import PendingProjectsTable from './PendingProjectsTable';
 import { fetchPendingProjects } from '../../redux/ActionCreators';
+import NotFound from '../../components/NotFound';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
@@ -39,9 +40,7 @@ function PendingProjects(props) {
                 :
                 (props.pendingProjectsLoadingError) ?
                 (
-                    <h3 className="text-danger">
-                        {props.pendingProjectsLoadingError}
-                    </h3>
+                    <NotFound message={props.pendingProjectsLoadingError} />
                 )
                 :
                 (

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router';
 import Loading from '../../components/Loading';
 import PendingAchievementsTable from './PendingAchievementsTable.jsx';
 import { fetchPendingAchievements } from '../../redux/ActionCreators';
+import NotFound from '../../components/NotFound'
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
@@ -20,14 +21,17 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 function PendingAchievements(props) {
+    useEffect(() => {
+        console.log(props)
+        if(!props.pendingAchievementsLoading && !props.pendingAchievements && !props.pendingAchievementsLoadingError) {
+            props.fetchPendingAchievements(props.token);
+        }
+    }, [props])
+
     if(!props.authorized)
         return (
             <Redirect to="/login" />
         );
-
-    if(!props.pendingAchievementsLoading && !props.pendingAchievements && !props.pendingAchievementsLoadingError) {
-        props.fetchPendingAchievements(props.token);
-    }
 
     return (
         <Container className="p-3 p-md-4 p-lg-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
@@ -39,9 +43,7 @@ function PendingAchievements(props) {
                 :
                 (props.pendingAchievementsLoadingError) ? 
                 (
-                    <h3 className="text-danger">
-                        {props.pendingAchievementsLoadingError}
-                    </h3>
+                    <NotFound message={props.pendingAchievementsLoadingError} />
                 )
                 :
                 (

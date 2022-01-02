@@ -155,7 +155,7 @@ export const patchUserProfile = (key,
         },
         body: JSON.stringify({
             name: name,
-            email: email,
+            e_mail: email,
             phone: phone,
             show_email: showemail,
             show_phone: showphone,
@@ -171,10 +171,8 @@ export const patchUserProfile = (key,
         })
     })
     .then(response => {
-        if(!response.ok) {
-            setSavingSuccess(false)
-            setSavingMessage('Errow while saving profile!')
-        }
+        if(!response.ok)
+            throw new Error('Errow while saving profile!')
         return response.json()
     })
     .then(response => {
@@ -185,6 +183,8 @@ export const patchUserProfile = (key,
     .catch(err => {
         console.log(err);
         setSaving(false)
+        setSavingSuccess(false)
+        setSavingMessage(err.message)
     })
 }
 
@@ -367,9 +367,9 @@ export const addTagList = (tagObj) => ({
     payload: tagObj
 })
 
-export const loadTagsList = (institutes) => ({
+export const loadTagsList = (tags) => ({
     type: ActionTypes.LOAD_TAGS_LIST,
-    payload: institutes
+    payload: tags
 })
 
 export const tagsLoading = (value) => ({
@@ -706,6 +706,11 @@ export const fetchPendingProjects = (key) => (dispatch) => {
     })
     .then(response => response.json())
     .then(response => {
+        if(response.details)
+            throw new Error(response.details)
+        return response
+    })
+    .then(response => {
         dispatch(addPendingProjects(response.unapproved))
         return response
     })
@@ -747,6 +752,11 @@ export const fetchPendingAchievements = (key) => (dispatch) => {
         return response
     })
     .then(response => response.json())
+    .then(response => {
+        if(response.details)
+            throw new Error(response.details)
+        return response
+    })
     .then(response => {
         dispatch(addPendingAchievements(response.unapproved))
         return response

@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom';
 
 import { storage } from '../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from '@firebase/storage';
+import EditStudentDetails from './EditStudentDetails';
+import EditStaffDetails from './EditStaffDetails';
+// import EditPhoneNumbers from './EditPhoneNumbers';
 
 const mapStateToProps = (state) => ({
     profileLoaded: state.user.profileLoaded,
@@ -40,7 +43,7 @@ function Profile(props) {
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
-    const [phone, setPhone] = useState('')
+    // const [phone, setPhone] = useState('')
     const [showemail, setShowemail] = useState(false)
     const [showphone, setShowphone] = useState(false)
     const [group, setGroup] = useState('')
@@ -121,7 +124,7 @@ function Profile(props) {
     return (
         <Container className="p-4 p-md-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
             <Row className="p-3 p-md-4 ">
-                <Col xs="12 text-center">
+                <Col className="xs-12 text-center">
                     <h2 className="font-weight-bold">Edit Profile</h2>
                 </Col>
             </Row>
@@ -153,13 +156,14 @@ function Profile(props) {
                         "Staff",
                         "Admin"
                     ][props.profile.designation-1]} />
+                    <Field title="Email" value={email} />
                     <FieldInput title="Date of Birth" value={dob}
                         setValue={setdob} type="date" />
                     <FieldInputDropDown title="Gender" value={gender} setValue={setGender}
                         values={[{id: 1, title: "Female"}, {id: 2, title: "Male"}, {id: 3, title: "Others"}]} />
                     <FieldInput title="Group" value={group} setValue={setGroup} />
-                    <FieldInput title="Email" value={email} setValue={setEmail} />
-                    <FieldInput title="Phone" value={phone} setValue={setPhone} />
+                    {/* <EditPhoneNumbers /> */}
+                    {/* <FieldInput title="Phone" value={phone} setValue={setPhone} /> */}
                     <Row className="mt-3 mb-3">
                         <Col md="4">
                         </Col>
@@ -191,7 +195,7 @@ function Profile(props) {
             <Button disabled={saving}
             onClick={() => props.patchUserProfile(
                 props.token,
-                name, email, phone, showemail, showphone, group, dob, gender,
+                name, email, '', showemail, showphone, group, dob, gender,
                 address, github, instagram, facebook, twitter, profilepic,
                 setSaving, setSavingMessage, setSavingSuccess
             )} color="success">
@@ -203,6 +207,12 @@ function Profile(props) {
             </Button>
             </Link>
             <p className={`${savingSuccess ? 'text-success' : 'text-danger'} mt-3`}>{savingMessage}</p>
+            {
+                (props.profile.designation === 1) ?
+                <EditStudentDetails />
+                :
+                <EditStaffDetails />
+            }
         </Container>
     )
 }

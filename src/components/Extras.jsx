@@ -65,4 +65,12 @@ function RenderUser({ user }) {
     );
 }
 
-export { ApprovedBadge, RejectionModal, RenderUser };
+function RenderEducation({ institution, degree, year }) {
+    return(
+        <p>
+        {`${degree} ⁃ ${institution} ⁃ (${year})`}
+        </p>
+    )
+}
+
+export { ApprovedBadge, RejectionModal, RenderUser, RenderEducation };

@@ -7,6 +7,7 @@ import SearchBar from '../../components/Search'
 import Loading from '../../components/Loading';
 import NotFound from '../../components/NotFound'
 import { baseUrl } from '../../shared/baseUrl';
+import { useEffect } from 'react';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
@@ -15,14 +16,8 @@ const mapStateToProps = (state) => ({
 
 function fetchAchievements(key, query, setAchievements, setLoading, setErrorMessage) {
     let token_head = 'Token '+key;
-    console.log(token_head)
 
-    var target = baseUrl+'main/api/search?q='+query
-    console.log('searching: ', query)
-    if(!query)
-        target = baseUrl+'main/api/achievement'
-
-    fetch(target, {
+    fetch(baseUrl+'main/api/search?q='+query, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -62,6 +57,7 @@ function Results( {achievements} ) {
             </thead>
             <tbody>
                 {
+                    (achievements) ?
                     achievements.map((achievement) => {
                         return (
                             <tr>
@@ -80,6 +76,8 @@ function Results( {achievements} ) {
                             </tr>
                         )
                     })
+                    :
+                    <></>
                 }
             </tbody>
         </Table>
@@ -92,10 +90,10 @@ function Achievements(props) {
     const [achievements, setAchievements] = useState(false);
     const [query, setQuery] = useState('');
 
-    if(!loading && !errorMessage && !achievements) {
+    useEffect(() => {
         setLoading(true);
-        fetchAchievements(props.token, query, setAchievements, setLoading, setErrorMessage);
-    }
+        fetchAchievements(props.token, '', setAchievements, setLoading, setErrorMessage);
+    }, [props.token])
 
     if(errorMessage)
         return ( <NotFound message={errorMessage} /> );
