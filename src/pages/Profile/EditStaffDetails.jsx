@@ -7,6 +7,7 @@ import { Row, Col, Button } from 'reactstrap';
 
 import { baseUrl } from '../../shared/baseUrl';
 import EditEducation from './EditEducation';
+import { listOfTitles } from '../../components/Extras';
 
 const mapStateToProps = (state) => ({
     profileLoaded: state.user.profileLoaded,
@@ -44,13 +45,6 @@ function patchStaffDetials(key, staffObject, setSaving, setSavingError, setSavin
         setSavingMessage(err.message)
     })
 }
-
-const listOfTitles = [
-    {id: 1, title: 'Dr.'},
-    {id: 2, title: 'Mr.'},
-    {id: 3, title: 'Mrs.'},
-    {id: 4, title: 'Ms.'},
-]
 
 function EditStaffDetails(props) {
     const [empId, setEmpId] = useState('')
@@ -131,7 +125,7 @@ function EditStaffDetails(props) {
                                 department: department,
                                 title: title,
                                 designation: designation,
-                                education: education ? education.map(edu => edu.id) : []
+                                education: education
                             },
                             setSaving, setSavingError, setSavingMessage
                         )}

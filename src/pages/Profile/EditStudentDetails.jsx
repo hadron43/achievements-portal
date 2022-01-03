@@ -123,7 +123,7 @@ function EditStudentDetails(props) {
                                 major: major,
                                 GPA: gpa,
                                 bio: bio,
-                                education: (education) ? education.map((edu) => edu.id) : []
+                                education: education
                             },
                             setSaving, setSavingError, setSavingMessage
                         )}

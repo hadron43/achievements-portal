@@ -24,11 +24,11 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchUserProfile: (key) => dispatch(fetchUserProfile(key)),
-    patchUserProfile: (key,
+    patchUserProfile: (key, id,
         name, email, phone, showemail, showphone, group, dob, gender,
         address, github, instagram, facebook, twitter, profilepic,
         setSaving, setSavingMessage, setSavingSuccess
-    ) => dispatch(patchUserProfile(key,
+    ) => dispatch(patchUserProfile(key, id,
         name, email, phone, showemail, showphone, group, dob, gender,
         address, github, instagram, facebook, twitter, profilepic,
         setSaving, setSavingMessage, setSavingSuccess
@@ -194,7 +194,7 @@ function Profile(props) {
             />
             <Button disabled={saving}
             onClick={() => props.patchUserProfile(
-                props.token,
+                props.token, props.profile.id,
                 name, email, '', showemail, showphone, group, dob, gender,
                 address, github, instagram, facebook, twitter, profilepic,
                 setSaving, setSavingMessage, setSavingSuccess

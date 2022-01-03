@@ -7,10 +7,20 @@ import { SocialMedia, Field, AchievementsTable, ProjectsTable } from '../../comp
 import { baseUrl } from '../../shared/baseUrl';
 import Loading from '../../components/Loading';
 import NotFound from '../../components/NotFound';
+import StudentProfile from './StudentProfile';
+import { fetchInstitutesList } from '../../redux/ActionCreators';
+import StaffProfile from './StaffProfile';
+import { listOfTitles } from '../../components/Extras';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
-    token: state.user.token
+    token: state.user.token,
+    institutesList: state.forms.institutesList,
+    institutesLoading: state.forms.institutesLoading,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchInstitutesList: (key) => dispatch(fetchInstitutesList(key)),
 })
 
 function fetchProfile(key, profileId, setProfile, setLoading, setErrorMessage) {
@@ -47,12 +57,22 @@ function Profile(props) {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [profile, setProfile] = useState(null);
+
+    // Use this title for staff title
+    const [title, setTitle] = useState('')
+
     const {profileId} = useParams();
 
     useEffect(() => {
         setLoading(true);
         fetchProfile(props.token, profileId, setProfile, setLoading, setErrorMessage);
     }, [profileId, props.token])
+
+    useEffect(() => {
+        if(!props.institutesList && !props.institutesLoading) {
+            props.fetchInstitutesList(props.token)
+        }
+    }, [props])
 
     if(!props.authorized)
         return (
@@ -78,12 +98,17 @@ function Profile(props) {
     // }
     return (
         <Container className="p-4 p-md-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">
+            <Row className="p-3 p-md-4 ">
+                <Col className="xs-12 text-center">
+                    <h2 className="font-weight-bold">User Profile</h2>
+                </Col>
+            </Row>
             <Row>
                 <Col md="4">
                     <img src={(profile.profile_pic && profile.profile_pic !== '.') ? profile.profile_pic : "/assets/Profile/dp.png"} alt="profile" className="rounded-circle w-100 p-3"/>
                 </Col>
                 <Col md="8">
-                    <Field title="Name" value={profile.name} />
+                    <Field title="Name" value={(title ? (listOfTitles.find((t) => t.id == title)).title + ' ' : '') + profile.name} />
                     <Field title="Role" value={[
                         "Student",
                         "Staff",
@@ -107,6 +132,12 @@ function Profile(props) {
             <Field title="Group" value={profile.group} />
             {/* <Field title="Skills" value={skill_str} /> */}
             <Field title="Address" value={profile.address}></Field>
+            {
+                (profile.designation !== 3) ?
+                <StudentProfile token={props.token} studentId={profile.user} institutesList={props.institutesList} />
+                :
+                <StaffProfile token={props.token} staffId={profile.user} institutesList={props.institutesList} setTitle={setTitle} />
+            }
             <Field title="Achievements" value="" />
             <AchievementsTable achievements={profile.achievements} />
             <Field title="Projects" value="" />
@@ -115,4 +146,4 @@ function Profile(props) {
     )
 }
 
-export default withRouter(connect(mapStateToProps)(Profile));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile));

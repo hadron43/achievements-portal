@@ -139,7 +139,7 @@ export const fetchUserProfile = (key) => (dispatch) => {
     })
 }
 
-export const patchUserProfile = (key,
+export const patchUserProfile = (key, id,
         name, email, phone, showemail, showphone, group, dob, gender,
         address, github, instagram, facebook, twitter, profilepic,
         setSaving, setSavingMessage, setSavingSuccess
@@ -147,7 +147,7 @@ export const patchUserProfile = (key,
     setSaving(true)
     setSavingMessage('')
     let token_head = 'Token '+key;
-    return fetch(baseUrl+'auth/api/profile/1/', {
+    return fetch(baseUrl+'auth/api/profile/'+id+'/', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

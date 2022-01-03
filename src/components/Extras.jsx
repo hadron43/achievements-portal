@@ -2,6 +2,34 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge, Input, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 
+const listOfTitles = [
+    {id: 1, title: 'Dr.'},
+    {id: 2, title: 'Mr.'},
+    {id: 3, title: 'Mrs.'},
+    {id: 4, title: 'Ms.'},
+]
+
+const listOfDegrees = [
+    'Matriculation',
+    'Intermediate',
+    'B.Tech.',
+    'B.Sc.',
+    'B.Com.',
+    'B.Arts.',
+    'B.Arch.',
+    'B.B.A.',
+    'M.B.A.',
+    'M.Tech.',
+    'M.Sc.',
+    'M.Com.',
+    'M.Arts.',
+    'M.Arch.',
+    'M.B.B.S.',
+    'M.Phil.',
+    'Ph.D.',
+    'Others',
+]
+
 function ApprovedBadge({ value }) {
     return (
         <>
@@ -73,4 +101,4 @@ function RenderEducation({ institution, degree, year }) {
     )
 }
 
-export { ApprovedBadge, RejectionModal, RenderUser, RenderEducation };
+export { ApprovedBadge, RejectionModal, RenderUser, RenderEducation, listOfTitles, listOfDegrees };
