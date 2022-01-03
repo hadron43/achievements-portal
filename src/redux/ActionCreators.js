@@ -332,6 +332,40 @@ export const fetchInstitutesList = (key) => (dispatch) => {
     })
 }
 
+export const postInstitution = (key, institution,  setSaving, setError, setMsg, clear) => {
+    let token_head = 'Token '+key;
+    setSaving(true)
+    setError(false)
+    setMsg('')
+    fetch(baseUrl+'main/api/institution/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token_head
+        },
+        body: JSON.stringify({
+            title: institution
+        })
+    })
+    .then(response => {
+        if(!response.ok) {
+            throw new Error('Error while saving institution!')
+        }
+        return response.json()
+    })
+    .then(() => {
+        setSaving(false)
+        setMsg('Successfully saved!')
+        clear()
+    })
+    .catch(err => {
+        console.log(err);
+        setSaving(false)
+        setError(true);
+        setMsg(err.message)
+    })
+}
+
 export const loadInstitutesList = (institutes) => ({
     type: ActionTypes.LOAD_INSTITUTES_LIST,
     payload: institutes

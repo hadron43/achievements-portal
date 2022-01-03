@@ -108,7 +108,7 @@ function Profile(props) {
                     <img src={(profile.profile_pic && profile.profile_pic !== '.') ? profile.profile_pic : "/assets/Profile/dp.png"} alt="profile" className="rounded-circle w-100 p-3"/>
                 </Col>
                 <Col md="8">
-                    <Field title="Name" value={(title ? (listOfTitles.find((t) => t.id == title)).title + ' ' : '') + profile.name} />
+                    <Field title="Name" value={(title ? (listOfTitles.find((t) => t.id === title)).title + ' ' : '') + profile.name} />
                     <Field title="Role" value={[
                         "Student",
                         "Staff",

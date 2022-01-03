@@ -45,10 +45,7 @@ export const Forms = (state = initialState, action) => {
         case ActionTypes.INSTITUTES_LIST_LOADING:
             return {...state, institutesLoading: action.payload};
         case ActionTypes.LOAD_INSTITUTES_LIST:
-            return {...state, institutesList: [...action.payload, {
-                id: -1,
-                title: "Others"
-            }], institutesLoading: false};
+            return {...state, institutesList: action.payload, institutesLoading: false};
         case ActionTypes.TAGS_LIST_LOADING:
             return {...state, tagsLoading: action.payload};
         case ActionTypes.LOAD_TAGS_LIST:

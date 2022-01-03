@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Row, Col, Button, Input } from 'reactstrap';
-import { listOfDegrees, RenderEducation } from '../../components/Extras';
+import { AddInstitutionModal, listOfDegrees, RenderEducation } from '../../components/Extras';
 import { fetchInstitutesList } from '../../redux/ActionCreators';
 
 const mapStateToProps = (state) => ({
@@ -13,13 +13,14 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchInstitutesList: (key) => dispatch(fetchInstitutesList(key)),
+    fetchInstitutesList: (key) => dispatch(fetchInstitutesList(key))
 })
 
 function EditEducation(props) {
     const [institute, setInstitute] = useState(1)
     const [degree, setDegree] = useState(listOfDegrees[0])
     const [year, setYear] = useState('')
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     useEffect(() => {
         if(!props.institutesList && !props.institutesLoading) {
@@ -29,6 +30,7 @@ function EditEducation(props) {
 
     return (
         <Row className="mt-3 mb-3">
+            <AddInstitutionModal token={props.token} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             <Col md="4">
             <h3 className="font-weight-bold">Education</h3>
             </Col>
@@ -122,6 +124,9 @@ function EditEducation(props) {
                             Add
                         </Button>
                     </Col>
+                </Row>
+                <Row className='mt-2'>
+                    <Col><Button color='link' onClick={() => setIsModalOpen(true)}>Can't find your institute? Click here to add institute.</Button></Col>
                 </Row>
             </Col>
         </Row>

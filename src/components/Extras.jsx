@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge, Input, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
+import { postInstitution } from '../redux/ActionCreators';
 
 const listOfTitles = [
     {id: 1, title: 'Dr.'},
@@ -101,4 +102,56 @@ function RenderEducation({ institution, degree, year }) {
     )
 }
 
-export { ApprovedBadge, RejectionModal, RenderUser, RenderEducation, listOfTitles, listOfDegrees };
+function captializeFirstWord(string) {
+    return string.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+}
+
+function AddInstitutionModal({ token, isModalOpen, setIsModalOpen }) {
+    const [institution, setInstitution] = useState('')
+    const [city, setCity] = useState('')
+
+    const [saving, setSaving] = useState(false)
+    const [savingError, setSavingError] = useState(false)
+    const [savingMsg, setSavingMsg] = useState(false)
+
+    const getString = () => captializeFirstWord(institution) + ', ' + captializeFirstWord(city)
+    const clear = () => { setCity(''); setInstitution('') }
+
+    return (
+        <Modal isOpen={isModalOpen} centered toggle={() => setIsModalOpen(!isModalOpen)}>
+            <ModalHeader>
+                Add Institute
+            </ModalHeader>
+            <ModalBody>
+                <span className="text-danger font-weight-bold">
+                    NOTE: Go through these instructions before adding new institute.
+                </span>
+                <ul className='text-danger'>
+                    <li>Make sure the institute that you are adding is not already present.</li>
+                    <li>Enter full name of city and institute.</li>
+                    <li>Refresh page after adding new institute.</li>
+                </ul>
+                <Input placeholder="Institute Name" value={institution}
+                    onChange={e => setInstitution(e.target.value)}
+                    className='mb-2'
+                     />
+                <Input placeholder="City Name" value={city}
+                    onChange={e => setCity(e.target.value)}
+                    className='mb-2'
+                     />
+                <p className={`${savingError ? 'text-danger' : 'text-success'}`}>{savingMsg}</p>
+            </ModalBody>
+            <ModalFooter>
+                <Button color='danger'
+                    disabled={!institution || !city || saving}
+                    onClick={() => postInstitution(token, getString(), setSaving, setSavingError, setSavingMsg, clear)}
+                    >
+                    Add New Institute
+                </Button>
+                <Button color='success' onClick={() => setIsModalOpen(false)}>Cancel</Button>
+            </ModalFooter>
+        </Modal>
+    );
+}
+
+export { ApprovedBadge, RejectionModal, RenderUser, RenderEducation, AddInstitutionModal, listOfTitles, listOfDegrees };

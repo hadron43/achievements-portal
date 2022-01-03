@@ -6,6 +6,7 @@ import { Container, Row, Col, Label, Button, Form, Input, CustomInput, Progress 
 import { fetchStudentsList, fetchInstitutesList, fetchTagsList, postTag, postNewAchievement, addAchievementPostingSuccess, patchAchievement } from '../../redux/ActionCreators';
 import { storage } from '../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from '@firebase/storage';
+import { AddInstitutionModal } from '../../components/Extras';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
@@ -41,7 +42,6 @@ const initialState = {
     title: '',
     description: '',
     institution: 1,
-    otherInstitution: '',
     dateofachievement: '',
     team: [],
     teamInput: '',
@@ -55,7 +55,8 @@ const initialState = {
     type: false,
     proof: null,
     file: null,
-    progress: 0
+    progress: 0,
+    isModalOpen: false
 }
 
 class AddAchievement extends Component {
@@ -329,20 +330,8 @@ class AddAchievement extends Component {
                                 }
                                 </>
                             </Input>
-                            {
-                                (this.state.institution === "-1") ?
-                                <>
-                                <Input type="text"
-                                    value={this.state.otherInstitution}
-                                    onChange={this.handleInputChange}
-                                    name="otherInstitution"
-                                    placeholder="Enter full name of the institution / organization"
-                                    className="w-100 mt-2"
-                                        />
-                                </>
-                                :
-                                <></>
-                            }
+                            <AddInstitutionModal isModalOpen={this.state.isModalOpen} setIsModalOpen={(value) => this.setState({isModalOpen: value})} />
+                            <Button color='link' onClick={() => this.setState({isModalOpen: true})} className='mt-2'>Can't find your institute? Click here to add institute.</Button>
                         </Col>
                     </Row>
 

@@ -34,7 +34,7 @@ function StaffProfile({ token, staffId, institutesList, setTitle }) {
             setErrorMsg(err.message)
             setLoading(false)
         })
-    }, [token, staffId])
+    }, [token, staffId, setTitle])
 
     return (
         <>
