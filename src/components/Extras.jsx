@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge, Input, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 import { postInstitution } from '../redux/ActionCreators';
@@ -154,4 +154,27 @@ function AddInstitutionModal({ token, isModalOpen, setIsModalOpen }) {
     );
 }
 
-export { ApprovedBadge, RejectionModal, RenderUser, RenderEducation, AddInstitutionModal, listOfTitles, listOfDegrees };
+function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+        width,
+        height
+    };
+}
+
+function useWindowDimensions() {
+    const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+    useEffect(() => {
+        function handleResize() {
+        setWindowDimensions(getWindowDimensions());
+        }
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    return windowDimensions;
+}
+
+export { ApprovedBadge, RejectionModal, RenderUser, RenderEducation, AddInstitutionModal, useWindowDimensions, listOfTitles, listOfDegrees };

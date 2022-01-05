@@ -142,7 +142,7 @@ function Navigation(props) {
         </Nav>
       </Collapse>
 
-      <NavbarText className="h2 font-weight-bold text-color-main text-center d-none d-md-block">
+      <NavbarText className="h2 font-weight-bold text-color-main text-center d-none d-lg-block">
       Achievements Portal
       </NavbarText>
       <div className="d-none d-md-block ml-4">

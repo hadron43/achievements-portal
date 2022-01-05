@@ -15,12 +15,12 @@ const mapStateToProps = (state) => ({
     token: state.user.token
 })
 
-function patchStudentDetials(key, studObject, setSaving, setSavingError, setSavingMessage) {
+function patchStudentDetials(key, studId, studObject, setSaving, setSavingError, setSavingMessage) {
     setSaving(true)
     setSavingError(false)
     setSavingMessage('')
-    fetch(baseUrl + 'main/api/student/1/', {
-        method: 'PATCH',
+    fetch(baseUrl + 'main/api/student/' + studId + '/', {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Token ' + key
@@ -52,6 +52,7 @@ function EditStudentDetails(props) {
     const [gpa, setGpa] = useState('')
     const [bio, setBio] = useState('')
     const [education, setEducation] = useState([])
+    const [studId, setStudId] = useState('')
 
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(true)
@@ -81,6 +82,7 @@ function EditStudentDetails(props) {
             setGpa(res.GPA)
             setBio(res.bio)
             setEducation(res.education)
+            setStudId(res.id)
             setLoading(false)
         })
         .catch(err => {
@@ -117,6 +119,7 @@ function EditStudentDetails(props) {
                         color='success'
                         disabled={saving}
                         onClick={() => patchStudentDetials(props.token,
+                            studId,
                             {
                                 rollNo: rollNo,
                                 batch: batch,

@@ -16,12 +16,12 @@ const mapStateToProps = (state) => ({
     token: state.user.token
 })
 
-function patchStaffDetials(key, staffObject, setSaving, setSavingError, setSavingMessage) {
+function patchStaffDetials(key, staffId, staffObject, setSaving, setSavingError, setSavingMessage) {
     setSaving(true)
     setSavingError(false)
     setSavingMessage('')
-    fetch(baseUrl + 'main/api/staff/1/', {
-        method: 'PATCH',
+    fetch(baseUrl + 'main/api/staff/' + staffId + '/', {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Token ' + key
@@ -53,6 +53,7 @@ function EditStaffDetails(props) {
     const [title, setTitle] = useState('')
     const [designation, setDesignation] = useState('')
     const [education, setEducation] = useState([])
+    const [staffId, setStaffId] = useState('')
 
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(true)
@@ -82,6 +83,7 @@ function EditStaffDetails(props) {
             setTitle(res.title)
             setDesignation(res.designation)
             setEducation(res.education)
+            setStaffId(res.id)
             setLoading(false)
         })
         .catch(err => {
@@ -119,6 +121,7 @@ function EditStaffDetails(props) {
                         color='success'
                         disabled={saving}
                         onClick={() => patchStaffDetials(props.token,
+                            staffId,
                             {
                                 employeeId: empId,
                                 associatedSince: joiningDate,

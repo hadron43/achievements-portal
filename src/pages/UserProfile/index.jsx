@@ -11,6 +11,7 @@ import StudentProfile from './StudentProfile';
 import { fetchInstitutesList } from '../../redux/ActionCreators';
 import StaffProfile from './StaffProfile';
 import { listOfTitles } from '../../components/Extras';
+import ProfilePieChart from './ProfilePieChart';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
@@ -73,6 +74,12 @@ function Profile(props) {
             props.fetchInstitutesList(props.token)
         }
     }, [props])
+
+    const countItems = (list, approvedValue) => {
+        if(!list)
+            return 0
+        return list.filter((item) => item['approved'].toLowerCase() === approvedValue.toLowerCase()).length
+    }
 
     if(!props.authorized)
         return (
@@ -142,6 +149,30 @@ function Profile(props) {
             <AchievementsTable achievements={profile.achievements} />
             <Field title="Projects" value="" />
             <ProjectsTable projects={profile.projects} />
+            <Row>
+            <Col className={`${profile.projects && profile.projects.length > 0 ? 'd-flex' : 'd-none'}`} lg={6}>
+                <ProfilePieChart
+                data={[
+                    { name: "Approved Projects", value: countItems(profile.projects, 'approved') },
+                    { name: "Pending Projects", value: countItems(profile.projects, 'pending') },
+                    { name: "Rejected Projects", value: countItems(profile.projects, 'rejected') },
+                ]}
+                colors={[
+                    '#28a745', '#ffc107', '#dc3545'
+                ]} />
+            </Col>
+            <Col className={`${profile.achievements && profile.achievements.length > 0 ? 'd-flex' : 'd-none'}`} lg={6}>
+                <ProfilePieChart
+                data={[
+                    { name: "Approved Achievements", value: countItems(profile.achievements, 'approved') },
+                    { name: "Pending Achievements", value: countItems(profile.achievements, 'pending') },
+                    { name: "Rejected Achievements", value: countItems(profile.achievements, 'rejected') },
+                ]}
+                colors={[
+                    '#28a745', '#ffc107', '#dc3545'
+                ]} />
+            </Col>
+            </Row>
         </Container>
     )
 }
