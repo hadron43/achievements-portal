@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Col, Container, Row, Button, Table } from 'reactstrap';
-import { withRouter } from "react-router";
+import { Redirect, withRouter } from "react-router";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SearchBar from '../../components/Search'
@@ -93,6 +93,9 @@ function Projects(props) {
         setLoading(true);
         fetchProjects(props.token, '', setProjects, setLoading, setErrorMessage);
     }, [props.token])
+
+    if(!props.authorized)
+        return (<Redirect to='/login' />);
 
     if(errorMessage)
         return ( <NotFound message={errorMessage} /> );

@@ -56,7 +56,7 @@ function StudentProfile({ token, studentId, institutesList }) {
                     <Field title={"Batch"} value={studObj.batch} />
                     <Field title={"Major"} value={studObj.major} />
                     <Field title={"CGPA"} value={studObj.GPA} />
-                    <Field title={"Bio"} value={studObj.bio} />
+                    {/* <Field title={"Bio"} value={studObj.bio} /> */}
                     <Row className="mt-3 mb-3">
                         <Col md="4">
                             <h3 className="font-weight-bold">Education</h3>

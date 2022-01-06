@@ -113,7 +113,7 @@ function EditStudentDetails(props) {
                     <FieldInput title={"Batch"} value={batch} setValue={setBatch} type="number" />
                     <FieldInput title={"Major"} value={major} setValue={setMajor} />
                     <FieldInput title={"CGPA"} value={gpa} setValue={setGpa} />
-                    <FieldInput title={"Bio"} value={bio} setValue={setBio} type="textarea" />
+                    {/* <FieldInput title={"Bio"} value={bio} setValue={setBio} type="textarea" /> */}
                     <EditEducation educationList={education} setEducationList={setEducation} />
                     <Button
                         color='success'

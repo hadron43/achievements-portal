@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, FormGroup, Input, Button } from 'reactstrap'
-import {Link, withRouter, Redirect} from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { login, loginOSA } from '../../redux/ActionCreators';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
@@ -71,15 +71,17 @@ class Login extends Component {
                                     <Input type="password" name="password" id="password" placeholder="Password"
                                         value={this.state.password} onChange={this.handlePasswordChange}/>
                                 </FormGroup>
-                                <Button color="info" disabled={this.props.loggingIn}
-                                    onClick={this.handleSubmit}
-                                    className='bg-color-main-ui w-50 rounded-pill mt-3 mb-4'>
-                                        Login
-                                </Button>
+
                                 <Button color="info" disabled={this.props.loggingIn}
                                     onClick={() => this.props.loginOSA(this.state.username, this.state.password)}
-                                    className='bg-color-main-ui pl-5 pr-5 rounded-pill mt-3 mb-4 ml-2'>
+                                    className='bg-color-main-ui w-50 rounded-pill mt-3 mb-4'>
                                         Login OSA
+                                </Button>
+                                <br />
+                                <Button color="info" disabled={this.props.loggingIn}
+                                    onClick={this.handleSubmit}
+                                    className='bg-color-main-ui w-50 rounded-pill'>
+                                        Login
                                 </Button>
                             </Form>
                             </Col>
@@ -95,9 +97,9 @@ class Login extends Component {
                                         <p>
                                         Not Registered Yet?
                                         </p>
-                                        <Link to="/signup">
+                                        <a href='http://osa.iiitd.edu.in/' target='_blank' rel='noreferrer'>
                                             <Button color="info" className='bg-color-main-ui w-50 rounded-pill mb-3'>Sign Up</Button>
-                                        </Link>
+                                        </a>
                                     </Col>
                                     </>
                             }

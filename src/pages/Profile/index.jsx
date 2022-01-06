@@ -161,7 +161,7 @@ function Profile(props) {
                         setValue={setdob} type="date" />
                     <FieldInputDropDown title="Gender" value={gender} setValue={setGender}
                         values={[{id: 1, title: "Female"}, {id: 2, title: "Male"}, {id: 3, title: "Others"}]} />
-                    <FieldInput title="Group" value={group} setValue={setGroup} />
+                    {/* <FieldInput title="Group" value={group} setValue={setGroup} /> */}
                     {/* <EditPhoneNumbers /> */}
                     {/* <FieldInput title="Phone" value={phone} setValue={setPhone} /> */}
                     <Row className="mt-3 mb-3">
@@ -185,7 +185,7 @@ function Profile(props) {
                 </Col>
             </Row>
             {/* <Field title="Skills" value={skill_str} /> */}
-            <FieldInput title="Address" value={address} setValue={setAddress} type="textarea" />
+            <FieldInput title="Bio" value={address} setValue={setAddress} type="textarea" />
             <InputSocialMedia
                 instagram={instagram} setInstagram={setInstagram}
                 facebook={facebook} setFacebook={setFacebook}

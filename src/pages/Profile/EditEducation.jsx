@@ -43,7 +43,7 @@ function EditEducation(props) {
                         {
                             props.educationList.map((education) => (
                                 <>
-                                <Col xs={10} className='pr-1'>
+                                <Col xs={9} lg={10} className='pr-1'>
                                     <RenderEducation
                                         institution={(props.institutesList) ?
                                             (props.institutesList.find((ins) => ins.id === education.institution)).title : ''}
@@ -51,7 +51,7 @@ function EditEducation(props) {
                                         year={education.year}
                                      />
                                 </Col>
-                                <Col className='pl-1'>
+                                <Col xs={3} lg={2} className='pl-1'>
                                     <Button
                                         color='danger'
                                         className='w-100'
@@ -69,7 +69,7 @@ function EditEducation(props) {
                     }
                 </Row>
                 <Row className='mt-3'>
-                    <Col md={5} className='pr-1'>
+                    <Col xs={4} lg={5} className='pr-1'>
                         <Input type="select" name="institution" value={institute} onChange={e => setInstitute(e.target.value)} className="w-100"
                             disabled={props.institutesLoading}
                             >
@@ -87,7 +87,7 @@ function EditEducation(props) {
                             </>
                         </Input>
                     </Col>
-                    <Col md={3} className='px-1'>
+                    <Col xs={3} className='px-1'>
                         <Input type="select" name="degree" value={degree} onChange={e => setDegree(e.target.value)} className="w-100">
                             <>
                             {
@@ -103,7 +103,7 @@ function EditEducation(props) {
                             </>
                         </Input>
                     </Col>
-                    <Col md={2} className='px-1'>
+                    <Col xs={2} className='px-1'>
                         <Input type="text"
                             value={year}
                             onChange={e => setYear(e.target.value)}
@@ -112,7 +112,7 @@ function EditEducation(props) {
                             className="w-100"
                                 />
                     </Col>
-                    <Col md={2} className='pl-1'>
+                    <Col xs={3} lg={2} className='pl-1'>
                         <Button
                             disabled={props.institutesLoading}
                             outline

@@ -136,9 +136,9 @@ function Profile(props) {
                     />
                 </Col>
             </Row>
-            <Field title="Group" value={profile.group} />
+            {/* <Field title="Group" value={profile.group} /> */}
             {/* <Field title="Skills" value={skill_str} /> */}
-            <Field title="Address" value={profile.address}></Field>
+            <Field title="Bio" value={profile.address}></Field>
             {
                 (profile.designation !== 3) ?
                 <StudentProfile token={props.token} studentId={profile.user} institutesList={props.institutesList} />

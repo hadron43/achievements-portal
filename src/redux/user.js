@@ -29,6 +29,8 @@ export const User = (state = initialState, action) => {
             return {...state, projects: action.payload}
         case ActionTypes.CLEAR_USER_DATA:
             sessionStorage.clear();
+            initialState.authorized = false;
+            initialState.token = undefined;
             return initialState;
         case ActionTypes.LOGIN_FAILED:
             return {...state, error: action.payload}

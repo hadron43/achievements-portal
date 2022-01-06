@@ -127,9 +127,9 @@ function Navigation(props) {
           </NavItem>
 
           {/* SHOW ONLY WHEN NOT AUTHORIZED  */}
-          <NavItem className={`mr-4 my-2 ${props.authorized ? "d-none" : "d-block"}`}>
+          {/* <NavItem className={`mr-4 my-2 ${props.authorized ? "d-none" : "d-block"}`}>
             <Link className="m-auto text-center d-block" to="/signup">Sign Up</Link>
-          </NavItem>
+          </NavItem> */}
           <NavItem className={`mr-4 my-2 ${props.authorized ? "d-none" : "d-block"}`}>
             <Link className="m-auto text-center d-block" to="/login">Login</Link>
           </NavItem>
