@@ -1,10 +1,11 @@
 import * as ActionTypes from './actionTypes';
+import Cookies from 'cookies-js';
 
 const initialState = {
-    authorized: sessionStorage.getItem('key') ? true : false,
+    authorized: (sessionStorage.getItem('key') ? sessionStorage.getItem('key') : Cookies.get('osa_token')) ? true : false,
     loggingIn: false,
     error: "",
-    token: sessionStorage.getItem('key'),
+    token: sessionStorage.getItem('key') ? sessionStorage.getItem('key') : Cookies.get('osa_token'),
     admin: false,
 
     profileLoaded: false,
