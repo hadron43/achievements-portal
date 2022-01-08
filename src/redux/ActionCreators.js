@@ -139,40 +139,30 @@ export const fetchUserProfile = (key) => (dispatch) => {
     })
 }
 
-export const patchUserProfile = (key, id,
-        name, email, phone, showemail, showphone, group, dob, gender,
-        address, github, instagram, facebook, twitter, profilepic,
+export const patchUserProfile = (key, id, studObj,
         setSaving, setSavingMessage, setSavingSuccess
     ) => (dispatch) => {
     setSaving(true)
     setSavingMessage('')
     let token_head = 'Token '+key;
+
+    if(!studObj.profile_pic)
+        delete studObj.profile_pic
+
+    let form_data = new FormData();
+    for(const key in studObj)
+        form_data.append(key, studObj[key])
+
     return fetch(baseUrl+'auth/api/profile/'+id+'/', {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json',
             'Authorization': token_head
         },
-        body: JSON.stringify({
-            name: name,
-            e_mail: email,
-            phone: phone,
-            show_email: showemail,
-            show_phone: showphone,
-            group: group,
-            dob: dob,
-            gender: gender,
-            address: address,
-            github: github,
-            instagram: instagram,
-            facebook: facebook,
-            twitter: twitter,
-            profile_pic: profilepic
-        })
+        body: form_data
     })
     .then(response => {
         if(!response.ok)
-            throw new Error('Errow while saving profile!')
+            throw new Error('Error while saving profile!')
         return response.json()
     })
     .then(response => {

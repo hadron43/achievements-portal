@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 // import Loading from '../../components/Loading';
 import { SocialMedia, Field, AchievementsTable, ProjectsTable } from '../../components/ProfileComponents'
-import { baseUrl } from '../../shared/baseUrl';
+import { baseUrl, baseUrl_ } from '../../shared/baseUrl';
 import Loading from '../../components/Loading';
 import NotFound from '../../components/NotFound';
 import StudentProfile from './StudentProfile';
@@ -112,7 +112,7 @@ function Profile(props) {
             </Row>
             <Row>
                 <Col md="4">
-                    <img src={(profile.profile_pic && profile.profile_pic !== '.') ? profile.profile_pic : "/assets/Profile/dp.png"} alt="profile" className="rounded-circle w-100 p-3"/>
+                    <img src={(profile.profile_pic && profile.profile_pic !== '.') ? baseUrl_ + profile.profile_pic : "/assets/Profile/dp.png"} alt="profile" className="rounded-circle w-100 p-3"/>
                 </Col>
                 <Col md="8">
                     <Field title="Name" value={(title ? (listOfTitles.find((t) => t.id === title)).title + ' ' : '') + profile.name} />
@@ -127,7 +127,6 @@ function Profile(props) {
                             "Female", "Male", "Other"
                         ]
                         [profile.gender-1]} />
-                    <Field title="Email" value={profile.email} />
                     <SocialMedia
                         instagram={profile.instagram}
                         facebook={profile.facebook}
@@ -136,6 +135,18 @@ function Profile(props) {
                     />
                 </Col>
             </Row>
+            {
+                (profile.show_email) ?
+                <Field title="Email" value={profile.email} />
+                :
+                <></>
+            }
+            {
+                (profile.show_phone) ?
+                <Field title="Phone" value={profile.phone_number} />
+                :
+                <></>
+            }
             {/* <Field title="Group" value={profile.group} /> */}
             {/* <Field title="Skills" value={skill_str} /> */}
             <Field title="Bio" value={profile.address}></Field>

@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Redirect, withRouter } from 'react-router'
-import { Container, Row, Col, FormGroup, Input, Label, Button, Progress } from 'reactstrap';
+import { Container, Row, Col, FormGroup, Input, Label, Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
 import { Field, FieldInput, FieldInputDropDown, InputSocialMedia } from '../../components/ProfileComponents'
 import { fetchUserProfile, patchUserProfile } from '../../redux/ActionCreators';
 import { Link } from 'react-router-dom';
-
-import { storage } from '../../firebase';
-import { ref, uploadBytesResumable, getDownloadURL } from '@firebase/storage';
 import EditStudentDetails from './EditStudentDetails';
 import EditStaffDetails from './EditStaffDetails';
+import { baseUrl_ } from '../../shared/baseUrl';
 // import EditPhoneNumbers from './EditPhoneNumbers';
 
 const mapStateToProps = (state) => ({
@@ -24,13 +22,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchUserProfile: (key) => dispatch(fetchUserProfile(key)),
-    patchUserProfile: (key, id,
-        name, email, phone, showemail, showphone, group, dob, gender,
-        address, github, instagram, facebook, twitter, profilepic,
+    patchUserProfile: (key, id, studObj,
         setSaving, setSavingMessage, setSavingSuccess
-    ) => dispatch(patchUserProfile(key, id,
-        name, email, phone, showemail, showphone, group, dob, gender,
-        address, github, instagram, facebook, twitter, profilepic,
+    ) => dispatch(patchUserProfile(key, id, studObj,
         setSaving, setSavingMessage, setSavingSuccess
     ))
 });
@@ -43,7 +37,7 @@ function Profile(props) {
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
-    // const [phone, setPhone] = useState('')
+    const [phone, setPhone] = useState('')
     const [showemail, setShowemail] = useState(false)
     const [showphone, setShowphone] = useState(false)
     const [group, setGroup] = useState('')
@@ -57,7 +51,6 @@ function Profile(props) {
     const [profilepic, setProfilepic] = useState('')
 
     const [file, setFile] = useState('')
-    const [progress, setProgress] = useState(0)
 
     const [saving, setSaving] = useState(false)
     const [savingMessage, setSavingMessage] = useState('')
@@ -70,40 +63,16 @@ function Profile(props) {
         setGender(props.profile.gender)
         setdob(props.profile.dob)
         setEmail(props.profile.email)
+        setPhone(props.profile.phone_number)
         setShowemail(props.profile.show_email)
         setShowphone(props.profile.show_phone)
         setTwitter(props.profile.twitter)
         setFacebook(props.profile.instagram)
         setGithub(props.profile.github)
         setInstagram(props.profile.instagram)
-        setProfilepic(props.profile.profile_pic)
+        if(props.profile.profile_pic)
+            setProfilepic(baseUrl_ + props.profile.profile_pic)
     }, [props.profile])
-
-    const handleUpload = () => {
-        console.log(file)
-        const storageRef = ref(storage, `profile/${props.profile.id}_${file.name}`)
-        const uploadTask = uploadBytesResumable(storageRef, file)
-
-        uploadTask.on(
-            "state_changed",
-            snapshot => {
-              const progress = Math.round(
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              );
-              setProgress(progress)
-            },
-            error => {
-              console.log(error);
-            },
-            () => {
-                // Upload completed successfully, now we can get the download URL
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log('File available at', downloadURL);
-                    setProfilepic(downloadURL)
-                });
-            }
-        );
-    }
 
     if(!props.authorized)
         return (
@@ -132,22 +101,22 @@ function Profile(props) {
                 <Col md="4">
                     <img src={(profilepic && profilepic !== '.') ? profilepic : "assets/Profile/dp.png"}
                         alt="profile" className="rounded-circle w-100 p-3"/>
-                    <Progress multi
-                        className={`mt-2 ${progress > 0 && progress !== 100 ? "" : "d-none"}`}>
-                        <Progress bar animated color="success"
-                            value={progress} />
-                    </Progress>
+
                     <p className="text-danger">Note: Picture should be in 1:1 aspect ratio. File size less than 2 MB.</p>
                     <Input type="file" id="profile_pic" name="profile_pic"
                         onChange={(e) => {
-                            if(e.target.files[0])
-                                setFile(e.target.files[0])
+                            if(!e.target.files[0])
+                                return
+
+                            setFile(e.target.files[0])
+
+                            var reader = new FileReader();
+                            reader.readAsDataURL(e.target.files[0]);
+
+                            reader.onloadend = () => {
+                                setProfilepic(reader.result)
+                            }
                         }}/>
-                    <Button className="mt-2" color="success" outline
-                        disabled={progress > 0 && progress < 100}
-                        onClick={handleUpload}>
-                        Upload
-                    </Button>
                 </Col>
                 <Col md="8">
                     <FieldInput title="Name" value={name} setValue={setName} />
@@ -163,7 +132,7 @@ function Profile(props) {
                         values={[{id: 1, title: "Female"}, {id: 2, title: "Male"}, {id: 3, title: "Others"}]} />
                     {/* <FieldInput title="Group" value={group} setValue={setGroup} /> */}
                     {/* <EditPhoneNumbers /> */}
-                    {/* <FieldInput title="Phone" value={phone} setValue={setPhone} /> */}
+                    <FieldInput title="Phone" value={phone} setValue={setPhone} type="number" />
                     <Row className="mt-3 mb-3">
                         <Col md="4">
                         </Col>
@@ -195,8 +164,22 @@ function Profile(props) {
             <Button disabled={saving}
             onClick={() => props.patchUserProfile(
                 props.token, props.profile.id,
-                name, email, '', showemail, showphone, group, dob, gender,
-                address, github, instagram, facebook, twitter, profilepic,
+                {
+                    name: name,
+                    e_mail: email,
+                    phone_number: phone,
+                    show_email: showemail,
+                    show_phone: showphone,
+                    group: group,
+                    dob: dob,
+                    gender: gender,
+                    address: address,
+                    github: github,
+                    instagram: instagram,
+                    facebook: facebook,
+                    twitter: twitter,
+                    profile_pic: file
+                },
                 setSaving, setSavingMessage, setSavingSuccess
             )} color="success">
                 Save Changes
