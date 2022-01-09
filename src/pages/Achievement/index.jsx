@@ -6,6 +6,7 @@ import { ApprovedBadge, RenderUser } from '../../components/Extras';
 import Loading from '../../components/Loading';
 import NotFound from '../../components/NotFound'
 import { fetchAchievement } from '../../redux/ActionCreators';
+import { baseUrl_ } from '../../shared/baseUrl';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
@@ -213,10 +214,14 @@ function Achievement (props) {
                 </Col>
                 <Col md={8}>
                     {
-                        (achievementDetails.proof) ?
-                        <a href={achievementDetails.proof} target='_blank' rel="noreferrer">
-                            <Button>View Proof</Button>
-                        </a>
+                        (achievementDetails.files) ?
+                        achievementDetails.files.map((file) => {
+                            return (
+                            <a href={baseUrl_ + file.file} target='_blank' rel="noreferrer">
+                                <Button>View Proof</Button>
+                            </a>
+                            )
+                        })
                         :
                         <>
                         <p className="h4 text-black">Not Available</p>

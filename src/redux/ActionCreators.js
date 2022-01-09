@@ -506,6 +506,18 @@ export const addAchievementPostingSuccess = (message) => ({
     payload: message
 })
 
+const addFileToAchievement = (key, aId, file) => {
+    var form_data = new FormData()
+    form_data.append('files', file)
+    fetch(baseUrl + 'main/api/achievement/'+aId+'/', {
+        method: 'PATCH',
+        headers: {
+            'Authorization' : 'Token '+key
+        },
+        body: form_data
+    })
+}
+
 export const postNewAchievement = (key, stateObj, clearFunction) => (dispatch) => {
     dispatch(addAchievementPosting(true));
     let token_head = 'Token '+key;
@@ -517,25 +529,29 @@ export const postNewAchievement = (key, stateObj, clearFunction) => (dispatch) =
         achievedDate: stateObj.dateofachievement,
         teamMembers: stateObj.team.map(member => member.id),
         tags: stateObj.tags.map(tag => tag.id),
-        category: stateObj.category,
-        proof: stateObj.proof
+        category: stateObj.category
     }
 
     fetch(baseUrl+'main/api/achievement/', {
         method: 'POST',
         headers: {
+            'Authorization': token_head,
             'Content-Type': 'application/json',
-            'Authorization': token_head
         },
         body: JSON.stringify(bodyObj)
     })
     .then((response) => {
         if(!response.ok)
             throw new Error('There was a problem adding this achievement!')
-        console.log(response)
         return response
     })
     .then(response => response.json())
+    .then(response => {
+        console.log(response, response.id)
+        if(stateObj.file)
+            addFileToAchievement(key, response.id, stateObj.file)
+        return response
+    })
     .then(response => {
         // Success dispatch
         clearFunction();
@@ -548,23 +564,22 @@ export const postNewAchievement = (key, stateObj, clearFunction) => (dispatch) =
     })
 }
 
-export const patchAchievement = (key, stateObj, clearFunction) => (dispatch) => {
+export const patchAchievement = (key, stateObj, clearFunction, aId) => (dispatch) => {
     dispatch(addAchievementPosting(true));
     let token_head = 'Token '+key;
 
     var bodyObj = {
         title: stateObj.title,
         description: stateObj.description,
-        institution: stateObj.institution,
+        institution: (stateObj.institution.id) ? (stateObj.institution.id) : stateObj.institution,
         achievedDate: stateObj.dateofachievement,
         teamMembers: stateObj.team.map(member => member.id),
         tags: stateObj.tags.map(tag => tag.id),
-        category: stateObj.category,
-        proof: stateObj.proof
+        category: stateObj.category
     }
 
-    fetch(baseUrl+'main/api/achievement/', {
-        method: 'PATCH',
+    fetch(baseUrl+'main/api/achievement/'+aId+'/', {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': token_head
@@ -578,6 +593,11 @@ export const patchAchievement = (key, stateObj, clearFunction) => (dispatch) => 
         return response
     })
     .then(response => response.json())
+    .then(response => {
+        if(stateObj.file)
+            addFileToAchievement(key, response.id, stateObj.file)
+        return response
+    })
     .then(response => {
         // Success dispatch
         clearFunction();

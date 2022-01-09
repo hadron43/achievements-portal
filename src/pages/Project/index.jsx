@@ -239,12 +239,12 @@ function Project (props) {
 
             <Row className="mt-3">
                 <Col md={4}>
-                    <h3 className="text-color-main">Proof</h3>
+                    <h3 className="text-color-main">URL</h3>
                 </Col>
                 <Col md={8}>
                     {
-                        (projectDetails.proof) ?
-                        <a href={projectDetails.proof} target='_blank' rel="noreferrer">
+                        (projectDetails.url) ?
+                        <a href={projectDetails.url} target='_blank' rel="noreferrer">
                             <Button>View Proof</Button>
                         </a>
                         :
