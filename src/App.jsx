@@ -25,6 +25,7 @@ import About from './pages/About';
 import UserProfile from './pages/UserProfile';
 import EditProject from './pages/EditProject';
 import EditAchievement from './pages/EditAchievement';
+import EditBanners from './pages/EditBanners';
 
 const store = ConfigureStore();
 
@@ -54,6 +55,7 @@ function App() {
             <Route path="/editachievement/:achievementId" component={EditAchievement}></Route>
             <Route path="/pending-projects" component={PendingProjects}></Route>
             <Route path="/pending-achievements" component={PendingAchievements}></Route>
+            <Route path="/banners" component={EditBanners} />
           </Switch>
 
         </div>

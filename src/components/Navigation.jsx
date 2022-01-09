@@ -71,6 +71,12 @@ function UserIcon({authorized, admin, logout}) {
             </DropdownItem>
           </Link>
 
+          <Link className={admin ? '' : 'd-none'} to="/banners">
+            <DropdownItem>
+              Banners
+            </DropdownItem>
+          </Link>
+
           <DropdownItem divider />
           <DropdownItem onClick={logout}>
             Logout
