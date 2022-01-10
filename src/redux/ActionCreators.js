@@ -121,8 +121,8 @@ export const loginOSA = () => (dispatch) => {
         return response;
     })
     .then(response => response.json())
-    .then(({key}) => {
-        dispatch(loadKey(key));
+    .then(({token}) => {
+        dispatch(loadKey(token));
         dispatch(loggingIn(false));
     })
     .catch(err => {

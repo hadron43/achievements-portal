@@ -91,14 +91,14 @@ function Banner(props) {
             className="bg-color-lightest-grey"
         >
             {
-                (banners) ?
+                (banners && banners.length) ?
                     banners.map((banner) => {
                         return (
                             <BannerCard image={banner.image} title={banner.title} plot={banner.description} link={banner.link} />
                         )
                     })
                 :
-                <BannerCard  image={'assets/Home/1.jpg'} title={'Welcome to Achievement Portal!'} plot={''}/>
+                <BannerCard  image={'assets/Home/1.jpg'} title={'Welcome to Achievement Portal!'} plot={'Indraprastha Institute of Information Technology Delhi (IIIT-Delhi) was created by an act of Delhi legislature empowering it to carry out R and D, conduct educational programs, and grant degrees. This is the achievement portal of IIIT Delhi. Submit your achievements / projects here, and build your profile. The admins will approve your achievements / projects.'}/>
             }
         </Carousel>
     );
