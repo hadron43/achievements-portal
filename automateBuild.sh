@@ -1,10 +1,9 @@
 npm run build
-cd build-dep
-rm -r *
-cd ..
+mkdir build-dep
+rm -r build-dep/*
 cp -r build/* build-dep/
 cd build-dep
-git commti -a -m "update"
+git add .
+git commit -m "update"
 git push
 cd ..
-
