@@ -3,7 +3,8 @@ import * as ActionTypes from './actionTypes';
 export const Updates = (state = {
         isLoading: false,
         errMess: null,
-        updates: {}
+        updates: {},
+        banners: undefined
     }, action) => {
     switch(action.type) {
         case ActionTypes.ADD_UPDATES:
@@ -14,6 +15,9 @@ export const Updates = (state = {
 
         case ActionTypes.UPDATES_FAILED:
             return {...state, isLoading: false, errMess: action.payload, updates: {}}
+
+        case ActionTypes.ADD_BANNERS:
+            return {...state, banners: action.payload}
 
         default:
             return state;

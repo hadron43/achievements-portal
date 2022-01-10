@@ -9,16 +9,14 @@ import { withRouter } from 'react-router';
 import { fetchUpdates } from '../../redux/ActionCreators';
 import Loading from '../../components/Loading';
 
-const mapStateToProps = state => {
-    return {
-        isLoading: state.updates.isLoading,
-        errMess: state.updates.errMess,
+const mapStateToProps = state => ({
+    isLoading: state.updates.isLoading,
+    errMess: state.updates.errMess,
 
-        publications: state.updates.updates.publications,
-        staff: state.updates.updates.staff_achievements,
-        students: state.updates.updates.student_achievements,
-    }
-}
+    publications: state.updates.updates.publications,
+    staff: state.updates.updates.staff_achievements,
+    students: state.updates.updates.student_achievements,
+})
 
 const mapDispatchToProps = (dispatch) => ({
     fetchUpdates: () => {dispatch(fetchUpdates())}
@@ -51,7 +49,7 @@ class  Home extends Component {
                             <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
                                 <div className="col-12 h-100">
                                     <UpdatesCard
-                                        heading="Publications"
+                                        heading="Projects"
                                         updates={this.props.publications}
                                         errMess={this.props.errMess}/>
                                 </div>

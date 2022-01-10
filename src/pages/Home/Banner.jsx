@@ -1,16 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {Button} from 'reactstrap';
 import Carousel from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
-
-import { connect } from 'react-redux';
+import { addBanners, fetchBanners } from '../../redux/ActionCreators';
+import Loading from '../../components/Loading';
+import NotFound from '../../components/NotFound'
 import { withRouter } from 'react-router';
-
-const mapStateToProps = state => {
-    return {
-        blogs: state.blogs
-    };
-}
+import { connect } from 'react-redux';
 
 function Arrow({icon}) {
     return (
@@ -27,22 +23,55 @@ function BannerCard(props) {
         <div className="col-xs-12 col-sm-5 d-flex">
             <img className="d-flex m-auto" src={props.image} alt="Banner" width="90%"></img>
         </div>
-        
+
         <div className="col-xs-12 col-sm-7 pt-3 pb-3">
             <h3 className="text-color-main pt-lg-5 pt-3">
-                {props.title} 
+                {props.title}
             </h3>
             <p>
                 {props.plot}
             </p>
+            <a href={props.link} className={`${props.link ? '' : 'd-none'}`}>
             <Button color="info" className="rounded bg-color-main-ui pl-3 pr-3" size="lg" >Read More </Button>
+            </a>
             </div>
         </div>
         </div>
     );
 }
 
+const mapStateToProps = (state) => ({
+    banners: state.updates.banners
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    addBanners: (banners) => dispatch(addBanners(banners))
+})
+
 function Banner(props) {
+    const [banners, setBanners] = useState(props.banners)
+    const [loading, setLoading] = useState(false)
+    const [errorMsg, setErrorMsg] = useState('')
+
+    useEffect(() => {
+        if(!banners)
+            fetchBanners('', setBanners, setLoading, setErrorMsg)
+    }, [banners])
+
+    useEffect(() => {
+        props.addBanners(banners)
+        // eslint-disable-next-line
+    }, [banners])
+
+    if(loading)
+        return (
+            <Loading />
+        )
+    if(errorMsg)
+        return (
+            <NotFound message={errorMsg} />
+        )
+
     return (
         <Carousel
             slidesPerPage={1}
@@ -61,11 +90,18 @@ function Banner(props) {
             }}
             className="bg-color-lightest-grey"
         >
-            <BannerCard storyNo="1" image={props.blogs[0].imagePath} title={props.blogs[0].title} plot={props.blogs[0].detailedPlot}/>
-            <BannerCard storyNo="2" image={props.blogs[1].imagePath} title={props.blogs[1].title} plot={props.blogs[1].detailedPlot}/>
-            <BannerCard storyNo="3" image={props.blogs[2].imagePath} title={props.blogs[2].title} plot={props.blogs[2].detailedPlot}/>
+            {
+                (banners) ?
+                    banners.map((banner) => {
+                        return (
+                            <BannerCard image={banner.image} title={banner.title} plot={banner.description} link={banner.link} />
+                        )
+                    })
+                :
+                <BannerCard  image={'assets/Home/1.jpg'} title={'Welcome to Achievement Portal!'} plot={''}/>
+            }
         </Carousel>
     );
 }
 
-export default withRouter(connect(mapStateToProps)(Banner));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Banner))

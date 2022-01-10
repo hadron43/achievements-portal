@@ -29,6 +29,32 @@ export const fetchUpdates = (key) => (dispatch) => {
     });
 }
 
+export const fetchBanners = (key, setBanners, setLoading, setErrorMessage) => {
+    setLoading(true)
+    fetch(baseUrl+'main/api/banner/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + key
+        }
+    })
+    .then(response => {
+        if(!response.ok)
+            throw Error("Error occurred while fetching banners!");
+        return response;
+    })
+    .then(response => response.json())
+    .then((response) => {
+        setLoading(false)
+        setBanners(response)
+    })
+    .catch(err => {
+        setLoading(false)
+        console.log(err);
+        setErrorMessage(err.message)
+    });
+}
+
 export const loadKey = (key) => ({
     type: ActionTypes.LOAD_KEY,
     payload: key
@@ -239,6 +265,11 @@ export const updatesFailed = (errmess) => ({
 export const addUpdates = (updates) => ({
     type: ActionTypes.ADD_UPDATES,
     payload: updates
+});
+
+export const addBanners = (banners) => ({
+    type: ActionTypes.ADD_BANNERS,
+    payload: banners
 });
 
 

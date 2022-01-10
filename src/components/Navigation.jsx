@@ -59,6 +59,8 @@ function UserIcon({authorized, admin, logout}) {
             </DropdownItem>
           </Link>
 
+          <DropdownItem className={`${admin ? '' : 'd-none'}`} divider />
+
           <Link className={admin ? '' : 'd-none'} to="/pending-projects">
             <DropdownItem>
               Pending Projects
@@ -73,7 +75,7 @@ function UserIcon({authorized, admin, logout}) {
 
           <Link className={admin ? '' : 'd-none'} to="/banners">
             <DropdownItem>
-              Banners
+              Edit Homepage Banner
             </DropdownItem>
           </Link>
 

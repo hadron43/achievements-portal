@@ -8,6 +8,7 @@
 export const UPDATES_LOADING = 'UPDATES_LOADING';
 export const UPDATES_FAILED = 'UPDATES_FAILED';
 export const ADD_UPDATES = 'ADD_UPDATES';
+export const ADD_BANNERS = 'ADD_BANNERS';
 
 export const LOGIN = 'LOGIN';
 export const LOGGING_IN = 'LOGGING_IN';
