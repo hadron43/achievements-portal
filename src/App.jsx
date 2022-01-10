@@ -11,6 +11,7 @@ import Projects from './pages/Projects';
 
 import './App.scss';
 import Login from './pages/Authenticate/Login';
+import LoginOld from './pages/Authenticate/LoginOld';
 import SignUp from './pages/Authenticate/SignUp';
 import AddAchievement from './pages/AddAchievement';
 import AddProject from './pages/AddProject';
@@ -44,6 +45,7 @@ function App() {
             <Route path="/projects" component={Projects}></Route>
             <Route path="/achievements" component={Achievements}></Route>
             <Route path="/login" component={Login}></Route>
+            <Route path ="/oldlogin" component={LoginOld}></Route>
             <Route path="/signup" component={SignUp}></Route>
             <Route path="/addachievement" component={AddAchievement}></Route>
             <Route path="/addproject" component={AddProject}></Route>

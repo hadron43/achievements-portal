@@ -1,6 +1,7 @@
 import * as ActionTypes from './actionTypes';
 import { baseUrl } from '../shared/baseUrl';
 import fetch from 'cross-fetch';
+import Cookies from 'cookies-js';
 
 // Thunk, returns a function
 export const fetchUpdates = (key) => (dispatch) => {
@@ -105,17 +106,14 @@ export const login = (username, password) => (dispatch) => {
     });
 }
 
-export const loginOSA = (username, password) => (dispatch) => {
+export const loginOSA = () => (dispatch) => {
     dispatch(loggingIn(true));
     return fetch(baseUrl+'auth/login/', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password
-        }) // body data type must match "Content-Type" header
+            'Content-Type': 'application/json',
+            'X-CSRFToken': Cookies.get('csrftoken')
+        }
     })
     .then(response => {
         if(!response.ok)
