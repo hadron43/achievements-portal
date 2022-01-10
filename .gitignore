@@ -11,6 +11,8 @@ package-lock.json
 
 # production
 /build
+/build-dep
+/src/shared/baseUrl.js
 
 # misc
 .DS_Store
