@@ -156,6 +156,9 @@ export const fetchUserProfile = (key) => (dispatch) => {
     .then(response => response.json())
     .then(response => {
         console.log(response.profile);
+        // acheivements is sometimes null
+        if(!response.profile.achievements)
+            response.profile.achievements = []
         dispatch(loadProfile(response.profile));
     })
     .catch(err => {
@@ -215,6 +218,9 @@ export const fetchUserAchievements = (key) => (dispatch) => {
     .then(response => response.json())
     .then(response => {
         console.log(response);
+        // acheivements is sometimes null
+        if(!response.achievements)
+            response.achievements = []
         dispatch(loadProfileAchievements(response.achievements));
     })
     .catch(err => {

@@ -296,7 +296,7 @@ class AddAchievement extends Component {
                                 }
                                 </>
                             </Input>
-                            <AddInstitutionModal isModalOpen={this.state.isModalOpen} setIsModalOpen={(value) => this.setState({isModalOpen: value})} />
+                            <AddInstitutionModal token={this.props.token} isModalOpen={this.state.isModalOpen} setIsModalOpen={(value) => this.setState({isModalOpen: value})} />
                             <Button color='link' onClick={() => this.setState({isModalOpen: true})} className='mt-2'>Can't find your institute? Click here to add institute.</Button>
                         </Col>
                     </Row>

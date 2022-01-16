@@ -43,6 +43,9 @@ function fetchProfile(key, profileId, setProfile, setLoading, setErrorMessage) {
     .then(response => response.json())
     .then(response => {
         console.log(response)
+        // acheivements is sometimes null
+        if(!response.achievements)
+            response.achievements = []
         setProfile(response)
         setLoading(false)
         return response
