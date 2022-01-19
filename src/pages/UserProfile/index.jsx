@@ -145,7 +145,7 @@ function Profile(props) {
                 <></>
             }
             {
-                (profile.show_phone) ?
+                (profile.show_phone && profile.phone_number !== 0) ?
                 <Field title="Phone" value={profile.phone_number} />
                 :
                 <></>

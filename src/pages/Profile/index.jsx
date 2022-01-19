@@ -119,7 +119,7 @@ function Profile(props) {
                         }}/>
                 </Col>
                 <Col md="8">
-                    <FieldInput title="Name" value={name} setValue={setName} />
+                    <Field title="Name" value={name} setValue={setName} />
                     <Field title="Role" value={[
                         "Student",
                         "Staff",
@@ -167,17 +167,17 @@ function Profile(props) {
                 {
                     name: name,
                     e_mail: email,
-                    phone_number: phone,
+                    phone_number: phone ? phone : '',
                     show_email: showemail,
                     show_phone: showphone,
                     group: group,
                     dob: dob,
                     gender: gender,
                     address: address,
-                    github: github,
-                    instagram: instagram,
-                    facebook: facebook,
-                    twitter: twitter,
+                    github: github ? github : '',
+                    instagram: instagram ? instagram : '',
+                    facebook: facebook ? facebook : '',
+                    twitter: twitter ? twitter : '',
                     profile_pic: file
                 },
                 setSaving, setSavingMessage, setSavingSuccess
