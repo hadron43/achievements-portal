@@ -107,3 +107,14 @@ h1, h2, h3, h4, h5, h6 {
 .display-linebreak {
     white-space: pre-line;
 }
+
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10000;
+}
+
+.cookie-banner:hover {
+    background: $off-white;
+}

@@ -8,6 +8,7 @@ import { withRouter } from 'react-router';
 
 import { fetchUpdates } from '../../redux/ActionCreators';
 import Loading from '../../components/Loading';
+import CookieBanner from '../../components/CookieBanner';
 
 const mapStateToProps = state => ({
     isLoading: state.updates.isLoading,
@@ -79,6 +80,7 @@ class  Home extends Component {
                     }
                 </Row>
             </Container>
+            <CookieBanner />
             </>
         );
     }
