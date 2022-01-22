@@ -72,7 +72,8 @@ class AddProject extends Component {
         if(props.edit) {
             this.state.title = props.projectDetails.title
             this.state.description = props.projectDetails.description
-            this.state.institution = props.projectDetails.institution
+            let insObj = props.projectDetails.institution
+            this.state.institution = insObj ? insObj.id : 1
             this.state.startdate = props.projectDetails.startDate
             this.state.enddate = props.projectDetails.endDate
             this.state.field = props.projectDetails.field

@@ -64,10 +64,12 @@ class AddAchievement extends Component {
         if(props.edit) {
             this.state.title = props.achievementDetails.title
             this.state.description = props.achievementDetails.description
-            this.state.institution = props.achievementDetails.institution
+            let insObj = props.achievementDetails.institution
+            this.state.institution = insObj ? insObj.id : 1
             this.state.dateofachievement = props.achievementDetails.achievedDate
             this.state.category = props.achievementDetails.category
             this.state.proof = props.achievementDetails.proof
+            this.state.type = props.achievementDetails.technical
             if(props.achievementDetails.tags)
                 this.state.tags = props.achievementDetails.tags
             if(props.achievementDetails.teamMembers)

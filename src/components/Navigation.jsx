@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavbarText, UncontrolledDropdown, DropdownItem, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { clearUserData, fetchUserProfile } from '../redux/ActionCreators'
+import { fetchUserProfile, logout } from '../redux/ActionCreators'
 import { useEffect } from 'react';
 
 const mapStateToProps = state => ({
@@ -14,18 +14,18 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch(clearUserData()),
+  logout: () => dispatch(logout()),
   fetchUserProfile: (key) => dispatch(fetchUserProfile(key))
 });
 
-function UserIcon({authorized, admin, logout}) {
+function UserIcon({authorized, admin, logout, image}) {
   return (
     (authorized) ?
     <div>
       <UncontrolledDropdown inNavbar>
         <DropdownToggle className="m-auto p-auto" nav caret>
           <img className={`rounded-circle mr-2 ${admin?"red-glow":""}`} width="50" height="50"
-            src="/assets/Profile/dp.png" alt="Display" />
+            src={`${image ? image : '/assets/Profile/dp.png'}`} alt="Display" />
         </DropdownToggle>
         <DropdownMenu right>
 
@@ -100,6 +100,10 @@ function Navigation(props) {
   useEffect(() => {
     if(props.authorized && !props.profileLoaded)
       props.fetchUserProfile(props.token);
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
     setAdmin(props.profile && props.profile.designation === 3)
   }, [props])
 
@@ -154,7 +158,7 @@ function Navigation(props) {
       Achievements Portal
       </NavbarText>
       <div className="d-none d-md-block ml-4">
-        <UserIcon authorized={props.authorized} admin={admin} logout={props.logout} />
+        <UserIcon authorized={props.authorized} admin={admin} logout={props.logout} image={props.profile.profile_pic} />
       </div>
     </Navbar>
   );

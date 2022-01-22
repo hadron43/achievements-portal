@@ -1,10 +1,11 @@
 import * as ActionTypes from './actionTypes';
+import Cookies from 'cookies-js'
 
 const initialState = {
-    authorized: sessionStorage.getItem('key') ? true : false,
+    authorized: Cookies.get('achieve_token') ? true : false,
     loggingIn: false,
     error: "",
-    token: sessionStorage.getItem('key'),
+    token: Cookies.get('achieve_token'),
     admin: false,
 
     profileLoaded: false,
@@ -18,7 +19,7 @@ export const User = (state = initialState, action) => {
     var objIndex
     switch(action.type) {
         case ActionTypes.LOAD_KEY:
-            sessionStorage.setItem('key', action.payload);
+            Cookies.set('achieve_token', action.payload)
             return {...state, token: action.payload, authorized: true};
         case ActionTypes.LOAD_PROFILE:
             return {...state, profileLoaded: true, profile: action.payload}
@@ -27,7 +28,7 @@ export const User = (state = initialState, action) => {
         case ActionTypes.LOAD_PROFILE_PROJECTS:
             return {...state, projects: action.payload}
         case ActionTypes.CLEAR_USER_DATA:
-            sessionStorage.clear();
+            Cookies.expire('achieve_token')
             initialState.authorized = false;
             initialState.token = undefined;
             return initialState;
