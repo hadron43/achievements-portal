@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, FormGroup, Input, Button } from 'reactstrap'
 import { withRouter, Redirect } from 'react-router-dom';
-import { login, loginOSA } from '../../redux/ActionCreators';
+import { login } from '../../redux/ActionCreators';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
 
@@ -13,7 +13,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     login: (email, password) => {dispatch(login(email, password))},
-    loginOSA: (email, password) => {dispatch(loginOSA(email, password))}
 });
 
 class LoginOld extends Component {
@@ -72,11 +71,6 @@ class LoginOld extends Component {
                                         value={this.state.password} onChange={this.handlePasswordChange}/>
                                 </FormGroup>
 
-                                <Button color="info" disabled={this.props.loggingIn}
-                                    onClick={() => this.props.loginOSA(this.state.username, this.state.password)}
-                                    className='bg-color-main-ui w-50 rounded-pill mt-3 mb-4'>
-                                        Login OSA
-                                </Button>
                                 <br />
                                 <Button color="info" disabled={this.props.loggingIn}
                                     onClick={this.handleSubmit}

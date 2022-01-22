@@ -67,7 +67,7 @@ function Profile(props) {
         setShowemail(props.profile.show_email)
         setShowphone(props.profile.show_phone)
         setTwitter(props.profile.twitter)
-        setFacebook(props.profile.instagram)
+        setFacebook(props.profile.facebook)
         setGithub(props.profile.github)
         setInstagram(props.profile.instagram)
         if(props.profile.profile_pic)
@@ -174,7 +174,7 @@ function Profile(props) {
                     group: group,
                     dob: dob,
                     gender: gender,
-                    address: address,
+                    address: address ? address : '',
                     github: github ? github : '',
                     instagram: instagram ? instagram : '',
                     facebook: facebook ? facebook : '',
