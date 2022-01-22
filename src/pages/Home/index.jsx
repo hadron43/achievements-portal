@@ -35,6 +35,11 @@ class  Home extends Component {
             <Banner />
 
             <Container fluid className="mt-3 mb-3">
+                <Row className="px-1 px-sm-2 px-lg-3 px-xl-5">
+                    <Col size={12}>
+                        <h3 className='px-4 pt-4'>Recent Updates</h3>
+                    </Col>
+                </Row>
                 <Row equal className="p-1 p-sm-2 p-lg-3 p-xl-5">
                     {
                         (this.props.isLoading) ?

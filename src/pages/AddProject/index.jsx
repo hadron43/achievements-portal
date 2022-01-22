@@ -81,9 +81,9 @@ class AddProject extends Component {
             if(props.projectDetails.tags)
                 this.state.tags = props.projectDetails.tags
             if(props.projectDetails.mentors)
-                this.state.mentors = props.projectDetails.mentors
-            if(props.projectDetails.members)
-                this.state.members = props.projectDetails.members
+                this.state.mentors = props.projectDetails.mentors.map(mem => ({user__email: mem.user.email, id: mem.id}))
+            if(props.projectDetails.students)
+                this.state.team = props.projectDetails.students.map(mem => ({user__email: mem.user.email, id: mem.id}))
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -342,13 +342,13 @@ class AddProject extends Component {
 
                     <Row className="form-group">
                         <Label htmlFor="field" md={3}>
-                            <h4 className="font-weight-bold">Field</h4>
+                            <h4 className="font-weight-bold">Track</h4>
                         </Label>
                         <Col md={3} className="d-flex">
                             <Input type="text"
                                 name="field"
                                 value={this.state.field}
-                                placeholder="Enter field"
+                                placeholder="Enter track"
                                 onChange={this.handleInputChange}
                                 className="d-flex my-auto"
                                     />

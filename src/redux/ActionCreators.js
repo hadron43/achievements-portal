@@ -564,7 +564,8 @@ export const postNewAchievement = (key, stateObj, clearFunction) => (dispatch) =
         achievedDate: stateObj.dateofachievement,
         teamMembers: stateObj.team.map(member => member.id),
         tags: stateObj.tags.map(tag => tag.id),
-        category: stateObj.category
+        category: stateObj.category,
+        technical: stateObj.type
     }
 
     fetch(baseUrl+'main/api/achievement/', {
@@ -608,9 +609,10 @@ export const patchAchievement = (key, stateObj, clearFunction, aId) => (dispatch
         description: stateObj.description,
         institution: (stateObj.institution.id) ? (stateObj.institution.id) : stateObj.institution,
         achievedDate: stateObj.dateofachievement,
-        teamMembers: stateObj.team.map(member => member.id),
+        teamMembers: stateObj.team.map(member => member.user__id),
         tags: stateObj.tags.map(tag => tag.id),
-        category: stateObj.category
+        category: stateObj.category,
+        technical: stateObj.type
     }
 
     fetch(baseUrl+'main/api/achievement/'+aId+'/', {

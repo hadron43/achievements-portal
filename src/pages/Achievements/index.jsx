@@ -51,7 +51,7 @@ function Results( {achievements} ) {
                 <th className="text-color-main h5">#</th>
                 <th className="text-color-main h5">Title</th>
                 <th className="text-color-main h5">Description</th>
-                <th className="text-color-main h5">Added By</th>
+                {/* <th className="text-color-main h5">Added By</th> */}
                 <th className="text-color-main h5">Date Created</th>
                 <th className="text-color-main h5">Details</th>
             </thead>
@@ -64,7 +64,7 @@ function Results( {achievements} ) {
                             <th scope="row">{achievement.id}</th>
                             <td>{achievement.title}</td>
                             <td>{achievement.description}</td>
-                            <td>{(achievement.addedBy) ? achievement.addedBy.first_name: ''}</td>
+                            {/* <td>{(achievement.addedBy) ? achievement.addedBy.first_name: ''}</td> */}
                             <td>{new Date(achievement.dateCreated).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
                                 <Link to={"/achievement/"+achievement.id}>

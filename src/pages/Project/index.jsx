@@ -108,10 +108,10 @@ function Project (props) {
                 </Col>
                 <Col md={8}>
                 <p className="h4 text-black">
-                    {(projectDetails.members && projectDetails.members.length > 0) ?(
-                        projectDetails.members.map((member) => {
+                    {(projectDetails.students && projectDetails.students.length > 0) ?(
+                        projectDetails.students.map((member) => {
                             return (
-                                <RenderUser user={member} />
+                                <RenderUser user={member.user} />
                             );
                         })
                     )
@@ -132,7 +132,7 @@ function Project (props) {
                     {(projectDetails.mentors && projectDetails.mentors.length > 0) ?(
                         projectDetails.mentors.map((mentor) => {
                             return (
-                                <RenderUser user={mentor} />
+                                <RenderUser user={mentor.user} />
                             );
                         })
                     )
@@ -155,7 +155,7 @@ function Project (props) {
 
             <Row className="mt-3">
                 <Col md={4}>
-                    <h3 className="text-color-main">Field</h3>
+                    <h3 className="text-color-main">Track</h3>
                 </Col>
                 <Col md={8}>
                 <p className="h4 text-black">{projectDetails.field}</p>
@@ -234,24 +234,6 @@ function Project (props) {
                         <>None</>
                     )}
                 </p>
-                </Col>
-            </Row>
-
-            <Row className="mt-3">
-                <Col md={4}>
-                    <h3 className="text-color-main">URL</h3>
-                </Col>
-                <Col md={8}>
-                    {
-                        (projectDetails.url) ?
-                        <a href={projectDetails.url} target='_blank' rel="noreferrer">
-                            <Button>View Proof</Button>
-                        </a>
-                        :
-                        <>
-                        <p className="h4 text-black">Not Available</p>
-                        </>
-                    }
                 </Col>
             </Row>
 

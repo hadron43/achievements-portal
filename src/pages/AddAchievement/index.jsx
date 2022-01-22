@@ -71,7 +71,7 @@ class AddAchievement extends Component {
             if(props.achievementDetails.tags)
                 this.state.tags = props.achievementDetails.tags
             if(props.achievementDetails.teamMembers)
-                this.state.team = props.achievementDetails.teamMembers
+                this.state.team = props.achievementDetails.teamMembers.map(mem => ({user__email: mem.email, user__id: mem.id}))
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);

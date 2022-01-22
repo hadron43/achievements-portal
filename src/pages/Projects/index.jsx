@@ -50,7 +50,7 @@ function Results( {projects} ) {
                 <th className="text-color-main h5">#</th>
                 <th className="text-color-main h5">Title</th>
                 <th className="text-color-main h5">Description</th>
-                <th className="text-color-main h5">Added By</th>
+                {/* <th className="text-color-main h5">Added By</th> */}
                 <th className="text-color-main h5">Date Created</th>
                 <th className="text-color-main h5">Details</th>
             </thead>
@@ -63,7 +63,7 @@ function Results( {projects} ) {
                             <th scope="row">{project.id}</th>
                             <td>{project.title}</td>
                             <td>{project.description}</td>
-                            <td>{(project.addedBy) ? project.addedBy.first_name: ''}</td>
+                            {/* <td>{(project.addedBy) ? project.addedBy.first_name: ''}</td> */}
                             <td>{new Date(project.dateCreated).toLocaleString('default', {day: "2-digit", month: 'short', year: "numeric" })}</td>
                             <td>
                                 <Link to={"/project/"+project.id}>

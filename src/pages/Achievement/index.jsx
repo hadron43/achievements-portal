@@ -115,31 +115,10 @@ function Achievement (props) {
                 </Col>
                 <Col md={8}>
                 <p className="h4 text-black">
-                    {(achievementDetails.members && achievementDetails.members.length > 0) ?(
-                        achievementDetails.members.map((member) => {
+                    {(achievementDetails.teamMembers && achievementDetails.teamMembers.length > 0) ?(
+                        achievementDetails.teamMembers.map((member) => {
                             return (
                                 <RenderUser user={member} />
-                            );
-                        })
-                    )
-                    :
-                    (
-                        <>None</>
-                    )}
-                </p>
-                </Col>
-            </Row>
-
-            <Row className={`mt-3`}>
-                <Col md={4}>
-                    <h3 className="text-color-main">Mentors</h3>
-                </Col>
-                <Col md={8}>
-                <p className="h4 text-black">
-                    {(achievementDetails.mentors && achievementDetails.mentors.length > 0) ?(
-                        achievementDetails.mentors.map((mentor) => {
-                            return (
-                                <RenderUser user={mentor} />
                             );
                         })
                     )
@@ -156,7 +135,7 @@ function Achievement (props) {
                     <h3 className="text-color-main">Description</h3>
                 </Col>
                 <Col md={8}>
-                <p className="h4 text-black">{achievementDetails.description}</p>
+                <span className="h4 text-black display-linebreak">{achievementDetails.description}</span>
                 </Col>
             </Row>
 
@@ -208,13 +187,13 @@ function Achievement (props) {
                 </Col>
             </Row>
 
-            <Row className="mt-3">
+            <Row className='mt-3'>
                 <Col md={4}>
                     <h3 className="text-color-main">Proof</h3>
                 </Col>
                 <Col md={8}>
                     {
-                        (achievementDetails.files) ?
+                        (achievementDetails.files && achievementDetails.files.length > 0) ?
                         achievementDetails.files.map((file) => {
                             return (
                             <a href={baseUrl_ + file.file} target='_blank' rel="noreferrer">

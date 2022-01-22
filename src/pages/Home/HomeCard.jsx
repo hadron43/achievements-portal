@@ -29,7 +29,7 @@ function UpdatesCard({heading, updates, buttonText="More Updates", buttonLink}) 
 
             <br />
 
-            <div className="bottom clearfix w-100">
+            <div className={`${buttonLink ? '' : 'd-none'} bottom clearfix w-100`}>
                 <Link to={buttonLink}>
                     <Button color="info" className="mt-2 float-right bottom-button bg-color-main-ui">{buttonText}</Button>
                 </Link>
