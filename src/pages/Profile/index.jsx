@@ -162,6 +162,7 @@ function Profile(props) {
                 github={github} setGithub={setGithub}
             />
             <Button disabled={saving}
+            className='mr-3 mt-3'
             onClick={() => props.patchUserProfile(
                 props.token, props.profile.id,
                 {
@@ -185,7 +186,7 @@ function Profile(props) {
                 Save Changes
             </Button>
             <Link to={"/profile/"+props.profile.user}>
-            <Button color='primary' className='ml-3'>
+            <Button color='primary' className='mt-3'>
                 View Public Profile
             </Button>
             </Link>
