@@ -212,6 +212,7 @@ export const patchUserProfile = (key, id, studObj,
         setSavingMessage('Profile saved!')
         setSavingSuccess(true)
         setSaving(false)
+        dispatch(fetchUserProfile(key))
     })
     .catch(err => {
         console.log(err);
