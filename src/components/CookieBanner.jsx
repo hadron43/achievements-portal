@@ -3,7 +3,7 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import Cookies from 'cookies-js';
 
 function CookieBanner() {
-    const [crossed, setCrossed] = useState(Cookies.get('achieve_cookie') === true)
+    const [crossed, setCrossed] = useState(Cookies.get('achieve_cookie') === 'true')
     return (
         <Container fluid className={`${crossed ? 'd-none ' : ''} p-3 cookie-banner`}>
             <Row>
@@ -15,7 +15,7 @@ function CookieBanner() {
                 <Button color='success' size='sm'
                     className='float-right'
                     onClick={() => {
-                        Cookies.set('achieve_cookie', true)
+                        Cookies.set('achieve_cookie', 'true')
                         setCrossed(true)
                     }}>
                     Accept
