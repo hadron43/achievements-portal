@@ -25,12 +25,21 @@ const mapDispatchToProps = (dispatch) => ({
 
 class  Home extends Component {
     componentDidMount() {
-        console.log(this.props.isLoading, this.props.errMess, this.props.publications)
         if(!this.props.isLoading && !this.props.errMess && !this.props.publications)
             this.props.fetchUpdates();
     }
 
     render() {
+        if(this.props.isLoading)
+            return(
+                <Container fluid className="mt-3 mb-3">
+                    <Row>
+                        <Col>
+                            <Loading />
+                        </Col>
+                    </Row>
+                </Container>
+            )
         return (
             <>
             <Banner />
@@ -42,42 +51,30 @@ class  Home extends Component {
                     </Col>
                 </Row>
                 <Row equal className="p-1 p-sm-2 p-lg-3 p-xl-5">
-                    {
-                        (this.props.isLoading) ?
-                        <Loading />
-                        :
-                        (this.props.errMess) ?
-                        <>
-                        <p className="text-danger text-center">{this.props.errMess}</p>
-                        </>
-                        :
-                        <>
-                            <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
-                                <div className="col-12 h-100">
-                                    <UpdatesCard
-                                        heading="Projects"
-                                        updates={this.props.publications}
-                                        errMess={this.props.errMess}/>
-                                </div>
-                            </Col>
-                            <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
-                                <div className="col-12 h-100">
-                                    <UpdatesCard
-                                        heading="Staff Achievements"
-                                        updates={this.props.staff}
-                                        errMess={this.props.errMess}/>
-                                </div>
-                            </Col>
-                            <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
-                                <div className="col-12 h-100">
-                                    <UpdatesCard
-                                        heading="Student Achievements"
-                                        updates={this.props.students}
-                                        errMess={this.props.errMess}/>
-                                </div>
-                            </Col>
-                        </>
-                    }
+                    <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
+                        <div className="col-12 h-100">
+                            <UpdatesCard
+                                heading="Projects"
+                                updates={this.props.publications}
+                                errMess={this.props.errMess}/>
+                        </div>
+                    </Col>
+                    <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
+                        <div className="col-12 h-100">
+                            <UpdatesCard
+                                heading="Staff Achievements"
+                                updates={this.props.staff}
+                                errMess={this.props.errMess}/>
+                        </div>
+                    </Col>
+                    <Col size="12" sm="6" lg="4" xxl="3" className="mb-4">
+                        <div className="col-12 h-100">
+                            <UpdatesCard
+                                heading="Student Achievements"
+                                updates={this.props.students}
+                                errMess={this.props.errMess}/>
+                        </div>
+                    </Col>
                 </Row>
             </Container>
             <CookieBanner />

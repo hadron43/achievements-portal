@@ -130,11 +130,12 @@ export const loginOSA = () => (dispatch) => {
     });
 }
 
-export const logout = () => (dispatch) => {
+export const logout = (key) => (dispatch) => {
     return fetch(baseUrl+'auth/logout/', {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Token ' + key
         }
     })
     .then(response => {
