@@ -19,7 +19,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 function Login(props) {
     useEffect(() => {
-        if(Cookies.get('osa_token'))
+        let osa_token = Cookies.get('osa_token')
+        if(osa_token && osa_token.length > 2)
             props.loginOSA()
         // eslint-disable-next-line
     }, [])

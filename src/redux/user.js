@@ -29,6 +29,7 @@ export const User = (state = initialState, action) => {
             return {...state, projects: action.payload}
         case ActionTypes.CLEAR_USER_DATA:
             Cookies.expire('achieve_token')
+            Cookies.expire('csrftoken')
             initialState.authorized = false;
             initialState.token = undefined;
             return initialState;
