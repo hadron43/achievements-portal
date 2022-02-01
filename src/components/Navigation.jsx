@@ -115,7 +115,7 @@ function Navigation(props) {
         AP
         </NavbarText>
         <NavbarText className="h3 font-weight-bold text-color-main d-none d-sm-flex d-md-none my-auto ml-3 p-0">
-        Achievements Portal
+        Achieve IIITD
         </NavbarText>
       </NavbarBrand>
 
@@ -155,7 +155,7 @@ function Navigation(props) {
       </Collapse>
 
       <NavbarText className="h2 font-weight-bold text-color-main text-center d-none d-lg-block">
-      Achievements Portal
+      Achieve IIITD
       </NavbarText>
       <div className="d-none d-md-block ml-4">
         <UserIcon authorized={props.authorized} admin={admin} logout={props.logout} image={props.profile.profile_pic} />
