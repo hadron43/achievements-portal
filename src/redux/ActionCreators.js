@@ -454,8 +454,11 @@ export const tagsLoading = (value) => ({
     payload: value
 })
 
-export const postTag = (key, tag, callback, errorFunction) => (dispatch) => {
+export const postTag = (key, tag,  setSaving, setError, setMsg, clear) => {
     let token_head = 'Token '+key;
+    setSaving(true)
+    setError(false)
+    setMsg('')
     fetch(baseUrl+'main/api/tag/', {
         method: 'POST',
         headers: {
@@ -466,21 +469,22 @@ export const postTag = (key, tag, callback, errorFunction) => (dispatch) => {
             title: tag
         })
     })
-    .then((response) => {
-        if(!response.ok)
-            throw new Error('There was a problem adding this tag to the database!')
-        return response
-    })
-    .then(response => response.json())
     .then(response => {
-        console.log(response)
-        dispatch(addTagList(response))
-        return response
+        if(!response.ok) {
+            throw new Error('Error while saving tag!')
+        }
+        return response.json()
     })
-    .then((response) => callback(response))
-    .catch(error => {
-        console.log(error)
-        errorFunction(error.message)
+    .then(() => {
+        setSaving(false)
+        setMsg('Successfully saved!')
+        clear()
+    })
+    .catch(err => {
+        console.log(err);
+        setSaving(false)
+        setError(true);
+        setMsg(err.message)
     })
 }
 

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router';
 import { Container, Row, Col, Label, Button, Form, Input, CustomInput } from 'reactstrap';
-import { fetchStudentsList, fetchInstitutesList, fetchTagsList, postTag, postNewAchievement, addAchievementPostingSuccess, patchAchievement } from '../../redux/ActionCreators';
+import { fetchStudentsList, fetchInstitutesList, postNewAchievement, addAchievementPostingSuccess, patchAchievement } from '../../redux/ActionCreators';
 import { AddInstitutionModal } from '../../components/Extras';
+import EditTags from '../../components/EditTags';
 
 const mapStateToProps = (state) => ({
     authorized: state.user.authorized,
@@ -28,11 +29,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     fetchStudentsList: (key) => dispatch(fetchStudentsList(key)),
     fetchInstitutesList: (key) => dispatch(fetchInstitutesList(key)),
-    fetchTagsList: (key) => dispatch(fetchTagsList(key)),
     postNewAchievement: (key, stateObj, clearFunction) => dispatch(postNewAchievement(key, stateObj, clearFunction)),
     patchAchievement: (key, stateObj, clearFunction, achievementId) => dispatch(patchAchievement(key, stateObj, clearFunction, achievementId)),
-    addAchievementPostingMessageClear: () => dispatch(addAchievementPostingSuccess('')),
-    postTag: (key, tag, callback, errorFunction) => dispatch(postTag(key, tag, callback, errorFunction))
+    addAchievementPostingMessageClear: () => dispatch(addAchievementPostingSuccess(''))
 })
 
 const initialState = {
@@ -45,9 +44,6 @@ const initialState = {
     teamAdding: false,
     teamInputErr: '',
     tags: [],
-    tagsInput: '',
-    tagsAdding: false,
-    tagsInputErr: '',
     category: 0,
     type: false,
     proof: null,
@@ -79,7 +75,6 @@ class AddAchievement extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.addTeamMember = this.addTeamMember.bind(this);
-        this.addTag = this.addTag.bind(this);
         this.addTeamMember = this.addTeamMember.bind(this);
         this.removeFromList = this.removeFromList.bind(this);
         this.clearState = this.clearState.bind(this);
@@ -124,8 +119,6 @@ class AddAchievement extends Component {
     componentDidMount() {
         if(!this.props.studentsLoading && !this.props.studentsList)
             this.props.fetchStudentsList(this.props.token)
-        if(!this.props.tagsLoading && !this.props.tagsList)
-            this.props.fetchTagsList(this.props.token)
         if(!this.props.institutesLoading && !this.props.institutesList)
             this.props.fetchInstitutesList(this.props.token)
     }
@@ -157,45 +150,6 @@ class AddAchievement extends Component {
 
     capitalize(input) {
         return input.split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
-    }
-
-    addTag() {
-        this.setState({tagsAdding: true})
-        var tagObj = this.props.tagsList.find(tag => tag.title.toUpperCase() === this.state.tagsInput.toUpperCase())
-        var validation = tagObj !== undefined
-        var processing = false
-
-        console.log(this.props.tagsList, this.state.tagsInput, tagObj)
-
-        if(validation && this.state.tags.indexOf(tagObj) === -1) {
-            this.setState({
-                tags: [...this.state.tags, tagObj],
-                tagsInput: ''
-            })
-        }
-        else if (this.state.tags.indexOf(tagObj) !== -1) {
-            this.setState({
-                tagsInput : 'Tag Already Added!'
-            })
-        }
-        else {
-            processing = true
-            this.props.postTag(this.props.token, this.capitalize(this.state.tagsInput),
-            (tagObj) => {
-                this.setState({
-                    tags: [...this.state.tags, tagObj],
-                    tagsInput : '',
-                    tagsAdding: false
-                })
-            }
-            , (message) => {
-                this.setState({
-                    tagsInputErr: message,
-                    tagsAdding: false
-                })
-            })
-        }
-        if (!processing) this.setState({tagsAdding: false})
     }
 
     removeFromList(listName, item) {
@@ -368,43 +322,14 @@ class AddAchievement extends Component {
                             <h4 className="font-weight-bold">Tags</h4>
                         </Label>
                         <Col md={9}>
-                            <Row>
-                            <Col xs={7} md={8} lg={9}>
-                                <Input type="email"
-                                    name="tagsInput"
-                                    value={this.state.tagsInput}
-                                    onChange={this.handleInputChange}
-                                    placeholder="Enter tags"
-                                    />
-                            </Col>
-                            <Col xs={5} md={4} lg={3} className="pl-0">
-                                <Button color="info" className="w-100" onClick={this.addTag}
-                                    disabled={this.props.tagsLoading
-                                        || this.state.tagsAdding}
-                                 >
-                                    Add Tag
-                                </Button>
-                            </Col>
-                            <Col xs={12} className="mt-1">
-                                <div className="box w-100">
-                                {
-                                    this.state.tags.map((tag) => {
-                                        return (
-                                            <div className="rounded-pill p-2 pl-3 mr-2 mt-2 bg-color-off-white d-inline-block">
-                                                {tag.title}
-                                                <Button className="rounded-circle ml-3"
-                                                    size="sm" color="danger"
-                                                    onClick={() => this.removeFromList('tags', tag)}
-                                                        >
-                                                    <i className="fa fa-times"></i>
-                                                </Button>
-                                            </div>
-                                        );
-                                    })
-                                }
-                                </div>
-                            </Col>
-                            </Row>
+                            <EditTags tags={this.state.tags}
+                                addTag={(tag) => this.setState({
+                                    tags: [...this.state.tags, tag]
+                                })}
+                                removeTag={(tag) => {
+                                    this.removeFromList('tags', tag)
+                                }}
+                             />
                         </Col>
                     </Row>
 

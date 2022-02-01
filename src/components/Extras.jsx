@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge, Input, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
-import { postInstitution } from '../redux/ActionCreators';
+import { postInstitution, postTag } from '../redux/ActionCreators';
 
 const listOfTitles = [
     {id: 1, title: 'Dr.'},
@@ -154,6 +154,49 @@ function AddInstitutionModal({ token, isModalOpen, setIsModalOpen }) {
     );
 }
 
+function AddTagModal({ token, isModalOpen, setIsModalOpen }) {
+    const [title, setTitle] = useState('')
+
+    const [saving, setSaving] = useState(false)
+    const [savingError, setSavingError] = useState(false)
+    const [savingMsg, setSavingMsg] = useState(false)
+
+    const getString = () => captializeFirstWord(title)
+    const clear = () => { setTitle('') }
+
+    return (
+        <Modal isOpen={isModalOpen} centered toggle={() => setIsModalOpen(!isModalOpen)}>
+            <ModalHeader>
+                Add Tag
+            </ModalHeader>
+            <ModalBody>
+                <span className="text-danger font-weight-bold">
+                    NOTE: Go through these instructions before adding new tag.
+                </span>
+                <ul className='text-danger'>
+                    <li>Make sure the tag that you are adding is not already present.</li>
+                    <li>Do not use acronyms.</li>
+                    <li>Refresh page after adding new tag.</li>
+                </ul>
+                <Input placeholder="Tag Name" value={title}
+                    onChange={e => setTitle(e.target.value)}
+                    className='mb-2'
+                     />
+                <p className={`${savingError ? 'text-danger' : 'text-success'}`}>{savingMsg}</p>
+            </ModalBody>
+            <ModalFooter>
+                <Button color='danger'
+                    disabled={!title || saving}
+                    onClick={() => postTag(token, getString(), setSaving, setSavingError, setSavingMsg, clear)}
+                    >
+                    Add Tag
+                </Button>
+                <Button color='success' onClick={() => setIsModalOpen(false)}>Cancel</Button>
+            </ModalFooter>
+        </Modal>
+    );
+}
+
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
     return {
@@ -177,4 +220,4 @@ function useWindowDimensions() {
     return windowDimensions;
 }
 
-export { ApprovedBadge, RejectionModal, RenderUser, RenderEducation, AddInstitutionModal, useWindowDimensions, listOfTitles, listOfDegrees };
+export { ApprovedBadge, RejectionModal, RenderUser, RenderEducation, AddInstitutionModal, AddTagModal, useWindowDimensions, listOfTitles, listOfDegrees };
