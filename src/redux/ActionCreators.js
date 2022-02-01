@@ -580,7 +580,7 @@ export const postNewAchievement = (key, stateObj, clearFunction) => (dispatch) =
         description: stateObj.description,
         institution: stateObj.institution,
         achievedDate: stateObj.dateofachievement,
-        teamMembers: stateObj.team.map(member => member.id),
+        teamMembers: stateObj.team.map(member => member.user__id),
         tags: stateObj.tags.map(tag => tag.id),
         category: stateObj.category,
         technical: stateObj.type
