@@ -791,8 +791,8 @@ export const pendingProjectsLoadingError = (message) => ({
     payload: message
 })
 
-export const fetchPendingProjects = (key) => (dispatch) => {
-    dispatch(pendingProjectsLoading(true));
+export const fetchPendingProjects = (key, silent=false) => (dispatch) => {
+    dispatch(pendingProjectsLoading(true && !silent));
     let token_head = 'Token '+key;
     fetch(baseUrl+'main/api/get-projects-admin', {
         method: 'GET',
@@ -838,8 +838,8 @@ export const pendingAchievementsLoadingError = (message) => ({
     payload: message
 })
 
-export const fetchPendingAchievements = (key) => (dispatch) => {
-    dispatch(pendingAchievementsLoading(true));
+export const fetchPendingAchievements = (key, silent=false) => (dispatch) => {
+    dispatch(pendingAchievementsLoading(true && !silent));
     let token_head = 'Token '+key;
     fetch(baseUrl+'main/api/get-achievements-admin', {
         method: 'GET',

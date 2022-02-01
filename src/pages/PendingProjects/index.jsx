@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router';
@@ -17,18 +17,23 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchPendingProjects: (key) => dispatch(fetchPendingProjects(key))
+    fetchPendingProjects: (key, silent) => dispatch(fetchPendingProjects(key, silent))
 })
 
 function PendingProjects(props) {
+    useEffect(() => {
+        props.fetchPendingProjects(props.token);
+        let intervalId = setInterval(() => {
+            props.fetchPendingProjects(props.token, true);
+        }, 10000)
+        return () => clearInterval(intervalId)
+        //eslint-disable-next-line
+    }, [])
+
     if(!props.authorized)
         return (
             <Redirect to="/login" />
         );
-
-    if(!props.pendingProjectsLoading && !props.pendingProjects && !props.pendingProjectsLoadingError) {
-        props.fetchPendingProjects(props.token);
-    }
 
     return (
         <Container className="p-3 p-md-4 p-lg-5 mt-4 mb-4 bg-color-lightest-grey rounded-3">

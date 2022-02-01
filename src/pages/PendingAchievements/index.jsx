@@ -17,16 +17,18 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchPendingAchievements: (key) => dispatch(fetchPendingAchievements(key))
+    fetchPendingAchievements: (key, silent) => dispatch(fetchPendingAchievements(key, silent))
 })
 
 function PendingAchievements(props) {
     useEffect(() => {
-        console.log(props)
-        if(!props.pendingAchievementsLoading && !props.pendingAchievements && !props.pendingAchievementsLoadingError) {
-            props.fetchPendingAchievements(props.token);
-        }
-    }, [props])
+        props.fetchPendingAchievements(props.token)
+        let intervalId = setInterval(() => {
+            props.fetchPendingAchievements(props.token, true);
+        }, 10000)
+        return () => clearInterval(intervalId)
+        // eslint-disable-next-line
+    }, [])
 
     if(!props.authorized)
         return (
