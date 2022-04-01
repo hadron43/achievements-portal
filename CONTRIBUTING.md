@@ -3,26 +3,26 @@
 ## Environment setup
 
 - Install `npm` and `git` on your system.
-    ```bash
+    ```console
     sudo apt update
     sudo apt installl npm git
     ```
 - Clone this repository. Switch to `frontend` branch.
-    ```bash
+    ```console
     git clone https://github.com/midas-research/achieve-iiitd
     cd achieve-iiitd
     git switch frontend
     ```
 - Install all dependencies.
-    ```
+    ```console
     npm install
     ```
     If there are some issues in installing dependencies, you can try `--force` flag.
-    ```
+    ```console
     npm install --force
     ```
 - To run the development server:
-    ```
+    ```console
     npm start
     ```
     If you need more packages, use `npm install --save package-name`.
@@ -34,13 +34,13 @@
 - You have to copy these files to the server static files folder. You can use another temporary git repository for that.
   - `automateBuild.sh` is a shell script for automatically building the website and pushing to temporary git repository.
   - To use this script, create an empty repository on `github` and then type this in the main folder:
-    ```bash
+    ```console
     mkdir build
     git clone <temp-git-repository-link> build
     ```
   - Avoid building the website on server machine.
 - On server, we have an automated script for updating frontend static files. The path of the script is `~/achieve-iiitd/frontend.sh`. For this to work, you must have your temporary build repository linked to `~/achieve-iiitd/frontend` folder. If you are setting up for the first time, remove `frontend` folder, and run this:
-  ```bash
+  ```console
   git clone <temp-git-repository-link> frontend
   ```
 
