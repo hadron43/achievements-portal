@@ -91,7 +91,7 @@ class LoginOld extends Component {
                                         <p>
                                         Not Registered Yet?
                                         </p>
-                                        <a href='http://osa.iiitd.edu.in/' target='_blank' rel='noreferrer'>
+                                        <a href='http://fh.iiitd.edu.in/' target='_blank' rel='noreferrer'>
                                             <Button color="info" className='bg-color-main-ui w-50 rounded-pill mb-3'>Sign Up</Button>
                                         </a>
                                     </Col>

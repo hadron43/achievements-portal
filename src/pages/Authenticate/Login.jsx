@@ -58,7 +58,7 @@ function Login(props) {
                             <p>
                             Not Registered Yet? Sign up on OSA website.
                             </p>
-                            <a href='http://osa.iiitd.edu.in/' target='_blank' rel='noreferrer'>
+                            <a href='http://fh.iiitd.edu.in/' target='_blank' rel='noreferrer'>
                                 <Button color="info" className='bg-color-main-ui px-5 rounded-pill mb-3'>Go to OSA Website</Button>
                             </a>
                         </Col>
